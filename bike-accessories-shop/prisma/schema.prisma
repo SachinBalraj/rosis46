@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentEventStatus {
+  RECEIVED
+  PROCESSED
+  FAILED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(CUSTOMER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  orders Order[]
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  image     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  products Product[]
+}
+
+model Product {
+  id               String    @id @default(cuid())
+  name             String
+  slug             String    @unique
+  description      String
+  priceInPaise     Int
+  salePriceInPaise Int?
+  stock            Int       @default(0)
+  imageUrl         String?
+  categoryId       String
+  featured         Boolean   @default(false)
+  active           Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  category   Category    @relation(fields: [categoryId], references: [id])
+  orderItems OrderItem[]
+}
+
+model Order {
+  id               String        @id @default(cuid())
+  userId           String?
+  customerName     String
+  customerEmail    String
+  customerPhone    String
+  customerAddress  String
+  subtotalInPaise  Int
+  shippingInPaise  Int
+  totalInPaise     Int
+  status           OrderStatus   @default(PENDING)
+  paymentStatus    PaymentStatus @default(PENDING)
+  razorpayOrderId  String?       @unique
+  razorpayPaymentId String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  user          User?          @relation(fields: [userId], references: [id])
+  items         OrderItem[]
+  paymentEvents PaymentEvent[]
+}
+
+model OrderItem {
+  id               String @id @default(cuid())
+  orderId          String
+  productId        String
+  quantity         Int
+  unitPriceInPaise Int
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([orderId, productId])
+}
+
+model PaymentEvent {
+  id               String              @id @default(cuid())
+  providerEventId  String              @unique
+  provider         String              @default("razorpay")
+  orderId          String?
+  status           PaymentEventStatus  @default(RECEIVED)
+  payload          Json?
+  createdAt        DateTime            @default(now())
+
+  order Order? @relation(fields: [orderId], references: [id])
+}

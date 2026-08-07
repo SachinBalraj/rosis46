@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none" role="img" aria-labelledby="heroBikeTitle">
+  <title id="heroBikeTitle">RideReady sport bicycle illustration</title>
+  <defs>
+    <linearGradient id="rimA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c8f031"/>
+      <stop offset="100%" stop-color="#6b8f12"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8e8ea"/>
+      <stop offset="100%" stop-color="#9a9aa2"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#c8f031" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#c8f031" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="640" height="480" fill="url(#glow)"/>
+
+  <!-- rear wheel -->
+  <g transform="translate(180,330)">
+    <circle r="128" fill="#111116"/>
+    <circle r="128" stroke="#23232c" stroke-width="6"/>
+    <circle r="118" stroke="url(#rimA)" stroke-width="8"/>
+    <circle r="12" fill="#2b2b35"/>
+    <g stroke="#3a3a45" stroke-width="5" stroke-linecap="round">
+      <line x1="0" y1="-118" x2="0" y2="118"/>
+      <line x1="-118" y1="0" x2="118" y2="0"/>
+      <line x1="-83" y1="-83" x2="83" y2="83"/>
+      <line x1="83" y1="-83" x2="-83" y2="83"/>
+    </g>
+  </g>
+
+  <!-- front wheel -->
+  <g transform="translate(478,330)">
+    <circle r="128" fill="#111116"/>
+    <circle r="128" stroke="#23232c" stroke-width="6"/>
+    <circle r="118" stroke="url(#rimA)" stroke-width="8"/>
+    <circle r="12" fill="#2b2b35"/>
+    <g stroke="#3a3a45" stroke-width="5" stroke-linecap="round">
+      <line x1="0" y1="-118" x2="0" y2="118"/>
+      <line x1="-118" y1="0" x2="118" y2="0"/>
+      <line x1="-83" y1="-83" x2="83" y2="83"/>
+      <line x1="83" y1="-83" x2="-83" y2="83"/>
+    </g>
+  </g>
+
+  <!-- frame -->
+  <g stroke="url(#frame)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M236 232 L334 202"/>
+    <path d="M334 202 L390 330"/>
+    <path d="M236 232 L390 330"/>
+    <path d="M236 232 L244 330"/>
+    <path d="M334 202 L376 232"/>
+    <path d="M390 330 L478 330"/>
+    <path d="M376 232 L478 330"/>
+  </g>
+
+  <!-- accent chainstay -->
+  <path d="M390 330 L478 330" stroke="url(#rimA)" stroke-width="16" stroke-linecap="round"/>
+
+  <!-- seat -->
+  <rect x="206" y="210" width="70" height="14" rx="7" transform="rotate(-14 241 217)" fill="#e8e8ea"/>
+  <path d="M240 224 L238 232" stroke="#9a9aa2" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- handlebar -->
+  <path d="M376 232 L360 206" stroke="#9a9aa2" stroke-width="10" stroke-linecap="round"/>
+  <path d="M330 196 L396 190" stroke="#e8e8ea" stroke-width="11" stroke-linecap="round"/>
+
+  <!-- head tube lime cap -->
+  <circle cx="376" cy="232" r="11" fill="#c8f031"/>
+
+  <!-- crank -->
+  <circle cx="317" cy="330" r="17" fill="#2b2b35" stroke="#c8f031" stroke-width="5"/>
+  <path d="M317 313 L317 292" stroke="#9a9aa2" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- chainring -->
+  <circle cx="317" cy="330" r="10" fill="#111116" stroke="#e8e8ea" stroke-width="4"/>
+
+  <!-- pedal stroke lines for motion -->
+  <g stroke="#c8f031" stroke-width="6" stroke-linecap="round" opacity="0.9">
+    <line x1="24" y1="470" x2="24" y2="420"/>
+    <line x1="48" y1="488" x2="60" y2="438"/>
+    <line x1="88" y1="498" x2="112" y2="452"/>
+    <line x1="144" y1="500" x2="176" y2="460"/>
+  </g>
+</svg>

@@ -1,0 +1,172 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import {
+  ArrowRight,
+  CheckCircle2,
+  MapPin,
+  PackageCheck,
+  Truck,
+} from "lucide-react";
+import { prisma } from "@/lib/prisma";
+import { formatPaise } from "@/lib/utils";
+
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Order confirmed",
+  description: "Your RideReady order is confirmed.",
+};
+
+type OrderSuccessPageProps = {
+  params: Promise<{ orderId: string }>;
+};
+
+export default async function OrderSuccessPage({
+  params,
+}: OrderSuccessPageProps) {
+  const { orderId } = await params;
+
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    include: {
+      items: {
+        include: {
+          product: { select: { id: true, name: true, imageUrl: true } },
+        },
+      },
+    },
+  });
+
+  if (!order) {
+    notFound();
+  }
+
+  const paid = order.paymentStatus === "PAID";
+
+  return (
+    <main className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="flex flex-col items-center text-center">
+        <span
+          className={
+            paid
+              ? "flex h-20 w-20 items-center justify-center rounded-3xl bg-lime/10 text-lime"
+              : "flex h-20 w-20 items-center justify-center rounded-3xl bg-amber-400/10 text-amber-400"
+          }
+        >
+          <CheckCircle2 aria-hidden="true" className="h-10 w-10" />
+        </span>
+        <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          {paid ? "Order confirmed!" : "Payment not completed"}
+        </h1>
+        <p className="mt-3 max-w-md text-smoke">
+          {paid
+            ? "Thanks for riding with RideReady. We've received your payment and your gear is being packed."
+            : "Your order was created but the payment was not completed. You can retry from your cart."}
+        </p>
+      </div>
+
+      <div className="mt-10 overflow-hidden rounded-2xl border border-line bg-carbon">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line p-6">
+          <div>
+            <p className="text-xs font-semibold tracking-widest text-smoke uppercase">
+              Order ID
+            </p>
+            <p className="mt-1 font-mono text-sm text-white">{order.id}</p>
+          </div>
+          {order.razorpayPaymentId ? (
+            <div>
+              <p className="text-xs font-semibold tracking-widest text-smoke uppercase">
+                Payment ID
+              </p>
+              <p className="mt-1 font-mono text-sm text-white">
+                {order.razorpayPaymentId}
+              </p>
+            </div>
+          ) : null}
+        </div>
+
+        <ul className="flex flex-col divide-y divide-line">
+          {order.items.map((item) => (
+            <li
+              key={item.id}
+              className="flex items-center justify-between gap-4 p-6"
+            >
+              <div>
+                <p className="font-semibold text-white">{item.product.name}</p>
+                <p className="mt-0.5 text-sm text-smoke">
+                  {item.quantity} × {formatPaise(item.unitPriceInPaise)}
+                </p>
+              </div>
+              <p className="font-semibold text-white">
+                {formatPaise(item.unitPriceInPaise * item.quantity)}
+              </p>
+            </li>
+          ))}
+        </ul>
+
+        <dl className="space-y-3 border-t border-line p-6 text-sm">
+          <div className="flex justify-between">
+            <dt className="text-smoke">Subtotal</dt>
+            <dd className="font-semibold text-white">
+              {formatPaise(order.subtotalInPaise)}
+            </dd>
+          </div>
+          <div className="flex justify-between">
+            <dt className="text-smoke">Shipping</dt>
+            <dd className="font-semibold text-white">
+              {order.shippingInPaise === 0
+                ? "Free"
+                : formatPaise(order.shippingInPaise)}
+            </dd>
+          </div>
+          <div className="flex justify-between border-t border-line pt-3 text-base">
+            <dt className="font-semibold text-white">Total</dt>
+            <dd className="font-bold text-lime">
+              {formatPaise(order.totalInPaise)}
+            </dd>
+          </div>
+        </dl>
+
+        <div className="flex items-start gap-3 border-t border-line p-6">
+          <MapPin
+            aria-hidden="true"
+            className="mt-0.5 h-5 w-5 shrink-0 text-lime"
+          />
+          <div>
+            <p className="text-sm font-semibold text-white">
+              Shipping to {order.customerName}
+            </p>
+            <p className="mt-0.5 text-sm text-smoke">{order.customerAddress}</p>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-3 border-t border-line p-6">
+          <Truck aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-lime" />
+          <p className="text-sm text-smoke">
+            Estimated delivery in 3–5 business days.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-10 flex flex-col items-center gap-3">
+        <Link
+          href="/products"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-lime px-7 text-sm font-semibold text-night transition-colors hover:bg-lime-deep"
+        >
+          Continue shopping
+          <ArrowRight aria-hidden="true" className="h-4 w-4" />
+        </Link>
+        {!paid ? (
+          <Link
+            href="/cart"
+            className="inline-flex items-center gap-2 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+          >
+            <PackageCheck aria-hidden="true" className="h-4 w-4" />
+            Retry payment from your cart
+          </Link>
+        ) : null}
+      </div>
+    </main>
+  );
+}
