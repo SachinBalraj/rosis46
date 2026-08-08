@@ -36,7 +36,7 @@ function normalizeItem(
     ...item,
     category: item.category ?? "",
     icon: item.icon ?? "Package",
-    accent: item.accent ?? "from-lime-400/40 via-lime-300/10 to-transparent",
+    accent: item.accent ?? "from-brand/35 via-white/10 to-transparent",
     stock: item.stock ?? null,
     quantity: Math.max(1, item.quantity ?? 1),
   };

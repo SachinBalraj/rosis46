@@ -70,7 +70,7 @@ export function ConfirmDialog({
           className={
             danger
               ? "flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500/10 text-rose-400"
-              : "flex h-12 w-12 items-center justify-center rounded-2xl bg-lime/10 text-lime"
+              : "flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand"
           }
         >
           <AlertTriangle aria-hidden="true" className="h-6 w-6" />

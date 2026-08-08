@@ -91,7 +91,7 @@ export function AccountForms() {
       "w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none",
       hasError
         ? "border-rose-500/70 focus:border-rose-500"
-        : "border-line focus:border-lime"
+        : "border-line focus:border-brand"
     );
 
   return (
@@ -116,7 +116,7 @@ export function AccountForms() {
             className={cn(
               "rounded-lg py-2.5 text-sm font-semibold transition-colors",
               mode === tab.value
-                ? "bg-lime text-night"
+                ? "bg-brand text-white"
                 : "text-smoke hover:text-white"
             )}
           >
@@ -191,7 +191,7 @@ export function AccountForms() {
           <button
             type="submit"
             disabled={registerForm.formState.isSubmitting}
-            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-lime text-sm font-semibold text-night transition-colors hover:bg-lime-deep disabled:opacity-60"
+            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-deep disabled:opacity-60"
           >
             {registerForm.formState.isSubmitting ? (
               <>
@@ -250,7 +250,7 @@ export function AccountForms() {
           <button
             type="submit"
             disabled={signInForm.formState.isSubmitting}
-            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-lime text-sm font-semibold text-night transition-colors hover:bg-lime-deep disabled:opacity-60"
+            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-deep disabled:opacity-60"
           >
             {signInForm.formState.isSubmitting ? (
               <>

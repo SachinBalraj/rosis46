@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0e;
-  --foreground: #f4f4f5;
-  --night: #0a0a0e;
-  --carbon: #111116;
-  --carbon-soft: #16161d;
-  --line: #23232c;
-  --lime: #c8f031;
-  --lime-deep: #a4cf1c;
-  --smoke: #a1a1aa;
+  --background: #0b0b0b;
+  --foreground: #ffffff;
+  --night: #0b0b0b;
+  --carbon: #171717;
+  --carbon-soft: #202020;
+  --line: #2a2a2a;
+  --brand: #e10600;
+  --brand-deep: #9e0000;
+  --smoke: #b8b8b8;
 }
 
 @theme inline {
@@ -19,8 +19,8 @@
   --color-carbon: var(--carbon);
   --color-carbon-soft: var(--carbon-soft);
   --color-line: var(--line);
-  --color-lime: var(--lime);
-  --color-lime-deep: var(--lime-deep);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
   --color-smoke: var(--smoke);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -72,12 +72,12 @@
   }
 
   ::selection {
-    background: var(--lime);
-    color: var(--night);
+    background: var(--brand);
+    color: #ffffff;
   }
 
   :focus-visible {
-    outline: 2px solid var(--lime);
+    outline: 2px solid var(--brand);
     outline-offset: 2px;
   }
 
@@ -96,7 +96,29 @@
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #34343f;
+    background: var(--brand-deep);
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-line bg-carbon;
+  }
+
+  .card-interactive {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_20px_60px_-20px_rgb(225_6_0/0.3)];
+  }
+
+  .input {
+    @apply w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none focus:border-brand;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold;
   }
 }
 
@@ -108,8 +130,31 @@
     background-size: 44px 44px;
   }
 
-  .glow-lime {
-    box-shadow: 0 0 60px 0 rgb(200 240 49 / 0.25);
+  .glow-brand {
+    box-shadow: 0 0 60px 0 rgb(225 6 0 / 0.22);
+  }
+
+  .link-underline {
+    position: relative;
+  }
+
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0.25rem;
+    right: 0.25rem;
+    bottom: 0.125rem;
+    height: 2px;
+    border-radius: 9999px;
+    background: var(--brand);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .link-underline:hover::after,
+  .link-underline[aria-current="page"]::after {
+    transform: scaleX(1);
   }
 }
 

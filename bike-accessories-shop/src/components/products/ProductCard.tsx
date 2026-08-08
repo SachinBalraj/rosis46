@@ -31,7 +31,7 @@ export function ProductCard({ product }: { product: Product }) {
       : 0;
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-carbon transition-all duration-300 hover:-translate-y-1 hover:border-lime/40 hover:shadow-[0_20px_60px_-20px_rgb(200_240_49/0.25)]">
+    <article className="card flex h-full flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_20px_60px_-20px_rgb(225_6_0/0.35)]">
       <Link
         href={`/products/${product.id}`}
         className="group block"
@@ -48,24 +48,24 @@ export function ProductCard({ product }: { product: Product }) {
               className={cn(
                 "absolute top-3 left-3 z-10 rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide uppercase",
                 product.badge === "Sale"
-                  ? "bg-rose-500 text-white"
+                  ? "bg-brand text-white"
                   : product.badge === "New"
-                    ? "bg-lime text-night"
-                    : "bg-white text-night"
+                    ? "bg-white text-black"
+                    : "bg-white text-black"
               )}
             >
               {product.badge}
             </span>
           ) : null}
           {discount > 0 ? (
-            <span className="absolute top-3 right-3 z-10 rounded-full border border-line bg-night/70 px-2.5 py-1 text-[11px] font-semibold text-lime backdrop-blur">
+            <span className="absolute top-3 right-3 z-10 rounded-full border border-line bg-night/70 px-2.5 py-1 text-[11px] font-semibold text-brand backdrop-blur">
               {discount}% off
             </span>
           ) : null}
           <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-night/40 text-white backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
             <Icon
               aria-hidden="true"
-              className="h-12 w-12 text-lime"
+              className="h-12 w-12 text-brand"
               strokeWidth={1.5}
             />
           </div>
@@ -73,13 +73,13 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <p className="text-[11px] font-semibold tracking-widest text-lime uppercase">
+        <p className="text-[11px] font-semibold tracking-widest text-brand uppercase">
           {product.categoryLabel}
         </p>
         <h3 className="font-bold text-white">
           <Link
             href={`/products/${product.id}`}
-            className="transition-colors hover:text-lime"
+            className="transition-colors hover:text-brand"
           >
             {product.name}
           </Link>
@@ -91,7 +91,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="mt-auto flex items-center gap-1 pt-3">
           <Star
             aria-hidden="true"
-            className="h-4 w-4 fill-lime text-lime"
+            className="h-4 w-4 fill-brand text-brand"
           />
           <span className="text-sm font-semibold text-white">
             {product.rating.toFixed(1)}
@@ -102,7 +102,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         <div className="flex items-baseline gap-2">
-          <span className="text-lg font-bold text-white">
+          <span className="text-lg font-bold text-brand">
             {formatPrice(product.price)}
           </span>
           {product.mrp > product.price ? (
@@ -115,7 +115,7 @@ export function ProductCard({ product }: { product: Product }) {
         <button
           type="button"
           onClick={handleAddToCart}
-          className="mt-2 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-lime text-sm font-semibold text-night transition-colors hover:bg-lime-deep"
+          className="mt-2 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
         >
           <ShoppingCart aria-hidden="true" className="h-4 w-4" />
           Add to Cart

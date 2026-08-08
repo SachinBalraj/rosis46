@@ -47,7 +47,7 @@ export function Footer() {
               href="/"
               className="flex items-center gap-2 text-lg font-bold tracking-tight text-white"
             >
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-lime text-night">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white">
                 <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="5.5" cy="17.5" r="3.5" />
                   <circle cx="18.5" cy="17.5" r="3.5" />
@@ -64,15 +64,15 @@ export function Footer() {
             </p>
             <ul className="mt-6 flex flex-col gap-3 text-sm text-smoke">
               <li className="flex items-center gap-2">
-                <MapPin aria-hidden="true" className="h-4 w-4 text-lime" />
+                <MapPin aria-hidden="true" className="h-4 w-4 text-brand" />
                 42 Gear Street, Koramangala, Bengaluru 560034
               </li>
               <li className="flex items-center gap-2">
-                <Phone aria-hidden="true" className="h-4 w-4 text-lime" />
+                <Phone aria-hidden="true" className="h-4 w-4 text-brand" />
                 +91 98765 43210
               </li>
               <li className="flex items-center gap-2">
-                <Mail aria-hidden="true" className="h-4 w-4 text-lime" />
+                <Mail aria-hidden="true" className="h-4 w-4 text-brand" />
                 support@rideready.in
               </li>
             </ul>
@@ -87,7 +87,7 @@ export function Footer() {
                 <li key={category.slug}>
                   <Link
                     href={`/products?category=${category.slug}`}
-                    className="flex items-center gap-1 text-sm text-smoke transition-colors hover:text-lime"
+                    className="flex items-center gap-1 text-sm text-smoke transition-colors hover:text-brand"
                   >
                     {category.label}
                     <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -103,22 +103,22 @@ export function Footer() {
             </h3>
             <ul className="mt-4 flex flex-col gap-3">
               <li>
-                <Link href="/about" className="text-sm text-smoke transition-colors hover:text-lime">
+                <Link href="/about" className="text-sm text-smoke transition-colors hover:text-brand">
                   About us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm text-smoke transition-colors hover:text-lime">
+                <Link href="/contact" className="text-sm text-smoke transition-colors hover:text-brand">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/contact#faq" className="text-sm text-smoke transition-colors hover:text-lime">
+                <Link href="/contact#faq" className="text-sm text-smoke transition-colors hover:text-brand">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/account" className="text-sm text-smoke transition-colors hover:text-lime">
+                <Link href="/account" className="text-sm text-smoke transition-colors hover:text-brand">
                   Your account
                 </Link>
               </li>
@@ -137,7 +137,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.name}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-night text-smoke transition-all hover:border-lime/50 hover:text-lime"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-night text-smoke transition-all hover:border-brand/50 hover:text-brand"
                 >
                   {social.icon}
                 </a>

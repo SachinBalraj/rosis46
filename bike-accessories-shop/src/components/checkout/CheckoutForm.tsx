@@ -70,7 +70,7 @@ const inputClass = (hasError: boolean) =>
     "w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none",
     hasError
       ? "border-rose-500/70 focus:border-rose-500"
-      : "border-line focus:border-lime"
+      : "border-line focus:border-brand"
   );
 
 export function CheckoutForm() {
@@ -243,7 +243,7 @@ export function CheckoutForm() {
   if (items.length === 0) {
     return (
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-24 text-center sm:px-6 lg:px-8">
-        <span className="flex h-20 w-20 items-center justify-center rounded-3xl bg-lime/10 text-lime">
+        <span className="flex h-20 w-20 items-center justify-center rounded-3xl bg-brand/10 text-brand">
           <ShoppingCart aria-hidden="true" className="h-10 w-10" />
         </span>
         <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-white">
@@ -254,7 +254,7 @@ export function CheckoutForm() {
         </p>
         <Link
           href="/products"
-          className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-lime px-7 text-sm font-semibold text-night transition-colors hover:bg-lime-deep"
+          className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
         >
           Browse products
           <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -271,7 +271,7 @@ export function CheckoutForm() {
     >
       <Link
         href="/cart"
-        className="inline-flex items-center gap-2 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+        className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
       >
         <ArrowLeft aria-hidden="true" className="h-4 w-4" />
         Back to cart
@@ -496,7 +496,7 @@ export function CheckoutForm() {
                         item.accent
                       )}
                     >
-                      <Icon aria-hidden="true" className="h-5 w-5 text-lime" />
+                      <Icon aria-hidden="true" className="h-5 w-5 text-brand" />
                     </span>
                     <div className="flex flex-1 flex-col">
                       <p className="text-sm font-semibold text-white">
@@ -526,7 +526,7 @@ export function CheckoutForm() {
                 <dd
                   className={cn(
                     "font-semibold",
-                    shipping === 0 ? "text-lime" : "text-white"
+                    shipping === 0 ? "text-brand" : "text-white"
                   )}
                 >
                   {shipping === 0 ? "Free" : formatPrice(shipping)}
@@ -534,13 +534,13 @@ export function CheckoutForm() {
               </div>
               <div className="flex justify-between border-t border-line pt-3 text-base">
                 <dt className="font-semibold text-white">Total</dt>
-                <dd className="font-bold text-lime">{formatPrice(total)}</dd>
+                <dd className="font-bold text-brand">{formatPrice(total)}</dd>
               </div>
             </dl>
           </div>
 
           <div className="flex items-start gap-3 rounded-2xl border border-line bg-carbon p-4">
-            <Truck aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-lime" />
+            <Truck aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
             <div>
               <p className="text-sm font-semibold text-white">
                 Delivery estimate: 3–5 business days
@@ -554,7 +554,7 @@ export function CheckoutForm() {
           <div className="flex items-start gap-3 rounded-2xl border border-line bg-carbon p-4">
             <Lock
               aria-hidden="true"
-              className="mt-0.5 h-5 w-5 shrink-0 text-lime"
+              className="mt-0.5 h-5 w-5 shrink-0 text-brand"
             />
             <div>
               <p className="text-sm font-semibold text-white">
@@ -570,7 +570,7 @@ export function CheckoutForm() {
           <button
             type="submit"
             disabled={payDisabled}
-            className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-lime px-7 py-3.5 text-sm font-semibold text-night transition-all hover:bg-lime-deep hover:shadow-[0_0_24px_rgb(200_240_49/0.35)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-brand px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-brand-deep hover:shadow-[0_0_24px_rgb(225_6_0/0.35)] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {paymentStatus === "creating" ? (
               <>

@@ -26,11 +26,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         <div aria-hidden="true" className="bg-grid absolute inset-0" />
         <div
           aria-hidden="true"
-          className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-lime/15 blur-[120px]"
+          className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-brand/15 blur-[120px]"
         />
         <div className="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="inline-flex items-center gap-2 rounded-full border border-lime/30 bg-lime/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-lime uppercase">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-lime" />
+          <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
             The catalogue
           </p>
           <h1
@@ -38,7 +38,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl"
           >
             Find your next{" "}
-            <span className="text-lime">piece of kit.</span>
+            <span className="text-brand">piece of kit.</span>
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-smoke">
             Every product below has been ridden, rained on and tested by our

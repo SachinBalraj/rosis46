@@ -59,7 +59,7 @@ export default async function OrderDetailPage({
     <main className="mx-auto w-full max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <Link
         href={isAdmin ? "/admin" : "/account"}
-        className="inline-flex items-center gap-2 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+        className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
       >
         <ArrowLeft aria-hidden="true" className="h-4 w-4" />
         {isAdmin ? "Back to admin console" : "Back to account"}
@@ -93,7 +93,7 @@ export default async function OrderDetailPage({
         <div className="overflow-hidden rounded-2xl border border-line bg-carbon">
           <div className="border-b border-line px-6 py-4">
             <h2 className="flex items-center gap-2 font-bold text-white">
-              <PackageCheck aria-hidden="true" className="h-5 w-5 text-lime" />
+              <PackageCheck aria-hidden="true" className="h-5 w-5 text-brand" />
               Items
             </h2>
           </div>
@@ -135,7 +135,7 @@ export default async function OrderDetailPage({
             </div>
             <div className="flex justify-between border-t border-line pt-3 text-base">
               <dt className="font-semibold text-white">Total</dt>
-              <dd className="font-bold text-lime">
+              <dd className="font-bold text-brand">
                 {formatPaise(order.totalInPaise)}
               </dd>
             </div>
@@ -145,7 +145,7 @@ export default async function OrderDetailPage({
         <div className="flex flex-col gap-6">
           <div className="rounded-2xl border border-line bg-carbon p-6">
             <h2 className="flex items-center gap-2 font-bold text-white">
-              <MapPin aria-hidden="true" className="h-5 w-5 text-lime" />
+              <MapPin aria-hidden="true" className="h-5 w-5 text-brand" />
               Shipping address
             </h2>
             <p className="mt-3 text-sm font-semibold text-white">
@@ -158,7 +158,7 @@ export default async function OrderDetailPage({
 
           <div className="rounded-2xl border border-line bg-carbon p-6">
             <h2 className="flex items-center gap-2 font-bold text-white">
-              <CreditCard aria-hidden="true" className="h-5 w-5 text-lime" />
+              <CreditCard aria-hidden="true" className="h-5 w-5 text-brand" />
               Payment
             </h2>
             <div className="mt-3 flex flex-col gap-2 text-sm">
@@ -179,7 +179,7 @@ export default async function OrderDetailPage({
 
           <div className="rounded-2xl border border-line bg-carbon p-6">
             <h2 className="flex items-center gap-2 font-bold text-white">
-              <Truck aria-hidden="true" className="h-5 w-5 text-lime" />
+              <Truck aria-hidden="true" className="h-5 w-5 text-brand" />
               Shipment
             </h2>
             <div className="mt-3 flex flex-col gap-2 text-sm">

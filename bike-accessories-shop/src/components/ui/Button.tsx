@@ -6,20 +6,20 @@ import {
 } from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "ghost" | "lime-outline";
+type Variant = "primary" | "secondary" | "ghost" | "brand-outline";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-lime text-night hover:bg-lime-deep hover:shadow-[0_0_24px_rgb(200_240_49/0.35)] active:scale-[0.98]",
+    "bg-brand text-white hover:bg-brand-deep hover:shadow-[0_0_28px_rgb(225_6_0/0.4)] active:scale-[0.98]",
   secondary:
-    "border border-line bg-carbon text-white hover:border-lime/60 hover:text-lime",
+    "border border-line bg-carbon text-white hover:border-brand/60 hover:bg-carbon-soft",
   ghost: "text-smoke hover:text-white hover:bg-carbon",
-  "lime-outline":
-    "border border-lime/60 text-lime hover:bg-lime/10 active:scale-[0.98]",
+  "brand-outline":
+    "border border-brand/60 text-brand hover:bg-brand/10 active:scale-[0.98]",
 };
 
 const sizes: Record<Size, string> = {

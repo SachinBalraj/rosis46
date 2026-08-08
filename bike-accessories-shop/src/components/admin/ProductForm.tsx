@@ -44,7 +44,7 @@ const inputClass = (hasError: boolean) =>
     "w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none",
     hasError
       ? "border-rose-500/70 focus:border-rose-500"
-      : "border-line focus:border-lime"
+      : "border-line focus:border-brand"
   );
 
 export function ProductForm({ categories, product }: ProductFormProps) {
@@ -140,7 +140,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
     <div className="mx-auto w-full max-w-3xl">
       <Link
         href="/admin/products"
-        className="inline-flex items-center gap-2 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+        className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
       >
         <ArrowLeft aria-hidden="true" className="h-4 w-4" />
         Back to products
@@ -284,13 +284,13 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                   htmlFor="product-sale-price"
                   className="flex items-center gap-2 text-sm font-medium text-white"
                 >
-                  <BadgePercent aria-hidden="true" className="h-4 w-4 text-lime" />
+                  <BadgePercent aria-hidden="true" className="h-4 w-4 text-brand" />
                   Sale price (₹)
                 </label>
                 <button
                   type="button"
                   onClick={toggleSalePrice}
-                  className="text-xs font-medium text-lime transition-colors hover:text-lime-deep"
+                  className="text-xs font-medium text-brand transition-colors hover:text-brand-deep"
                 >
                   {salePriceEnabled ? "Remove sale price" : "Add sale price"}
                 </button>
@@ -322,7 +322,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             </div>
 
             {hasDiscount ? (
-              <p className="sm:col-span-2 rounded-xl border border-lime/30 bg-lime/10 px-4 py-3 text-sm font-medium text-lime">
+              <p className="sm:col-span-2 rounded-xl border border-brand/30 bg-brand/10 px-4 py-3 text-sm font-medium text-brand">
                 Shoppers see {formatPrice(saleNum)} —{" "}
                 {formatPrice(priceNum - saleNum)} off (
                 {Math.round(((priceNum - saleNum) / priceNum) * 100)}%).
@@ -404,7 +404,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             <label className="flex cursor-pointer items-start gap-3">
               <input
                 type="checkbox"
-                className="mt-0.5 h-5 w-5 shrink-0 rounded border-line bg-night accent-lime"
+                className="mt-0.5 h-5 w-5 shrink-0 rounded border-line bg-night accent-brand"
                 {...register("featured")}
               />
               <span>
@@ -420,7 +420,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             <label className="flex cursor-pointer items-start gap-3">
               <input
                 type="checkbox"
-                className="mt-0.5 h-5 w-5 shrink-0 rounded border-line bg-night accent-lime"
+                className="mt-0.5 h-5 w-5 shrink-0 rounded border-line bg-night accent-brand"
                 {...register("active")}
               />
               <span>

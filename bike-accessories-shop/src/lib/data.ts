@@ -67,7 +67,7 @@ export const products: Product[] = [
     badge: "Bestseller",
     description:
       "In-mold polycarbonate shell with 18 vents, magnetic Fidlock strap and a dial-fit retention system.",
-    accent: "from-lime-400/40 via-lime-300/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "HardHat",
     featured: true,
   },
@@ -83,7 +83,7 @@ export const products: Product[] = [
     badge: "New",
     description:
       "Full-carbon road helmet at 220g with an integrated MIPS liner and wide-field visor mount.",
-    accent: "from-emerald-400/40 via-emerald-300/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "HardHat",
     featured: true,
   },
@@ -98,7 +98,7 @@ export const products: Product[] = [
     reviewCount: 158,
     description:
       "Urban lid with a flip-up magnetic visor, built-in tail light and a sweat-guard brow pad.",
-    accent: "from-sky-400/40 via-sky-300/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "HardHat",
   },
   {
@@ -113,7 +113,7 @@ export const products: Product[] = [
     badge: "Bestseller",
     description:
       "Ventilated half-finger gloves with silicone grip print and gel padding on the heel of the palm.",
-    accent: "from-amber-400/40 via-amber-300/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "Hand",
     featured: true,
   },
@@ -129,7 +129,7 @@ export const products: Product[] = [
     badge: "Sale",
     description:
       "Windproof, water-resistant full-finger gloves with fleece lining and touchscreen fingertips.",
-    accent: "from-cyan-400/40 via-cyan-300/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "Hand",
   },
   {
@@ -144,7 +144,7 @@ export const products: Product[] = [
     badge: "New",
     description:
       "1200-lumen USB-C headlight with a daytime-visible flash mode and 4-hour high-beam runtime.",
-    accent: "from-yellow-300/50 via-yellow-200/15 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "Flashlight",
     featured: true,
   },
@@ -159,7 +159,7 @@ export const products: Product[] = [
     reviewCount: 121,
     description:
       "Crank-mounted auto-brightness taillight with a 30-hour battery and an auto-on motion sensor.",
-    accent: "from-rose-400/40 via-rose-300/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "Zap",
   },
   {
@@ -174,7 +174,7 @@ export const products: Product[] = [
     badge: "Bestseller",
     description:
       "16mm hardened-steel shackle with a double-bolt locking mechanism and a silicone anti-scratch sleeve.",
-    accent: "from-zinc-300/40 via-zinc-200/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "Lock",
     featured: true,
   },
@@ -189,7 +189,7 @@ export const products: Product[] = [
     reviewCount: 77,
     description:
       "Pocket-sized folding lock that expands to 85cm, with a hardened steel core and keyed cylinder.",
-    accent: "from-orange-400/40 via-orange-300/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "Lock",
   },
   {
@@ -204,7 +204,7 @@ export const products: Product[] = [
     badge: "Bestseller",
     description:
       "26L fully waterproof roll-top with a 15\" laptop sleeve, reflective piping and a helmet carry strap.",
-    accent: "from-violet-400/40 via-violet-300/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "Backpack",
     featured: true,
   },
@@ -220,7 +220,7 @@ export const products: Product[] = [
     badge: "New",
     description:
       "Quick-release pannier with a welded waterproof liner, expandable roll-top and a padded laptop dock.",
-    accent: "from-teal-400/40 via-teal-300/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "Package",
   },
   {
@@ -235,7 +235,7 @@ export const products: Product[] = [
     badge: "Sale",
     description:
       "Compact wedge pack with tire levers, a multi-tool, a spare tube and a frame-mount CO2 holder.",
-    accent: "from-lime-400/40 via-lime-300/10 to-transparent",
+    accent: "from-brand/35 via-white/10 to-transparent",
     icon: "Wrench",
   },
 ];

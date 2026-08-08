@@ -60,7 +60,7 @@ export function AddToCartForm({ product, stock }: AddToCartFormProps) {
           type="button"
           onClick={() => setQuantity((q) => Math.max(1, q - 1))}
           aria-label="Decrease quantity"
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-smoke transition-colors hover:text-lime"
+          className="flex h-10 w-10 items-center justify-center rounded-lg text-smoke transition-colors hover:text-brand"
         >
           <Minus aria-hidden="true" className="h-4 w-4" />
         </button>
@@ -74,7 +74,7 @@ export function AddToCartForm({ product, stock }: AddToCartFormProps) {
           type="button"
           onClick={() => setQuantity((q) => Math.min(max, q + 1))}
           aria-label="Increase quantity"
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-smoke transition-colors hover:text-lime"
+          className="flex h-10 w-10 items-center justify-center rounded-lg text-smoke transition-colors hover:text-brand"
         >
           <Plus aria-hidden="true" className="h-4 w-4" />
         </button>
@@ -83,7 +83,7 @@ export function AddToCartForm({ product, stock }: AddToCartFormProps) {
       <button
         type="button"
         onClick={handleAdd}
-        className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-lime px-7 text-sm font-semibold text-night transition-all hover:bg-lime-deep hover:shadow-[0_0_24px_rgb(200_240_49/0.35)] sm:flex-none"
+        className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-all hover:bg-brand-deep hover:shadow-[0_0_24px_rgb(225_6_0/0.35)] sm:flex-none"
       >
         <ShoppingCart aria-hidden="true" className="h-4 w-4" />
         Add to Cart

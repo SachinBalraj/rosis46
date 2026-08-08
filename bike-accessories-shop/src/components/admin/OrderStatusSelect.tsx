@@ -73,8 +73,8 @@ export function OrderStatusSelect({ orderId, status }: OrderStatusSelectProps) {
             : value === "DELIVERED"
               ? "border-emerald-400/30 text-emerald-400"
               : value === "SHIPPED"
-                ? "border-lime/30 text-lime"
-                : "border-line text-smoke focus:border-lime"
+                ? "border-brand/30 text-brand"
+                : "border-line text-smoke focus:border-brand"
         )}
       >
         {ORDER_STATUS_VALUES.map((option) => (

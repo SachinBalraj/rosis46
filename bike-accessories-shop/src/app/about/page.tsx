@@ -49,11 +49,11 @@ export default function AboutPage() {
         <div aria-hidden="true" className="bg-grid absolute inset-0" />
         <div
           aria-hidden="true"
-          className="absolute -top-32 right-0 h-80 w-80 rounded-full bg-lime/15 blur-[120px]"
+          className="absolute -top-32 right-0 h-80 w-80 rounded-full bg-brand/15 blur-[120px]"
         />
         <div className="relative mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <p className="inline-flex items-center gap-2 rounded-full border border-lime/30 bg-lime/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-lime uppercase">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-lime" />
+          <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
             About RideReady
           </p>
           <h1
@@ -61,7 +61,7 @@ export default function AboutPage() {
             className="mt-6 max-w-3xl text-4xl font-extrabold tracking-tight text-white sm:text-5xl"
           >
             Built by riders,{" "}
-            <span className="text-lime">for riders.</span>
+            <span className="text-brand">for riders.</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-smoke">
             RideReady started in a Bengaluru garage with a broken helmet strap,
@@ -121,9 +121,9 @@ export default function AboutPage() {
             {values.map((value) => (
               <li
                 key={value.title}
-                className="rounded-2xl border border-line bg-carbon p-6 transition-colors hover:border-lime/40"
+                className="rounded-2xl border border-line bg-carbon p-6 transition-colors hover:border-brand/40"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-lime/10 text-lime">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand/10 text-brand">
                   <value.icon aria-hidden="true" className="h-6 w-6" />
                 </span>
                 <h3 className="mt-5 text-lg font-bold text-white">
@@ -157,7 +157,7 @@ export default function AboutPage() {
                 >
                   <CheckCircle2
                     aria-hidden="true"
-                    className="mt-0.5 h-5 w-5 shrink-0 text-lime"
+                    className="mt-0.5 h-5 w-5 shrink-0 text-brand"
                   />
                   <span className="text-sm leading-relaxed text-white">
                     {item}
@@ -166,8 +166,8 @@ export default function AboutPage() {
               ))}
             </ul>
           </div>
-          <div className="rounded-3xl border border-lime/30 bg-gradient-to-br from-carbon to-lime/10 p-8">
-            <p className="text-6xl font-extrabold text-lime">9,600+</p>
+          <div className="rounded-3xl border border-brand/30 bg-gradient-to-br from-carbon to-brand/10 p-8">
+            <p className="text-6xl font-extrabold text-brand">9,600+</p>
             <p className="mt-2 font-semibold text-white">
               kilometres of combined test riding per product line
             </p>
@@ -195,13 +195,13 @@ export default function AboutPage() {
             {team.map((member) => (
               <li
                 key={member.name}
-                className="rounded-2xl border border-line bg-carbon p-6 transition-colors hover:border-lime/40"
+                className="rounded-2xl border border-line bg-carbon p-6 transition-colors hover:border-brand/40"
               >
-                <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-lime text-xl font-extrabold text-night">
+                <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand text-xl font-extrabold text-white">
                   {member.initials}
                 </span>
                 <h3 className="mt-5 font-bold text-white">{member.name}</h3>
-                <p className="mt-1 text-sm font-semibold text-lime">
+                <p className="mt-1 text-sm font-semibold text-brand">
                   {member.role}
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-smoke">
@@ -217,7 +217,7 @@ export default function AboutPage() {
         aria-labelledby="about-cta"
         className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
       >
-        <div className="rounded-3xl border border-lime/30 bg-gradient-to-br from-carbon via-carbon-soft to-lime/10 px-6 py-14 text-center sm:px-12">
+        <div className="rounded-3xl border border-brand/30 bg-gradient-to-br from-carbon via-carbon-soft to-brand/10 px-6 py-14 text-center sm:px-12">
           <h2
             id="about-cta"
             className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl"

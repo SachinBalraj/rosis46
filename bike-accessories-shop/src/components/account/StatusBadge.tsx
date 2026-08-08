@@ -15,7 +15,7 @@ const orderStatusStyles: Record<string, { label: string; className: string }> = 
   },
   SHIPPED: {
     label: "Shipped",
-    className: "border-lime/30 bg-lime/10 text-lime",
+    className: "border-brand/30 bg-brand/10 text-brand",
   },
   DELIVERED: {
     label: "Delivered",

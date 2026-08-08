@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +21,11 @@ const links = [
 ];
 
 export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onOpenChange(false);
@@ -43,7 +49,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
         aria-expanded={open}
         aria-controls="mobile-menu"
         aria-label={open ? "Close menu" : "Open menu"}
-        className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-carbon text-smoke transition-colors hover:text-lime lg:hidden"
+        className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-carbon text-smoke transition-colors hover:text-brand lg:hidden"
       >
         {open ? (
           <X aria-hidden="true" className="h-5 w-5" />
@@ -74,7 +80,13 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
               <Link
                 href={link.href}
                 onClick={() => onOpenChange(false)}
-                className="block rounded-xl px-4 py-4 text-2xl font-bold text-white transition-colors hover:bg-carbon hover:text-lime"
+                aria-current={isActive(link.href) ? "page" : undefined}
+                className={cn(
+                  "block rounded-xl px-4 py-4 text-2xl font-bold transition-colors",
+                  isActive(link.href)
+                    ? "bg-carbon text-white"
+                    : "text-white hover:bg-carbon hover:text-brand"
+                )}
               >
                 {link.label}
               </Link>

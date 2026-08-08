@@ -24,7 +24,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-lime/30 bg-lime/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-lime uppercase">
+          <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
             <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
             Admin console
           </p>
@@ -34,7 +34,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         </div>
         <Link
           href="/account"
-          className="inline-flex items-center gap-2 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+          className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
         >
           <ArrowLeft aria-hidden="true" className="h-4 w-4" />
           Back to account

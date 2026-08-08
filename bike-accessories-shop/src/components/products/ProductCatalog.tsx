@@ -95,7 +95,7 @@ export function ProductCatalog({
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search helmets, gloves, locks…"
-              className="h-12 w-full rounded-xl border border-line bg-carbon pl-12 pr-4 text-sm text-white placeholder:text-smoke focus:border-lime focus:outline-none"
+              className="h-12 w-full rounded-xl border border-line bg-carbon pl-12 pr-4 text-sm text-white placeholder:text-smoke focus:border-brand focus:outline-none"
             />
           </div>
 
@@ -113,7 +113,7 @@ export function ProductCatalog({
               onChange={(event) =>
                 update(() => setSort(event.target.value as SortOption))
               }
-              className="h-12 rounded-xl border border-line bg-carbon px-4 text-sm text-white focus:border-lime focus:outline-none"
+              className="h-12 rounded-xl border border-line bg-carbon px-4 text-sm text-white focus:border-brand focus:outline-none"
             >
               {sortOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -138,7 +138,7 @@ export function ProductCatalog({
             className={cn(
               "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
               category === "all"
-                ? "border-lime bg-lime text-night"
+                ? "border-brand bg-brand text-white"
                 : "border-line bg-carbon text-smoke hover:text-white"
             )}
           >
@@ -153,7 +153,7 @@ export function ProductCatalog({
               className={cn(
                 "rounded-full border px-4 py-2 text-sm font-medium capitalize transition-colors",
                 category === item.slug
-                  ? "border-lime bg-lime text-night"
+                  ? "border-brand bg-brand text-white"
                   : "border-line bg-carbon text-smoke hover:text-white"
               )}
             >
@@ -174,7 +174,7 @@ export function ProductCatalog({
             <button
               type="button"
               onClick={resetFilters}
-              className="inline-flex items-center gap-1.5 rounded-lg text-sm font-medium text-lime hover:text-lime-deep"
+              className="inline-flex items-center gap-1.5 rounded-lg text-sm font-medium text-brand hover:text-brand-deep"
             >
               <X aria-hidden="true" className="h-4 w-4" />
               Clear filters
@@ -188,7 +188,7 @@ export function ProductCatalog({
           <ProductGrid products={filtered} />
         ) : (
           <div className="flex flex-col items-center rounded-2xl border border-dashed border-line bg-carbon/50 px-6 py-20 text-center">
-            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-lime/10 text-lime">
+            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
               <PackageSearch aria-hidden="true" className="h-8 w-8" />
             </span>
             <h2 className="mt-6 text-xl font-bold text-white">
@@ -201,7 +201,7 @@ export function ProductCatalog({
             <button
               type="button"
               onClick={resetFilters}
-              className="mt-6 inline-flex h-11 items-center justify-center rounded-xl border border-lime/60 px-6 text-sm font-semibold text-lime transition-colors hover:bg-lime/10"
+              className="mt-6 inline-flex h-11 items-center justify-center rounded-xl border border-brand/60 px-6 text-sm font-semibold text-brand transition-colors hover:bg-brand/10"
             >
               Clear all filters
             </button>

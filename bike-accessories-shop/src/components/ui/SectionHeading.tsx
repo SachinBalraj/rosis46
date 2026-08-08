@@ -24,8 +24,8 @@ export function SectionHeading({
       )}
     >
       {eyebrow ? (
-        <p className="inline-flex w-fit items-center gap-2 rounded-full border border-lime/30 bg-lime/10 px-3 py-1 text-xs font-semibold tracking-widest text-lime uppercase">
-          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-lime" />
+        <p className="inline-flex w-fit items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-semibold tracking-widest text-brand uppercase">
+          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
           {eyebrow}
         </p>
       ) : null}

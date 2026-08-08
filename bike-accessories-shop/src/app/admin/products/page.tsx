@@ -113,7 +113,7 @@ export default async function AdminProductsPage({
             name="q"
             defaultValue={query ?? ""}
             placeholder="Search products…"
-            className="w-full rounded-xl border border-line bg-carbon py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-smoke focus:border-lime focus:outline-none"
+            className="w-full rounded-xl border border-line bg-carbon py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-smoke focus:border-brand focus:outline-none"
           />
         </div>
         {category ? (
@@ -124,7 +124,7 @@ export default async function AdminProductsPage({
         ) : null}
         <button
           type="submit"
-          className="inline-flex h-10 shrink-0 items-center rounded-xl bg-lime px-4 text-sm font-semibold text-night transition-colors hover:bg-lime-deep"
+          className="inline-flex h-10 shrink-0 items-center rounded-xl bg-brand px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
         >
           Search
         </button>
@@ -142,8 +142,8 @@ export default async function AdminProductsPage({
             className={cn(
               "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
               activeStatus === filter.value
-                ? "border-lime bg-lime text-night"
-                : "border-line text-smoke hover:border-lime/40 hover:text-lime"
+                ? "border-brand bg-brand text-white"
+                : "border-line text-smoke hover:border-brand/40 hover:text-brand"
             )}
           >
             {filter.label}
@@ -159,8 +159,8 @@ export default async function AdminProductsPage({
           className={cn(
             "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
             !category
-              ? "border-lime bg-lime text-night"
-              : "border-line text-smoke hover:border-lime/40 hover:text-lime"
+              ? "border-brand bg-brand text-white"
+              : "border-line text-smoke hover:border-brand/40 hover:text-brand"
           )}
         >
           All
@@ -173,8 +173,8 @@ export default async function AdminProductsPage({
             className={cn(
               "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
               category === cat.slug
-                ? "border-lime bg-lime text-night"
-                : "border-line text-smoke hover:border-lime/40 hover:text-lime"
+                ? "border-brand bg-brand text-white"
+                : "border-line text-smoke hover:border-brand/40 hover:text-brand"
             )}
           >
             {cat.name}
@@ -225,7 +225,7 @@ export default async function AdminProductsPage({
                             }}
                           />
                         ) : (
-                          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-lime/10 text-xs font-bold text-lime">
+                          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-xs font-bold text-brand">
                             {product.name.slice(0, 2).toUpperCase()}
                           </span>
                         )}
@@ -242,7 +242,7 @@ export default async function AdminProductsPage({
                     <td className="px-6 py-4">
                       <Link
                         href={pillHref("category", product.category.slug)}
-                        className="rounded-full border border-line bg-night px-3 py-1 text-xs font-semibold text-smoke transition-colors hover:border-lime/40 hover:text-lime"
+                        className="rounded-full border border-line bg-night px-3 py-1 text-xs font-semibold text-smoke transition-colors hover:border-brand/40 hover:text-brand"
                       >
                         {product.category.name}
                       </Link>

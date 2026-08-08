@@ -32,17 +32,17 @@ export default function Home() {
         <div aria-hidden="true" className="bg-grid absolute inset-0" />
         <div
           aria-hidden="true"
-          className="absolute -top-40 right-0 h-96 w-96 rounded-full bg-lime/20 blur-[120px]"
+          className="absolute -top-40 right-0 h-96 w-96 rounded-full bg-brand/20 blur-[120px]"
         />
         <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:py-28">
           <div className="flex flex-col items-start gap-6 animate-fade-up">
-            <p className="inline-flex items-center gap-2 rounded-full border border-lime/30 bg-lime/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-lime uppercase">
-              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-lime" />
+            <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
               Gear up for the ride
             </p>
             <h1 className="text-4xl leading-tight font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
               Ride harder.{" "}
-              <span className="text-lime">Look sharper.</span>
+              <span className="text-brand">Look sharper.</span>
             </h1>
             <p className="max-w-xl text-lg leading-relaxed text-smoke">
               Premium helmets, gloves, lights, locks and bags — every product
@@ -66,7 +66,7 @@ export default function Home() {
               ].map((stat) => (
                 <div key={stat.label}>
                   <dt className="sr-only">{stat.label}</dt>
-                  <dd className="text-2xl font-bold text-lime">{stat.value}</dd>
+                  <dd className="text-2xl font-bold text-brand">{stat.value}</dd>
                   <dd className="mt-1 text-xs text-smoke">{stat.label}</dd>
                 </div>
               ))}
@@ -76,11 +76,11 @@ export default function Home() {
           <div className="relative animate-fade-in">
             <div
               aria-hidden="true"
-              className="absolute inset-0 m-auto h-72 w-72 rounded-full bg-lime/10 blur-[100px]"
+              className="absolute inset-0 m-auto h-72 w-72 rounded-full bg-brand/10 blur-[100px]"
             />
             <Image
               src="/images/hero-bike.svg"
-              alt="Sport bicycle with lime accented wheels, the RideReady hero"
+              alt="Sport bicycle with red accented wheels, the RideReady hero"
               width={640}
               height={480}
               priority
@@ -88,7 +88,7 @@ export default function Home() {
             />
             <div className="absolute top-8 left-4 rounded-2xl border border-line bg-night/80 px-4 py-3 backdrop-blur sm:left-0">
               <p className="text-xs text-smoke">Free shipping over</p>
-              <p className="text-lg font-bold text-lime">₹999</p>
+              <p className="text-lg font-bold text-brand">₹999</p>
             </div>
             <div className="absolute right-4 bottom-10 rounded-2xl border border-line bg-night/80 px-4 py-3 backdrop-blur sm:right-0">
               <p className="text-xs text-smoke">Every product backed by</p>
@@ -121,9 +121,9 @@ export default function Home() {
               <li key={category.slug}>
                 <Link
                   href={`/products?category=${category.slug}`}
-                  className="group flex h-full flex-col gap-4 rounded-2xl border border-line bg-carbon p-5 transition-all duration-300 hover:-translate-y-1 hover:border-lime/40 hover:shadow-[0_16px_40px_-20px_rgb(200_240_49/0.3)]"
+                  className="group flex h-full flex-col gap-4 rounded-2xl border border-line bg-carbon p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_16px_40px_-20px_rgb(225_6_0/0.35)]"
                 >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-lime/10 text-lime transition-colors group-hover:bg-lime group-hover:text-night">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-white">
                     <Icon aria-hidden="true" className="h-6 w-6" />
                   </span>
                   <span>
@@ -134,7 +134,7 @@ export default function Home() {
                       {category.count} products
                     </span>
                   </span>
-                  <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-lime">
+                  <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-brand">
                     Shop now
                     <ArrowRight
                       aria-hidden="true"
@@ -186,9 +186,9 @@ export default function Home() {
             return (
               <li
                 key={benefit.title}
-                className="rounded-2xl border border-line bg-carbon p-6 transition-colors hover:border-lime/40"
+                className="card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_16px_40px_-20px_rgb(225_6_0/0.3)]"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-lime/10 text-lime">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand/10 text-brand">
                   <Icon aria-hidden="true" className="h-6 w-6" />
                 </span>
                 <h3 className="mt-5 font-bold text-white">{benefit.title}</h3>
@@ -218,7 +218,7 @@ export default function Home() {
                 key={testimonial.name}
                 className="flex flex-col rounded-2xl border border-line bg-carbon p-6"
               >
-                <Quote aria-hidden="true" className="h-8 w-8 text-lime/60" />
+                <Quote aria-hidden="true" className="h-8 w-8 text-brand/60" />
                 <p className="mt-4 flex-1 leading-relaxed text-white">
                   “{testimonial.quote}”
                 </p>
@@ -227,12 +227,12 @@ export default function Home() {
                     <Star
                       key={i}
                       aria-hidden="true"
-                      className="h-4 w-4 fill-lime text-lime"
+                      className="h-4 w-4 fill-brand text-brand"
                     />
                   ))}
                 </div>
                 <div className="mt-4 flex items-center gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-lime text-sm font-bold text-night">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
                     {testimonial.name
                       .split(" ")
                       .map((part) => part[0])
@@ -255,7 +255,7 @@ export default function Home() {
         aria-labelledby="newsletter-heading"
         className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
       >
-        <div className="relative overflow-hidden rounded-3xl border border-lime/30 bg-gradient-to-br from-carbon via-carbon-soft to-lime/10 px-6 py-16 text-center sm:px-12">
+        <div className="relative overflow-hidden rounded-3xl border border-brand/30 bg-gradient-to-br from-carbon via-carbon-soft to-brand/10 px-6 py-16 text-center sm:px-12">
           <div
             aria-hidden="true"
             className="bg-grid absolute inset-0 opacity-60"

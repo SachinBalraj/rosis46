@@ -32,7 +32,7 @@ const inputClass = (hasError: boolean) =>
     "w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none",
     hasError
       ? "border-rose-500/70 focus:border-rose-500"
-      : "border-line focus:border-lime"
+      : "border-line focus:border-brand"
   );
 
 export function CategoryManager({ categories }: CategoryManagerProps) {
@@ -160,7 +160,7 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
                     }}
                   />
                 ) : (
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-lime/10 text-sm font-bold text-lime">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-sm font-bold text-brand">
                     {category.name.slice(0, 2).toUpperCase()}
                   </span>
                 )}
@@ -178,7 +178,7 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
                     type="button"
                     onClick={() => startEdit(category)}
                     aria-label={`Edit ${category.name}`}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-smoke transition-colors hover:border-lime/40 hover:text-lime"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-smoke transition-colors hover:border-brand/40 hover:text-brand"
                   >
                     <Pencil aria-hidden="true" className="h-4 w-4" />
                   </button>
@@ -201,12 +201,12 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
         <h2 className="flex items-center gap-2 text-lg font-bold text-white">
           {isEditing ? (
             <>
-              <Pencil aria-hidden="true" className="h-5 w-5 text-lime" />
+              <Pencil aria-hidden="true" className="h-5 w-5 text-brand" />
               Edit category
             </>
           ) : (
             <>
-              <Plus aria-hidden="true" className="h-5 w-5 text-lime" />
+              <Plus aria-hidden="true" className="h-5 w-5 text-brand" />
               New category
             </>
           )}

@@ -53,14 +53,14 @@ export default async function PaymentFailedPage({
       <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <Link
           href="/cart"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-lime px-7 text-sm font-semibold text-night transition-colors hover:bg-lime-deep"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
         >
           <RefreshCcw aria-hidden="true" className="h-4 w-4" />
           Try payment again
         </Link>
         <Link
           href="/products"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-line px-7 text-sm font-semibold text-white transition-colors hover:border-lime/50 hover:text-lime"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-line px-7 text-sm font-semibold text-white transition-colors hover:border-brand/50 hover:text-brand"
         >
           Continue shopping
           <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -68,11 +68,11 @@ export default async function PaymentFailedPage({
       </div>
 
       <p className="mt-10 flex items-center justify-center gap-2 text-sm text-smoke">
-        <HelpCircle aria-hidden="true" className="h-4 w-4 text-lime" />
+        <HelpCircle aria-hidden="true" className="h-4 w-4 text-brand" />
         Need help? Email{" "}
         <a
           href="mailto:support@rideready.example"
-          className="font-medium text-lime hover:text-lime-deep"
+          className="font-medium text-brand hover:text-brand-deep"
         >
           support@rideready.example
         </a>

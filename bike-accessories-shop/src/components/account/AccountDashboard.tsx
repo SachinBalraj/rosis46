@@ -58,13 +58,13 @@ export function AccountDashboard({
       <div className="rounded-3xl border border-line bg-carbon p-6 sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-lime text-2xl font-extrabold text-night">
+            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand text-2xl font-extrabold text-white">
               {initial}
             </span>
             <div>
               <p className="text-xl font-bold text-white">{user.name}</p>
               <p className="mt-0.5 text-sm text-smoke">{user.email}</p>
-              <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-lime/30 bg-lime/10 px-3 py-1 text-xs font-semibold text-lime">
+              <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
                 <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
                 {isAdmin ? "Administrator" : "Member"}
               </span>
@@ -75,7 +75,7 @@ export function AccountDashboard({
             {isAdmin ? (
               <Link
                 href="/admin"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-lime/40 bg-lime/10 px-5 text-sm font-semibold text-lime transition-colors hover:bg-lime/20"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-brand/40 bg-brand/10 px-5 text-sm font-semibold text-brand transition-colors hover:bg-brand/20"
               >
                 <LayoutDashboard aria-hidden="true" className="h-4 w-4" />
                 Admin console
@@ -108,7 +108,7 @@ export function AccountDashboard({
           </div>
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+            className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
           >
             Shop the catalogue
             <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -117,7 +117,7 @@ export function AccountDashboard({
 
         {orders.length === 0 ? (
           <div className="mt-6 flex flex-col items-center rounded-3xl border border-dashed border-line bg-carbon/60 px-6 py-16 text-center">
-            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-lime/10 text-lime">
+            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
               <Package aria-hidden="true" className="h-8 w-8" />
             </span>
             <h3 className="mt-6 text-lg font-bold text-white">
@@ -129,7 +129,7 @@ export function AccountDashboard({
             </p>
             <Link
               href="/products"
-              className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-lime px-6 text-sm font-semibold text-night transition-colors hover:bg-lime-deep"
+              className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
             >
               Browse products
               <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -141,7 +141,7 @@ export function AccountDashboard({
               <li key={order.id}>
                 <Link
                   href={`/account/orders/${order.id}`}
-                  className="group flex flex-col gap-4 rounded-2xl border border-line bg-carbon p-5 transition-colors hover:border-lime/40 sm:flex-row sm:items-center"
+                  className="group flex flex-col gap-4 rounded-2xl border border-line bg-carbon p-5 transition-colors hover:border-brand/40 sm:flex-row sm:items-center"
                 >
                   <div className="flex flex-1 flex-col">
                     <p className="font-mono text-sm text-smoke">
@@ -169,7 +169,7 @@ export function AccountDashboard({
                     </p>
                     <ChevronRight
                       aria-hidden="true"
-                      className="h-4 w-4 text-smoke transition-colors group-hover:text-lime"
+                      className="h-4 w-4 text-smoke transition-colors group-hover:text-brand"
                     />
                   </div>
                 </Link>

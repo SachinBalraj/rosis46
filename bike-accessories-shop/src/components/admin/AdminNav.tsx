@@ -36,7 +36,7 @@ export function AdminNav() {
           className={cn(
             "inline-flex shrink-0 items-center gap-2.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors",
             isActive(link.href)
-              ? "bg-lime text-night"
+              ? "bg-brand text-white"
               : "text-smoke hover:bg-carbon hover:text-white"
           )}
         >

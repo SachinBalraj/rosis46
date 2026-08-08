@@ -35,7 +35,7 @@ export function ContactForm() {
 
   const fieldClass = (hasError: boolean) =>
     `w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none ${
-      hasError ? "border-rose-500/70 focus:border-rose-500" : "border-line focus:border-lime"
+      hasError ? "border-rose-500/70 focus:border-rose-500" : "border-line focus:border-brand"
     }`;
 
   return (
@@ -122,7 +122,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-lime px-7 text-sm font-semibold text-night transition-colors hover:bg-lime-deep disabled:opacity-60"
+        className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-brand-deep disabled:opacity-60"
       >
         {isSubmitting ? "Sending…" : "Send message"}
         <Send aria-hidden="true" className="h-4 w-4" />

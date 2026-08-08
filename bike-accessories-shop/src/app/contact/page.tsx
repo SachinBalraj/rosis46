@@ -43,18 +43,18 @@ export default function ContactPage() {
         <div aria-hidden="true" className="bg-grid absolute inset-0" />
         <div
           aria-hidden="true"
-          className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-lime/15 blur-[120px]"
+          className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-brand/15 blur-[120px]"
         />
         <div className="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="inline-flex items-center gap-2 rounded-full border border-lime/30 bg-lime/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-lime uppercase">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-lime" />
+          <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
             Get in touch
           </p>
           <h1
             id="contact-hero"
             className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl"
           >
-            We&apos;d love to <span className="text-lime">hear from you.</span>
+            We&apos;d love to <span className="text-brand">hear from you.</span>
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-smoke">
             Order help, sizing advice, partnership ideas — our rider team reads
@@ -91,7 +91,7 @@ export default function ContactPage() {
                   key={detail.label}
                   className="rounded-2xl border border-line bg-carbon p-5"
                 >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-lime/10 text-lime">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
                     <detail.icon aria-hidden="true" className="h-5 w-5" />
                   </span>
                   <h3 className="mt-4 font-semibold text-white">
@@ -118,7 +118,7 @@ export default function ContactPage() {
                 className="bg-grid absolute inset-0 opacity-70"
               />
               <div className="relative flex flex-col items-center gap-3 text-center">
-                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-lime text-night">
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white">
                   <MapPin aria-hidden="true" className="h-7 w-7" />
                 </span>
                 <p className="font-semibold text-white">
@@ -149,13 +149,13 @@ export default function ContactPage() {
             {faqs.map((faq) => (
               <details
                 key={faq.question}
-                className="group rounded-2xl border border-line bg-carbon transition-colors open:border-lime/40"
+                className="group rounded-2xl border border-line bg-carbon transition-colors open:border-brand/40"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold text-white marker:hidden [&::-webkit-details-marker]:hidden">
                   {faq.question}
                   <ChevronDown
                     aria-hidden="true"
-                    className="h-5 w-5 shrink-0 text-lime transition-transform group-open:rotate-180"
+                    className="h-5 w-5 shrink-0 text-brand transition-transform group-open:rotate-180"
                   />
                 </summary>
                 <p className="px-5 pb-5 text-sm leading-relaxed text-smoke">

@@ -28,7 +28,7 @@ export function CartView() {
   if (items.length === 0) {
     return (
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-24 text-center sm:px-6 lg:px-8">
-        <span className="flex h-20 w-20 items-center justify-center rounded-3xl bg-lime/10 text-lime">
+        <span className="flex h-20 w-20 items-center justify-center rounded-3xl bg-brand/10 text-brand">
           <ShoppingCart aria-hidden="true" className="h-10 w-10" />
         </span>
         <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-white">
@@ -40,7 +40,7 @@ export function CartView() {
         </p>
         <Link
           href="/products"
-          className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-lime px-7 text-sm font-semibold text-night transition-colors hover:bg-lime-deep"
+          className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
         >
           Browse products
           <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -62,7 +62,7 @@ export function CartView() {
         </div>
         <Link
           href="/products"
-          className="inline-flex items-center gap-2 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+          className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
         >
           <ArrowLeft aria-hidden="true" className="h-4 w-4" />
           Continue shopping
@@ -86,10 +86,10 @@ export function CartView() {
                     item.accent
                   )}
                 >
-                  <Icon aria-hidden="true" className="h-9 w-9 text-lime" />
+                  <Icon aria-hidden="true" className="h-9 w-9 text-brand" />
                 </span>
                 <div className="flex flex-1 flex-col">
-                  <p className="text-xs font-semibold tracking-widest text-lime uppercase">
+                  <p className="text-xs font-semibold tracking-widest text-brand uppercase">
                     {item.category}
                   </p>
                   <h2 className="font-bold text-white">{item.name}</h2>
@@ -112,7 +112,7 @@ export function CartView() {
                         updateQuantity(item.id, item.quantity - 1)
                       }
                       aria-label={`Decrease quantity of ${item.name}`}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg text-smoke transition-colors hover:text-lime"
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-smoke transition-colors hover:text-brand"
                     >
                       <Minus aria-hidden="true" className="h-4 w-4" />
                     </button>
@@ -129,7 +129,7 @@ export function CartView() {
                       }
                       disabled={atMax}
                       aria-label={`Increase quantity of ${item.name}`}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg text-smoke transition-colors hover:text-lime disabled:cursor-not-allowed disabled:opacity-40"
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-smoke transition-colors hover:text-brand disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       <Plus aria-hidden="true" className="h-4 w-4" />
                     </button>
@@ -173,7 +173,7 @@ export function CartView() {
               <dd
                 className={cn(
                   "font-semibold",
-                  shipping === 0 ? "text-lime" : "text-white"
+                  shipping === 0 ? "text-brand" : "text-white"
                 )}
               >
                 {shipping === 0 ? "Free" : formatPrice(shipping)}
@@ -181,7 +181,7 @@ export function CartView() {
             </div>
             <div className="flex justify-between border-t border-line pt-3 text-base">
               <dt className="font-semibold text-white">Total</dt>
-              <dd className="font-bold text-lime">
+              <dd className="font-bold text-brand">
                 {formatPrice(subtotal + shipping)}
               </dd>
             </div>
@@ -193,13 +193,13 @@ export function CartView() {
           </p>
           <Link
             href="/checkout"
-            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-lime text-sm font-semibold text-night transition-colors hover:bg-lime-deep"
+            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
           >
             Proceed to checkout
             <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </Link>
           <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-smoke">
-            <ShieldCheck aria-hidden="true" className="h-4 w-4 text-lime" />
+            <ShieldCheck aria-hidden="true" className="h-4 w-4 text-brand" />
             Secure checkout via Razorpay
           </p>
           <button

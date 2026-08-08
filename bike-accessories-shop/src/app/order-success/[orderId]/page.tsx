@@ -50,7 +50,7 @@ export default async function OrderSuccessPage({
         <span
           className={
             paid
-              ? "flex h-20 w-20 items-center justify-center rounded-3xl bg-lime/10 text-lime"
+              ? "flex h-20 w-20 items-center justify-center rounded-3xl bg-brand/10 text-brand"
               : "flex h-20 w-20 items-center justify-center rounded-3xl bg-amber-400/10 text-amber-400"
           }
         >
@@ -122,7 +122,7 @@ export default async function OrderSuccessPage({
           </div>
           <div className="flex justify-between border-t border-line pt-3 text-base">
             <dt className="font-semibold text-white">Total</dt>
-            <dd className="font-bold text-lime">
+            <dd className="font-bold text-brand">
               {formatPaise(order.totalInPaise)}
             </dd>
           </div>
@@ -131,7 +131,7 @@ export default async function OrderSuccessPage({
         <div className="flex items-start gap-3 border-t border-line p-6">
           <MapPin
             aria-hidden="true"
-            className="mt-0.5 h-5 w-5 shrink-0 text-lime"
+            className="mt-0.5 h-5 w-5 shrink-0 text-brand"
           />
           <div>
             <p className="text-sm font-semibold text-white">
@@ -142,7 +142,7 @@ export default async function OrderSuccessPage({
         </div>
 
         <div className="flex items-start gap-3 border-t border-line p-6">
-          <Truck aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-lime" />
+          <Truck aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
           <p className="text-sm text-smoke">
             Estimated delivery in 3–5 business days.
           </p>
@@ -152,7 +152,7 @@ export default async function OrderSuccessPage({
       <div className="mt-10 flex flex-col items-center gap-3">
         <Link
           href="/products"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-lime px-7 text-sm font-semibold text-night transition-colors hover:bg-lime-deep"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
         >
           Continue shopping
           <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -160,7 +160,7 @@ export default async function OrderSuccessPage({
         {!paid ? (
           <Link
             href="/cart"
-            className="inline-flex items-center gap-2 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+            className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
           >
             <PackageCheck aria-hidden="true" className="h-4 w-4" />
             Retry payment from your cart

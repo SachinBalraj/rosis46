@@ -188,7 +188,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
       >
         <ol className="mx-auto flex w-full max-w-7xl items-center gap-1.5 px-4 py-3 text-sm text-smoke sm:px-6 lg:px-8">
           <li>
-            <Link href="/" className="hover:text-lime">
+            <Link href="/" className="hover:text-brand">
               Home
             </Link>
           </li>
@@ -196,7 +196,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <ChevronRight className="h-4 w-4" />
           </li>
           <li>
-            <Link href="/products" className="hover:text-lime">
+            <Link href="/products" className="hover:text-brand">
               Products
             </Link>
           </li>
@@ -226,23 +226,23 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   "absolute top-4 left-4 z-10 rounded-full px-3 py-1.5 text-xs font-bold tracking-wide uppercase",
                   product.badge === "Sale"
                     ? "bg-rose-500 text-white"
-                    : "bg-lime text-night"
+                    : "bg-brand text-white"
                 )}
               >
                 {product.badge}
               </span>
             ) : null}
             <div className="flex h-44 w-44 items-center justify-center rounded-3xl bg-night/40 text-white backdrop-blur-sm">
-              <Icon aria-hidden="true" className="h-24 w-24 text-lime" strokeWidth={1.5} />
+              <Icon aria-hidden="true" className="h-24 w-24 text-brand" strokeWidth={1.5} />
             </div>
           </div>
 
           <div className="flex flex-col gap-5">
             <div>
-              <p className="text-xs font-semibold tracking-widest text-lime uppercase">
+              <p className="text-xs font-semibold tracking-widest text-brand uppercase">
                 <Link
                   href={`/products?category=${product.categorySlug}`}
-                  className="hover:text-lime-deep"
+                  className="hover:text-brand-deep"
                 >
                   {product.categoryName}
                 </Link>
@@ -258,7 +258,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 {product.rating !== null ? (
                   <span className="inline-flex items-center gap-1.5">
                     <span className="flex items-center gap-0.5" aria-label={`${product.rating} out of 5 stars`}>
-                      <Star aria-hidden="true" className="h-4 w-4 fill-lime text-lime" />
+                      <Star aria-hidden="true" className="h-4 w-4 fill-brand text-brand" />
                       <span className="font-semibold text-white">
                         {product.rating.toFixed(1)}
                       </span>
@@ -268,7 +268,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     </span>
                   </span>
                 ) : (
-                  <span className="rounded-full border border-lime/30 bg-lime/10 px-3 py-1 text-xs font-semibold text-lime">
+                  <span className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
                     RideReady tested &amp; approved
                   </span>
                 )}
@@ -327,7 +327,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   key={point.title}
                   className="rounded-2xl border border-line bg-carbon p-4"
                 >
-                  <point.icon aria-hidden="true" className="h-5 w-5 text-lime" />
+                  <point.icon aria-hidden="true" className="h-5 w-5 text-brand" />
                   <p className="mt-2 text-sm font-semibold text-white">
                     {point.title}
                   </p>

@@ -33,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-night text-white">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:rounded-xl focus:bg-lime focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-night"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:rounded-xl focus:bg-brand focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
         >
           Skip to main content
         </a>
@@ -47,9 +47,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           richColors
           toastOptions={{
             style: {
-              background: "#111116",
-              border: "1px solid #23232c",
-              color: "#f4f4f5",
+              background: "#171717",
+              border: "1px solid #2a2a2a",
+              color: "#ffffff",
             },
           }}
         />

@@ -104,15 +104,15 @@ export default async function AdminDashboardPage() {
           <Link
             key={stat.label}
             href={stat.href}
-            className="group rounded-2xl border border-line bg-carbon p-5 transition-colors hover:border-lime/40"
+            className="group rounded-2xl border border-line bg-carbon p-5 transition-colors hover:border-brand/40"
           >
             <div className="flex items-center justify-between">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-lime/10 text-lime">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
                 <stat.icon aria-hidden="true" className="h-5 w-5" />
               </span>
               <ArrowRight
                 aria-hidden="true"
-                className="h-4 w-4 text-smoke transition-transform group-hover:translate-x-0.5 group-hover:text-lime"
+                className="h-4 w-4 text-smoke transition-transform group-hover:translate-x-0.5 group-hover:text-brand"
               />
             </div>
             <p className="mt-4 text-2xl font-extrabold tracking-tight text-white">
@@ -129,7 +129,7 @@ export default async function AdminDashboardPage() {
             <h2 className="font-bold text-white">Recent orders</h2>
             <Link
               href="/admin/orders"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
             >
               View all
               <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -178,7 +178,7 @@ export default async function AdminDashboardPage() {
               </h2>
               <Link
                 href="/admin/products?status=low-stock"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
               >
                 All
                 <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -214,7 +214,7 @@ export default async function AdminDashboardPage() {
 
           <div className="rounded-2xl border border-line bg-carbon p-6">
             <h2 className="flex items-center gap-2 font-bold text-white">
-              <Tags aria-hidden="true" className="h-4 w-4 text-lime" />
+              <Tags aria-hidden="true" className="h-4 w-4 text-brand" />
               Categories
             </h2>
             <p className="mt-1 text-sm text-smoke">
@@ -223,7 +223,7 @@ export default async function AdminDashboardPage() {
             </p>
             <Link
               href="/admin/categories"
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
             >
               Manage categories
               <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -232,7 +232,7 @@ export default async function AdminDashboardPage() {
 
           <div className="rounded-2xl border border-line bg-carbon p-6">
             <h2 className="flex items-center gap-2 font-bold text-white">
-              <PackageX aria-hidden="true" className="h-4 w-4 text-lime" />
+              <PackageX aria-hidden="true" className="h-4 w-4 text-brand" />
               Products
             </h2>
             <p className="mt-1 text-sm text-smoke">
@@ -240,7 +240,7 @@ export default async function AdminDashboardPage() {
             </p>
             <Link
               href="/admin/products/new"
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-lime transition-colors hover:text-lime-deep"
+              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
             >
               Add a product
               <ArrowRight aria-hidden="true" className="h-4 w-4" />

@@ -66,18 +66,18 @@ export default async function AccountPage() {
         <div aria-hidden="true" className="bg-grid absolute inset-0" />
         <div
           aria-hidden="true"
-          className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-lime/15 blur-[120px]"
+          className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-brand/15 blur-[120px]"
         />
         <div className="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="inline-flex items-center gap-2 rounded-full border border-lime/30 bg-lime/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-lime uppercase">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-lime" />
+          <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
             Your account
           </p>
           <h1
             id="account-hero"
             className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl"
           >
-            Your rides, <span className="text-lime">your gear.</span>
+            Your rides, <span className="text-brand">your gear.</span>
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-smoke">
             {user
@@ -125,7 +125,7 @@ export default async function AccountPage() {
                     key={benefit.title}
                     className="flex items-start gap-4 rounded-2xl border border-line bg-carbon p-5"
                   >
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-lime/10 text-lime">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand">
                       <benefit.icon aria-hidden="true" className="h-5 w-5" />
                     </span>
                     <div>
@@ -140,7 +140,7 @@ export default async function AccountPage() {
               <p className="mt-6 flex items-start gap-2 text-sm text-smoke">
                 <CheckCircle2
                   aria-hidden="true"
-                  className="mt-0.5 h-4 w-4 shrink-0 text-lime"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-brand"
                 />
                 No spam, ever. Your data stays yours — we never sell it.
               </p>

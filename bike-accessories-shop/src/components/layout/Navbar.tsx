@@ -36,7 +36,7 @@ export function Navbar() {
           className="flex items-center gap-2 text-lg font-bold tracking-tight text-white"
           aria-label="RideReady home"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-lime text-night">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white">
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -63,9 +63,9 @@ export function Navbar() {
                 href={link.href}
                 aria-current={isActive(link.href) ? "page" : undefined}
                 className={cn(
-                  "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
+                  "link-underline rounded-lg px-4 py-2 text-sm font-medium transition-colors",
                   isActive(link.href)
-                    ? "text-lime"
+                    ? "text-white"
                     : "text-smoke hover:text-white"
                 )}
               >
@@ -80,7 +80,7 @@ export function Navbar() {
             href="/account"
             aria-label="Account"
             className={cn(
-              "hidden h-10 w-10 items-center justify-center rounded-xl border border-line bg-carbon text-smoke transition-colors hover:text-lime sm:flex"
+              "hidden h-10 w-10 items-center justify-center rounded-xl border border-line bg-carbon text-smoke transition-all hover:border-brand/50 hover:text-brand sm:flex"
             )}
           >
             <User aria-hidden="true" className="h-5 w-5" />
@@ -89,13 +89,13 @@ export function Navbar() {
             href="/cart"
             aria-label={`Cart with ${itemCount} item${itemCount === 1 ? "" : "s"}`}
             className={cn(
-              "relative flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-carbon text-smoke transition-colors hover:text-lime",
-              pathname === "/cart" && "text-lime"
+              "relative flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-carbon text-smoke transition-all hover:border-brand/50 hover:text-brand",
+              pathname === "/cart" && "border-brand/50 text-brand"
             )}
           >
             <ShoppingCart aria-hidden="true" className="h-5 w-5" />
             {itemCount > 0 ? (
-              <span className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-lime px-1 text-[11px] font-bold text-night">
+              <span className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1 text-[11px] font-bold text-white">
                 {itemCount}
               </span>
             ) : null}
