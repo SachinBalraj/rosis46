@@ -88,18 +88,21 @@ export function AccountForms() {
 
   const inputClass = (hasError: boolean) =>
     cn(
-      "w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none",
+      "w-full border bg-white px-4 py-3 text-sm text-foreground placeholder:text-smoke focus:outline-none",
       hasError
-        ? "border-rose-500/70 focus:border-rose-500"
-        : "border-line focus:border-brand"
+        ? "border-rose-500 focus:border-rose-500 focus:ring-1 focus:ring-rose-500"
+        : "border-line focus:border-brand focus:ring-1 focus:ring-brand"
     );
 
+  const labelClass =
+    "mb-2 block text-xs font-semibold tracking-widest text-foreground uppercase";
+
   return (
-    <div className="rounded-3xl border border-line bg-carbon p-6 sm:p-8">
+    <div className="border border-line bg-white p-6 sm:p-8">
       <div
         role="tablist"
         aria-label="Account access"
-        className="mb-6 grid grid-cols-2 gap-1 rounded-xl border border-line bg-night p-1"
+        className="mb-6 grid grid-cols-2 gap-0 border border-line"
       >
         {(
           [
@@ -114,10 +117,10 @@ export function AccountForms() {
             aria-selected={mode === tab.value}
             onClick={() => setMode(tab.value)}
             className={cn(
-              "rounded-lg py-2.5 text-sm font-semibold transition-colors",
+              "border-b-2 py-3 text-sm font-semibold tracking-widest uppercase transition-colors",
               mode === tab.value
-                ? "bg-brand text-white"
-                : "text-smoke hover:text-white"
+                ? "border-brand bg-brand/5 text-brand"
+                : "border-transparent text-smoke hover:text-foreground"
             )}
           >
             {tab.label}
@@ -132,7 +135,7 @@ export function AccountForms() {
           className="space-y-5"
         >
           <div>
-            <label htmlFor="account-name" className="mb-2 block text-sm font-medium text-white">
+            <label htmlFor="account-name" className={labelClass}>
               Full name
             </label>
             <input
@@ -145,13 +148,13 @@ export function AccountForms() {
               {...registerForm.register("name")}
             />
             {registerForm.formState.errors.name ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-400">
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {registerForm.formState.errors.name.message}
               </p>
             ) : null}
           </div>
           <div>
-            <label htmlFor="register-email" className="mb-2 block text-sm font-medium text-white">
+            <label htmlFor="register-email" className={labelClass}>
               Email
             </label>
             <input
@@ -164,13 +167,13 @@ export function AccountForms() {
               {...registerForm.register("email")}
             />
             {registerForm.formState.errors.email ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-400">
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {registerForm.formState.errors.email.message}
               </p>
             ) : null}
           </div>
           <div>
-            <label htmlFor="register-password" className="mb-2 block text-sm font-medium text-white">
+            <label htmlFor="register-password" className={labelClass}>
               Password
             </label>
             <input
@@ -183,7 +186,7 @@ export function AccountForms() {
               {...registerForm.register("password")}
             />
             {registerForm.formState.errors.password ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-400">
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {registerForm.formState.errors.password.message}
               </p>
             ) : null}
@@ -191,7 +194,7 @@ export function AccountForms() {
           <button
             type="submit"
             disabled={registerForm.formState.isSubmitting}
-            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-deep disabled:opacity-60"
+            className="inline-flex h-12 w-full items-center justify-center gap-2 bg-brand text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep disabled:opacity-60"
           >
             {registerForm.formState.isSubmitting ? (
               <>
@@ -210,7 +213,7 @@ export function AccountForms() {
           className="space-y-5"
         >
           <div>
-            <label htmlFor="signin-email" className="mb-2 block text-sm font-medium text-white">
+            <label htmlFor="signin-email" className={labelClass}>
               Email
             </label>
             <input
@@ -223,13 +226,13 @@ export function AccountForms() {
               {...signInForm.register("email")}
             />
             {signInForm.formState.errors.email ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-400">
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {signInForm.formState.errors.email.message}
               </p>
             ) : null}
           </div>
           <div>
-            <label htmlFor="signin-password" className="mb-2 block text-sm font-medium text-white">
+            <label htmlFor="signin-password" className={labelClass}>
               Password
             </label>
             <input
@@ -242,7 +245,7 @@ export function AccountForms() {
               {...signInForm.register("password")}
             />
             {signInForm.formState.errors.password ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-400">
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {signInForm.formState.errors.password.message}
               </p>
             ) : null}
@@ -250,7 +253,7 @@ export function AccountForms() {
           <button
             type="submit"
             disabled={signInForm.formState.isSubmitting}
-            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-deep disabled:opacity-60"
+            className="inline-flex h-12 w-full items-center justify-center gap-2 bg-brand text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep disabled:opacity-60"
           >
             {signInForm.formState.isSubmitting ? (
               <>

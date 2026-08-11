@@ -55,16 +55,18 @@ export function AccountDashboard({
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="rounded-3xl border border-line bg-carbon p-6 sm:p-8">
+      <div className="border border-line-dark bg-night p-6 text-white sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand text-2xl font-extrabold text-white">
+            <span className="flex h-16 w-16 items-center justify-center bg-brand font-display text-2xl font-bold text-white">
               {initial}
             </span>
             <div>
-              <p className="text-xl font-bold text-white">{user.name}</p>
+              <p className="font-display text-xl font-semibold tracking-wide uppercase">
+                {user.name}
+              </p>
               <p className="mt-0.5 text-sm text-smoke">{user.email}</p>
-              <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
+              <span className="mt-2 inline-flex items-center gap-1.5 border border-brand/40 bg-brand/10 px-3 py-1 text-xs font-semibold text-brand uppercase">
                 <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
                 {isAdmin ? "Administrator" : "Member"}
               </span>
@@ -75,7 +77,7 @@ export function AccountDashboard({
             {isAdmin ? (
               <Link
                 href="/admin"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-brand/40 bg-brand/10 px-5 text-sm font-semibold text-brand transition-colors hover:bg-brand/20"
+                className="inline-flex h-11 items-center justify-center gap-2 border border-brand bg-brand px-5 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
               >
                 <LayoutDashboard aria-hidden="true" className="h-4 w-4" />
                 Admin console
@@ -85,7 +87,7 @@ export function AccountDashboard({
               type="button"
               onClick={onSignOut}
               disabled={signingOut}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-line px-5 text-sm font-semibold text-smoke transition-colors hover:border-rose-400/40 hover:text-rose-400 disabled:opacity-60"
+              className="inline-flex h-11 items-center justify-center gap-2 border border-line-dark px-5 text-sm font-semibold tracking-widest text-smoke uppercase transition-colors hover:border-rose-400 hover:text-rose-400 disabled:opacity-60"
             >
               <LogOut aria-hidden="true" className="h-4 w-4" />
               {signingOut ? "Signing out…" : "Sign out"}
@@ -97,7 +99,8 @@ export function AccountDashboard({
       <div className="mt-10">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-extrabold tracking-tight text-white">
+            <p className="eyebrow">History</p>
+            <h2 className="display-heading mt-3 text-3xl text-foreground sm:text-4xl">
               Order history
             </h2>
             <p className="mt-1 text-sm text-smoke">
@@ -116,11 +119,11 @@ export function AccountDashboard({
         </div>
 
         {orders.length === 0 ? (
-          <div className="mt-6 flex flex-col items-center rounded-3xl border border-dashed border-line bg-carbon/60 px-6 py-16 text-center">
-            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
+          <div className="mt-6 flex flex-col items-center border border-dashed border-line bg-white px-6 py-16 text-center">
+            <span className="flex h-16 w-16 items-center justify-center border border-line bg-white text-brand">
               <Package aria-hidden="true" className="h-8 w-8" />
             </span>
-            <h3 className="mt-6 text-lg font-bold text-white">
+            <h3 className="mt-6 font-display text-lg font-semibold tracking-wide uppercase">
               No orders yet
             </h3>
             <p className="mt-2 max-w-sm text-sm text-smoke">
@@ -129,19 +132,19 @@ export function AccountDashboard({
             </p>
             <Link
               href="/products"
-              className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
+              className="mt-6 inline-flex h-11 items-center justify-center gap-2 bg-brand px-6 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
             >
               Browse products
               <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </div>
         ) : (
-          <ul className="mt-6 flex flex-col gap-3">
+          <ul className="mt-6 flex flex-col gap-px border border-line bg-line">
             {orders.map((order) => (
-              <li key={order.id}>
+              <li key={order.id} className="bg-white">
                 <Link
                   href={`/account/orders/${order.id}`}
-                  className="group flex flex-col gap-4 rounded-2xl border border-line bg-carbon p-5 transition-colors hover:border-brand/40 sm:flex-row sm:items-center"
+                  className="group flex flex-col gap-4 p-5 transition-colors hover:bg-carbon-soft sm:flex-row sm:items-center"
                 >
                   <div className="flex flex-1 flex-col">
                     <p className="font-mono text-sm text-smoke">
@@ -164,7 +167,7 @@ export function AccountDashboard({
                   </div>
 
                   <div className="flex items-center justify-between gap-3 sm:justify-end">
-                    <p className="font-bold text-white">
+                    <p className="font-display font-bold text-foreground">
                       {formatPaise(order.totalInPaise)}
                     </p>
                     <ChevronRight

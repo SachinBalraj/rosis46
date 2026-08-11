@@ -80,7 +80,7 @@ export function ProductCatalog({
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-4 border-b border-line pb-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="relative w-full max-w-md">
             <Search
               aria-hidden="true"
@@ -95,7 +95,7 @@ export function ProductCatalog({
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search helmets, gloves, locks…"
-              className="h-12 w-full rounded-xl border border-line bg-carbon pl-12 pr-4 text-sm text-white placeholder:text-smoke focus:border-brand focus:outline-none"
+              className="h-12 w-full border border-line bg-white pl-12 pr-4 text-sm text-foreground placeholder:text-smoke focus:border-brand focus:outline-none"
             />
           </div>
 
@@ -113,7 +113,7 @@ export function ProductCatalog({
               onChange={(event) =>
                 update(() => setSort(event.target.value as SortOption))
               }
-              className="h-12 rounded-xl border border-line bg-carbon px-4 text-sm text-white focus:border-brand focus:outline-none"
+              className="h-12 border border-line bg-white px-4 text-sm text-foreground focus:border-brand focus:outline-none"
             >
               {sortOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -131,15 +131,13 @@ export function ProductCatalog({
         >
           <button
             type="button"
-            onClick={() =>
-              update(() => setCategory("all"))
-            }
+            onClick={() => update(() => setCategory("all"))}
             aria-pressed={category === "all"}
             className={cn(
-              "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+              "border px-4 py-2 text-sm font-semibold tracking-widest uppercase transition-colors",
               category === "all"
                 ? "border-brand bg-brand text-white"
-                : "border-line bg-carbon text-smoke hover:text-white"
+                : "border-line text-smoke hover:border-brand hover:text-brand"
             )}
           >
             All
@@ -151,10 +149,10 @@ export function ProductCatalog({
               onClick={() => update(() => setCategory(item.slug))}
               aria-pressed={category === item.slug}
               className={cn(
-                "rounded-full border px-4 py-2 text-sm font-medium capitalize transition-colors",
+                "border px-4 py-2 text-sm font-semibold tracking-widest uppercase transition-colors",
                 category === item.slug
                   ? "border-brand bg-brand text-white"
-                  : "border-line bg-carbon text-smoke hover:text-white"
+                  : "border-line text-smoke hover:border-brand hover:text-brand"
               )}
             >
               {item.label}
@@ -166,7 +164,10 @@ export function ProductCatalog({
       <div className="mt-10" aria-live="polite" aria-busy={isPending}>
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-smoke" role="status">
-            Showing <span className="font-semibold text-white">{isPending ? "…" : filtered.length}</span>{" "}
+            Showing{" "}
+            <span className="font-semibold text-foreground">
+              {isPending ? "…" : filtered.length}
+            </span>{" "}
             {filtered.length === 1 ? "product" : "products"}
             {hasFilters ? " matching your filters" : ""}
           </p>
@@ -174,7 +175,7 @@ export function ProductCatalog({
             <button
               type="button"
               onClick={resetFilters}
-              className="inline-flex items-center gap-1.5 rounded-lg text-sm font-medium text-brand hover:text-brand-deep"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:text-brand-deep"
             >
               <X aria-hidden="true" className="h-4 w-4" />
               Clear filters
@@ -187,11 +188,11 @@ export function ProductCatalog({
         ) : filtered.length > 0 ? (
           <ProductGrid products={filtered} />
         ) : (
-          <div className="flex flex-col items-center rounded-2xl border border-dashed border-line bg-carbon/50 px-6 py-20 text-center">
-            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
+          <div className="flex flex-col items-center border border-dashed border-line bg-carbon-soft/60 px-6 py-20 text-center">
+            <span className="flex h-16 w-16 items-center justify-center border border-line bg-white text-brand">
               <PackageSearch aria-hidden="true" className="h-8 w-8" />
             </span>
-            <h2 className="mt-6 text-xl font-bold text-white">
+            <h2 className="mt-6 font-display text-xl font-bold tracking-wide uppercase">
               No products found
             </h2>
             <p className="mt-2 max-w-sm text-sm text-smoke">
@@ -201,7 +202,7 @@ export function ProductCatalog({
             <button
               type="button"
               onClick={resetFilters}
-              className="mt-6 inline-flex h-11 items-center justify-center rounded-xl border border-brand/60 px-6 text-sm font-semibold text-brand transition-colors hover:bg-brand/10"
+              className="mt-6 inline-flex h-11 items-center justify-center border border-brand px-6 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:bg-brand hover:text-white"
             >
               Clear all filters
             </button>

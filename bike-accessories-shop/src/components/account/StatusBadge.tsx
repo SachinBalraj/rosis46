@@ -3,27 +3,27 @@ import { cn } from "@/lib/utils";
 const orderStatusStyles: Record<string, { label: string; className: string }> = {
   PENDING: {
     label: "Pending",
-    className: "border-amber-400/30 bg-amber-400/10 text-amber-400",
+    className: "border-brand/40 bg-brand/10 text-brand",
   },
   CONFIRMED: {
     label: "Confirmed",
-    className: "border-sky-400/30 bg-sky-400/10 text-sky-400",
+    className: "border-brand/50 bg-brand/10 text-brand",
   },
   PROCESSING: {
     label: "Processing",
-    className: "border-violet-400/30 bg-violet-400/10 text-violet-400",
+    className: "border-brand bg-brand/15 text-brand-deep",
   },
   SHIPPED: {
     label: "Shipped",
-    className: "border-brand/30 bg-brand/10 text-brand",
+    className: "border-brand bg-brand text-white",
   },
   DELIVERED: {
     label: "Delivered",
-    className: "border-emerald-400/30 bg-emerald-400/10 text-emerald-400",
+    className: "border-emerald-600/40 bg-emerald-50 text-emerald-700",
   },
   CANCELLED: {
     label: "Cancelled",
-    className: "border-rose-400/30 bg-rose-400/10 text-rose-400",
+    className: "border-rose-500/40 bg-rose-50 text-rose-600",
   },
 };
 
@@ -33,31 +33,31 @@ const paymentStatusStyles: Record<
 > = {
   PENDING: {
     label: "Payment pending",
-    className: "border-amber-400/30 bg-amber-400/10 text-amber-400",
+    className: "border-brand/40 bg-brand/10 text-brand",
   },
   PAID: {
     label: "Paid",
-    className: "border-emerald-400/30 bg-emerald-400/10 text-emerald-400",
+    className: "border-emerald-600/40 bg-emerald-50 text-emerald-700",
   },
   FAILED: {
     label: "Payment failed",
-    className: "border-rose-400/30 bg-rose-400/10 text-rose-400",
+    className: "border-rose-500/40 bg-rose-50 text-rose-600",
   },
   REFUNDED: {
     label: "Refunded",
-    className: "border-sky-400/30 bg-sky-400/10 text-sky-400",
+    className: "border-foreground bg-carbon-soft text-foreground",
   },
 };
 
-export function OrderStatusBadge({ status }: { status: string }) {
-  const config = orderStatusStyles[status] ?? {
+function Badge({ status, styles }: { status: string; styles: Record<string, { label: string; className: string }> }) {
+  const config = styles[status] ?? {
     label: status,
-    className: "border-line bg-carbon-soft text-smoke",
+    className: "border-line bg-carbon-soft text-foreground",
   };
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold",
+        "inline-flex items-center border px-3 py-1 text-xs font-semibold tracking-wide uppercase",
         config.className
       )}
     >
@@ -66,19 +66,10 @@ export function OrderStatusBadge({ status }: { status: string }) {
   );
 }
 
+export function OrderStatusBadge({ status }: { status: string }) {
+  return <Badge status={status} styles={orderStatusStyles} />;
+}
+
 export function PaymentStatusBadge({ status }: { status: string }) {
-  const config = paymentStatusStyles[status] ?? {
-    label: status,
-    className: "border-line bg-carbon-soft text-smoke",
-  };
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold",
-        config.className
-      )}
-    >
-      {config.label}
-    </span>
-  );
+  return <Badge status={status} styles={paymentStatusStyles} />;
 }

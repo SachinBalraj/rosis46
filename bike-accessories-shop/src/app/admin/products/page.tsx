@@ -83,9 +83,7 @@ export default async function AdminProductsPage({
     <div>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-extrabold tracking-tight text-white">
-            Products
-          </h2>
+          <h2 className="display-heading text-3xl text-foreground">Products</h2>
           <p className="mt-1 text-sm text-smoke">
             {products.length} product{products.length === 1 ? "" : "s"}
             {query ? ` matching “${query}”` : ""}
@@ -113,7 +111,7 @@ export default async function AdminProductsPage({
             name="q"
             defaultValue={query ?? ""}
             placeholder="Search products…"
-            className="w-full rounded-xl border border-line bg-carbon py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-smoke focus:border-brand focus:outline-none"
+            className="w-full border border-line bg-white py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-smoke focus:border-brand focus:outline-none"
           />
         </div>
         {category ? (
@@ -124,7 +122,7 @@ export default async function AdminProductsPage({
         ) : null}
         <button
           type="submit"
-          className="inline-flex h-10 shrink-0 items-center rounded-xl bg-brand px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
+          className="inline-flex h-10 shrink-0 items-center bg-brand px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
         >
           Search
         </button>
@@ -140,7 +138,7 @@ export default async function AdminProductsPage({
             href={pillHref("status", filter.value)}
             aria-current={activeStatus === filter.value ? "page" : undefined}
             className={cn(
-              "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
+              "border px-3.5 py-1.5 text-xs font-semibold transition-colors",
               activeStatus === filter.value
                 ? "border-brand bg-brand text-white"
                 : "border-line text-smoke hover:border-brand/40 hover:text-brand"
@@ -157,7 +155,7 @@ export default async function AdminProductsPage({
           href={pillHref("category", "")}
           aria-current={!category ? "page" : undefined}
           className={cn(
-            "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
+            "border px-3.5 py-1.5 text-xs font-semibold transition-colors",
             !category
               ? "border-brand bg-brand text-white"
               : "border-line text-smoke hover:border-brand/40 hover:text-brand"
@@ -171,7 +169,7 @@ export default async function AdminProductsPage({
             href={pillHref("category", cat.slug)}
             aria-current={category === cat.slug ? "page" : undefined}
             className={cn(
-              "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
+              "border px-3.5 py-1.5 text-xs font-semibold transition-colors",
               category === cat.slug
                 ? "border-brand bg-brand text-white"
                 : "border-line text-smoke hover:border-brand/40 hover:text-brand"
@@ -183,8 +181,10 @@ export default async function AdminProductsPage({
       </div>
 
       {products.length === 0 ? (
-        <div className="mt-8 flex flex-col items-center rounded-3xl border border-dashed border-line bg-carbon/60 px-6 py-16 text-center">
-          <p className="text-lg font-bold text-white">No products found</p>
+        <div className="mt-8 flex flex-col items-center border border-dashed border-line bg-white px-6 py-16 text-center">
+          <p className="font-display text-lg font-semibold text-foreground uppercase">
+            No products found
+          </p>
           <p className="mt-2 max-w-sm text-sm text-smoke">
             Try adjusting your filters or add a new product to the catalogue.
           </p>
@@ -194,10 +194,10 @@ export default async function AdminProductsPage({
           </Button>
         </div>
       ) : (
-        <div className="mt-6 overflow-x-auto rounded-2xl border border-line bg-carbon">
+        <div className="mt-6 overflow-x-auto border border-line bg-white">
           <table className="w-full min-w-[880px] text-left text-sm">
             <thead>
-              <tr className="border-b border-line text-xs font-semibold tracking-widest text-smoke uppercase">
+              <tr className="border-b border-line bg-carbon-soft text-xs font-semibold tracking-widest text-smoke uppercase">
                 <th className="px-6 py-4">Product</th>
                 <th className="px-6 py-4">Category</th>
                 <th className="px-6 py-4">Price</th>
@@ -211,7 +211,10 @@ export default async function AdminProductsPage({
                 const price = product.salePriceInPaise ?? product.priceInPaise;
                 const onSale = product.salePriceInPaise !== null;
                 return (
-                  <tr key={product.id} className="transition-colors hover:bg-carbon-soft/60">
+                  <tr
+                    key={product.id}
+                    className="transition-colors hover:bg-carbon-soft"
+                  >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         {product.imageUrl ? (
@@ -219,18 +222,18 @@ export default async function AdminProductsPage({
                           <img
                             src={product.imageUrl}
                             alt=""
-                            className="h-12 w-12 shrink-0 rounded-xl border border-line bg-night object-cover"
+                            className="h-12 w-12 shrink-0 border border-line bg-carbon-soft object-cover"
                             onError={(event) => {
                               event.currentTarget.style.display = "none";
                             }}
                           />
                         ) : (
-                          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-xs font-bold text-brand">
+                          <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-brand/10 text-xs font-bold text-brand">
                             {product.name.slice(0, 2).toUpperCase()}
                           </span>
                         )}
                         <div className="min-w-0">
-                          <p className="truncate font-semibold text-white">
+                          <p className="truncate font-semibold text-foreground">
                             {product.name}
                           </p>
                           <p className="truncate font-mono text-xs text-smoke">
@@ -242,13 +245,13 @@ export default async function AdminProductsPage({
                     <td className="px-6 py-4">
                       <Link
                         href={pillHref("category", product.category.slug)}
-                        className="rounded-full border border-line bg-night px-3 py-1 text-xs font-semibold text-smoke transition-colors hover:border-brand/40 hover:text-brand"
+                        className="border border-line bg-carbon-soft px-3 py-1 text-xs font-semibold text-foreground transition-colors hover:border-brand/40 hover:text-brand"
                       >
                         {product.category.name}
                       </Link>
                     </td>
                     <td className="px-6 py-4">
-                      <p className="font-semibold text-white">
+                      <p className="font-semibold text-foreground">
                         {formatPaise(price)}
                       </p>
                       {onSale ? (
@@ -261,10 +264,10 @@ export default async function AdminProductsPage({
                       <span
                         className={
                           product.stock === 0
-                            ? "font-semibold text-rose-400"
+                            ? "font-semibold text-rose-600"
                             : product.stock <= 5
-                              ? "font-semibold text-amber-400"
-                              : "font-semibold text-white"
+                              ? "font-semibold text-brand-deep"
+                              : "font-semibold text-foreground"
                         }
                       >
                         {product.stock}
@@ -275,14 +278,14 @@ export default async function AdminProductsPage({
                         <span
                           className={
                             product.active
-                              ? "inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-400"
-                              : "inline-flex items-center rounded-full border border-line bg-carbon-soft px-3 py-1 text-xs font-semibold text-smoke"
+                              ? "inline-flex items-center border border-emerald-600/40 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
+                              : "inline-flex items-center border border-line bg-carbon-soft px-3 py-1 text-xs font-semibold text-smoke"
                           }
                         >
                           {product.active ? "Active" : "Hidden"}
                         </span>
                         {product.active && product.stock === 0 ? (
-                          <span className="rounded-full border border-rose-400/30 bg-rose-400/10 px-3 py-1 text-xs font-semibold text-rose-400">
+                          <span className="border border-rose-500/40 bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-600">
                             Out of stock
                           </span>
                         ) : null}

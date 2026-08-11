@@ -64,20 +64,20 @@ export function ConfirmDialog({
         aria-modal="true"
         aria-labelledby="confirm-dialog-title"
         aria-describedby="confirm-dialog-description"
-        className="relative w-full max-w-md rounded-3xl border border-line bg-carbon p-6 shadow-2xl sm:p-8"
+        className="relative w-full max-w-md border border-line-dark bg-white p-6 shadow-2xl sm:p-8"
       >
         <span
           className={
             danger
-              ? "flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500/10 text-rose-400"
-              : "flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand"
+              ? "flex h-12 w-12 items-center justify-center bg-rose-500/10 text-rose-500"
+              : "flex h-12 w-12 items-center justify-center bg-brand/10 text-brand"
           }
         >
           <AlertTriangle aria-hidden="true" className="h-6 w-6" />
         </span>
         <h2
           id="confirm-dialog-title"
-          className="mt-5 text-xl font-extrabold tracking-tight text-white"
+          className="mt-5 font-display text-xl font-semibold tracking-wide text-foreground uppercase"
         >
           {title}
         </h2>
@@ -104,7 +104,7 @@ export function ConfirmDialog({
             disabled={loading || confirmDisabled}
             className={
               danger && !confirmDisabled
-                ? "bg-rose-500 text-white hover:bg-rose-400"
+                ? "bg-rose-500 text-white hover:bg-rose-600"
                 : undefined
             }
           >

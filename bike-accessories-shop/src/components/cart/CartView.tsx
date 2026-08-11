@@ -28,10 +28,10 @@ export function CartView() {
   if (items.length === 0) {
     return (
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-24 text-center sm:px-6 lg:px-8">
-        <span className="flex h-20 w-20 items-center justify-center rounded-3xl bg-brand/10 text-brand">
+        <span className="flex h-20 w-20 items-center justify-center border border-line bg-white text-brand">
           <ShoppingCart aria-hidden="true" className="h-10 w-10" />
         </span>
-        <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-white">
+        <h1 className="display-heading mt-8 text-4xl text-foreground">
           Your cart is empty
         </h1>
         <p className="mt-3 max-w-md text-smoke">
@@ -40,7 +40,7 @@ export function CartView() {
         </p>
         <Link
           href="/products"
-          className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
+          className="mt-8 inline-flex h-12 items-center justify-center gap-2 bg-brand px-7 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
         >
           Browse products
           <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -53,7 +53,8 @@ export function CartView() {
     <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white">
+          <p className="eyebrow">Your selection</p>
+          <h1 className="display-heading mt-3 text-4xl text-foreground sm:text-5xl">
             Your cart
           </h1>
           <p className="mt-2 text-sm text-smoke">
@@ -69,31 +70,32 @@ export function CartView() {
         </Link>
       </div>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
-        <ul className="flex flex-col gap-4">
+      <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_360px]">
+        <ul className="flex flex-col gap-px border border-line bg-line">
           {items.map((item) => {
             const Icon = iconMap[item.icon] ?? ShoppingCart;
-            const atMax =
-              item.stock !== null && item.quantity >= item.stock;
+            const atMax = item.stock !== null && item.quantity >= item.stock;
             return (
               <li
                 key={item.id}
-                className="flex flex-col gap-4 rounded-2xl border border-line bg-carbon p-4 sm:flex-row sm:items-center"
+                className="flex flex-col gap-4 bg-white p-5 sm:flex-row sm:items-center"
               >
                 <span
                   className={cn(
-                    "flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br",
+                    "flex h-20 w-20 shrink-0 items-center justify-center border border-line bg-gradient-to-br",
                     item.accent
                   )}
                 >
                   <Icon aria-hidden="true" className="h-9 w-9 text-brand" />
                 </span>
                 <div className="flex flex-1 flex-col">
-                  <p className="text-xs font-semibold tracking-widest text-brand uppercase">
+                  <p className="text-[11px] font-semibold tracking-[0.25em] text-brand uppercase">
                     {item.category}
                   </p>
-                  <h2 className="font-bold text-white">{item.name}</h2>
-                  <p className="mt-1 text-sm font-semibold text-white">
+                  <h2 className="font-display text-lg font-semibold tracking-wide text-foreground uppercase">
+                    {item.name}
+                  </h2>
+                  <p className="mt-1 text-sm font-semibold text-foreground">
                     {formatPrice(item.price)}{" "}
                     <span className="font-normal text-smoke">each</span>
                   </p>
@@ -105,37 +107,33 @@ export function CartView() {
                 </div>
 
                 <div className="flex items-center justify-between gap-4 sm:justify-end">
-                  <div className="flex items-center gap-1 rounded-xl border border-line bg-night p-1">
+                  <div className="flex items-center border border-line bg-white">
                     <button
                       type="button"
-                      onClick={() =>
-                        updateQuantity(item.id, item.quantity - 1)
-                      }
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
                       aria-label={`Decrease quantity of ${item.name}`}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg text-smoke transition-colors hover:text-brand"
+                      className="flex h-10 w-10 items-center justify-center border-r border-line text-smoke transition-colors hover:text-brand"
                     >
                       <Minus aria-hidden="true" className="h-4 w-4" />
                     </button>
                     <span
                       aria-live="polite"
-                      className="w-8 text-center text-sm font-semibold text-white"
+                      className="w-10 text-center text-sm font-semibold text-foreground"
                     >
                       {item.quantity}
                     </span>
                     <button
                       type="button"
-                      onClick={() =>
-                        updateQuantity(item.id, item.quantity + 1)
-                      }
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
                       disabled={atMax}
                       aria-label={`Increase quantity of ${item.name}`}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg text-smoke transition-colors hover:text-brand disabled:cursor-not-allowed disabled:opacity-40"
+                      className="flex h-10 w-10 items-center justify-center border-l border-line text-smoke transition-colors hover:text-brand disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       <Plus aria-hidden="true" className="h-4 w-4" />
                     </button>
                   </div>
 
-                  <p className="w-24 text-right font-bold text-white">
+                  <p className="w-24 text-right font-display font-bold text-foreground">
                     {formatPrice(item.price * item.quantity)}
                   </p>
 
@@ -146,7 +144,7 @@ export function CartView() {
                       toast.success(`${item.name} removed from cart`);
                     }}
                     aria-label={`Remove ${item.name} from cart`}
-                    className="flex h-10 w-10 items-center justify-center rounded-xl text-smoke transition-colors hover:bg-rose-500/10 hover:text-rose-400"
+                    className="flex h-10 w-10 items-center justify-center text-smoke transition-colors hover:bg-rose-50 hover:text-rose-500"
                   >
                     <Trash2 aria-hidden="true" className="h-5 w-5" />
                   </button>
@@ -158,9 +156,11 @@ export function CartView() {
 
         <aside
           aria-label="Order summary"
-          className="h-fit rounded-2xl border border-line bg-carbon p-6"
+          className="h-fit border border-line-dark bg-night p-6 text-white"
         >
-          <h2 className="text-lg font-bold text-white">Order summary</h2>
+          <h2 className="font-display text-lg font-semibold tracking-widest uppercase">
+            Order summary
+          </h2>
           <dl className="mt-5 space-y-3 text-sm">
             <div className="flex justify-between">
               <dt className="text-smoke">Subtotal</dt>
@@ -179,9 +179,9 @@ export function CartView() {
                 {shipping === 0 ? "Free" : formatPrice(shipping)}
               </dd>
             </div>
-            <div className="flex justify-between border-t border-line pt-3 text-base">
+            <div className="flex justify-between border-t border-line-dark pt-3 text-base">
               <dt className="font-semibold text-white">Total</dt>
-              <dd className="font-bold text-brand">
+              <dd className="font-display font-bold text-brand">
                 {formatPrice(subtotal + shipping)}
               </dd>
             </div>
@@ -193,7 +193,7 @@ export function CartView() {
           </p>
           <Link
             href="/checkout"
-            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
+            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 bg-brand text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
           >
             Proceed to checkout
             <ArrowRight aria-hidden="true" className="h-4 w-4" />

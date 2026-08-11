@@ -26,17 +26,17 @@ export function Navbar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-night/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur-xl">
       <nav
         aria-label="Main navigation"
         className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8"
       >
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-bold tracking-tight text-white"
+          className="flex items-center gap-2.5 font-display text-lg font-bold tracking-widest text-foreground uppercase"
           aria-label="RideReady home"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white">
+          <span className="flex h-9 w-9 items-center justify-center bg-brand text-white">
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -63,10 +63,10 @@ export function Navbar() {
                 href={link.href}
                 aria-current={isActive(link.href) ? "page" : undefined}
                 className={cn(
-                  "link-underline rounded-lg px-4 py-2 text-sm font-medium transition-colors",
+                  "link-underline px-4 py-2 text-sm font-semibold tracking-widest uppercase transition-colors",
                   isActive(link.href)
-                    ? "text-white"
-                    : "text-smoke hover:text-white"
+                    ? "text-brand"
+                    : "text-foreground hover:text-brand"
                 )}
               >
                 {link.label}
@@ -80,7 +80,7 @@ export function Navbar() {
             href="/account"
             aria-label="Account"
             className={cn(
-              "hidden h-10 w-10 items-center justify-center rounded-xl border border-line bg-carbon text-smoke transition-all hover:border-brand/50 hover:text-brand sm:flex"
+              "hidden h-10 w-10 items-center justify-center border border-line text-foreground transition-all hover:border-brand hover:text-brand sm:flex"
             )}
           >
             <User aria-hidden="true" className="h-5 w-5" />
@@ -89,13 +89,13 @@ export function Navbar() {
             href="/cart"
             aria-label={`Cart with ${itemCount} item${itemCount === 1 ? "" : "s"}`}
             className={cn(
-              "relative flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-carbon text-smoke transition-all hover:border-brand/50 hover:text-brand",
-              pathname === "/cart" && "border-brand/50 text-brand"
+              "relative flex h-10 w-10 items-center justify-center border border-line text-foreground transition-all hover:border-brand hover:text-brand",
+              pathname === "/cart" && "border-brand text-brand"
             )}
           >
             <ShoppingCart aria-hidden="true" className="h-5 w-5" />
             {itemCount > 0 ? (
-              <span className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1 text-[11px] font-bold text-white">
+              <span className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center bg-brand px-1 text-[11px] font-bold text-white">
                 {itemCount}
               </span>
             ) : null}

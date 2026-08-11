@@ -67,14 +67,14 @@ export function OrderStatusSelect({ orderId, status }: OrderStatusSelectProps) {
         onChange={(event) => onChange(event.target.value)}
         disabled={saving}
         className={cn(
-          "w-full min-w-36 cursor-pointer appearance-none rounded-lg border bg-carbon py-1.5 pl-3 pr-9 text-sm font-semibold focus:outline-none disabled:opacity-60",
+          "w-full min-w-36 cursor-pointer appearance-none border bg-white py-1.5 pl-3 pr-9 text-sm font-semibold focus:outline-none disabled:opacity-60",
           value === "CANCELLED"
-            ? "border-rose-400/30 text-rose-400"
+            ? "border-rose-500/50 text-rose-600"
             : value === "DELIVERED"
-              ? "border-emerald-400/30 text-emerald-400"
+              ? "border-emerald-600/50 text-emerald-700"
               : value === "SHIPPED"
-                ? "border-brand/30 text-brand"
-                : "border-line text-smoke focus:border-brand"
+                ? "border-brand/50 text-brand"
+                : "border-line text-foreground focus:border-brand"
         )}
       >
         {ORDER_STATUS_VALUES.map((option) => (

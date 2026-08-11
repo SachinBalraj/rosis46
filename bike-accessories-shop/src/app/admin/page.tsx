@@ -104,10 +104,10 @@ export default async function AdminDashboardPage() {
           <Link
             key={stat.label}
             href={stat.href}
-            className="group rounded-2xl border border-line bg-carbon p-5 transition-colors hover:border-brand/40"
+            className="group border border-night bg-night p-5 text-white transition-colors hover:border-brand"
           >
             <div className="flex items-center justify-between">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
+              <span className="flex h-11 w-11 items-center justify-center bg-brand text-white">
                 <stat.icon aria-hidden="true" className="h-5 w-5" />
               </span>
               <ArrowRight
@@ -115,7 +115,7 @@ export default async function AdminDashboardPage() {
                 className="h-4 w-4 text-smoke transition-transform group-hover:translate-x-0.5 group-hover:text-brand"
               />
             </div>
-            <p className="mt-4 text-2xl font-extrabold tracking-tight text-white">
+            <p className="mt-4 font-display text-2xl font-bold tracking-wide">
               {stat.value}
             </p>
             <p className="mt-0.5 text-sm text-smoke">{stat.label}</p>
@@ -124,9 +124,11 @@ export default async function AdminDashboardPage() {
       </div>
 
       <div className="mt-8 grid gap-6 xl:grid-cols-[1fr_360px]">
-        <div className="overflow-hidden rounded-2xl border border-line bg-carbon">
+        <div className="border border-line bg-white">
           <div className="flex items-center justify-between border-b border-line px-6 py-4">
-            <h2 className="font-bold text-white">Recent orders</h2>
+            <h2 className="font-display text-sm font-semibold tracking-widest uppercase">
+              Recent orders
+            </h2>
             <Link
               href="/admin/orders"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
@@ -145,13 +147,13 @@ export default async function AdminDashboardPage() {
                 <li key={order.id}>
                   <Link
                     href={`/admin/orders?q=${order.id.slice(0, 8).toUpperCase()}`}
-                    className="flex items-center gap-4 px-6 py-4 transition-colors hover:bg-carbon-soft/60"
+                    className="flex items-center gap-4 px-6 py-4 transition-colors hover:bg-carbon-soft"
                   >
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-mono text-sm text-smoke">
+                      <p className="truncate font-mono text-xs text-smoke">
                         #{order.id.slice(0, 8).toUpperCase()}
                       </p>
-                      <p className="truncate text-sm font-semibold text-white">
+                      <p className="truncate text-sm font-semibold text-foreground">
                         {order.customerName}
                       </p>
                     </div>
@@ -159,7 +161,7 @@ export default async function AdminDashboardPage() {
                       <PaymentStatusBadge status={order.paymentStatus} />
                       <OrderStatusBadge status={order.status} />
                     </div>
-                    <p className="font-bold text-white">
+                    <p className="font-display font-bold text-foreground">
                       {formatPaise(order.totalInPaise)}
                     </p>
                   </Link>
@@ -170,10 +172,10 @@ export default async function AdminDashboardPage() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <div className="overflow-hidden rounded-2xl border border-line bg-carbon">
+          <div className="border border-line bg-white">
             <div className="flex items-center justify-between border-b border-line px-6 py-4">
-              <h2 className="flex items-center gap-2 font-bold text-white">
-                <TriangleAlert aria-hidden="true" className="h-4 w-4 text-amber-400" />
+              <h2 className="flex items-center gap-2 font-display text-sm font-semibold tracking-widest uppercase">
+                <TriangleAlert aria-hidden="true" className="h-4 w-4 text-brand" />
                 Low stock
               </h2>
               <Link
@@ -193,14 +195,14 @@ export default async function AdminDashboardPage() {
                 {lowStockProducts.map((product) => (
                   <li key={product.id} className="px-6 py-3.5">
                     <div className="flex items-center justify-between gap-4">
-                      <p className="truncate text-sm font-semibold text-white">
+                      <p className="truncate text-sm font-semibold text-foreground">
                         {product.name}
                       </p>
                       <span
                         className={
                           product.stock === 0
-                            ? "shrink-0 rounded-full border border-rose-400/30 bg-rose-400/10 px-2.5 py-0.5 text-xs font-bold text-rose-400"
-                            : "shrink-0 rounded-full border border-amber-400/30 bg-amber-400/10 px-2.5 py-0.5 text-xs font-bold text-amber-400"
+                            ? "shrink-0 border border-rose-500/40 bg-rose-50 px-2.5 py-0.5 text-xs font-bold text-rose-600"
+                            : "shrink-0 border border-brand/40 bg-brand/10 px-2.5 py-0.5 text-xs font-bold text-brand"
                         }
                       >
                         {product.stock} left
@@ -212,8 +214,8 @@ export default async function AdminDashboardPage() {
             )}
           </div>
 
-          <div className="rounded-2xl border border-line bg-carbon p-6">
-            <h2 className="flex items-center gap-2 font-bold text-white">
+          <div className="border border-line bg-white p-6">
+            <h2 className="flex items-center gap-2 font-display text-sm font-semibold tracking-widest uppercase">
               <Tags aria-hidden="true" className="h-4 w-4 text-brand" />
               Categories
             </h2>
@@ -230,8 +232,8 @@ export default async function AdminDashboardPage() {
             </Link>
           </div>
 
-          <div className="rounded-2xl border border-line bg-carbon p-6">
-            <h2 className="flex items-center gap-2 font-bold text-white">
+          <div className="border border-line bg-white p-6">
+            <h2 className="flex items-center gap-2 font-display text-sm font-semibold tracking-widest uppercase">
               <PackageX aria-hidden="true" className="h-4 w-4 text-brand" />
               Products
             </h2>

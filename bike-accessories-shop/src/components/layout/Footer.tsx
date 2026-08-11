@@ -8,7 +8,7 @@ const socials = [
     href: "https://www.instagram.com",
     icon: (
       <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" />
+        <rect x="2" y="2" width="20" height="20" />
         <circle cx="12" cy="12" r="4" />
         <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
       </svg>
@@ -39,15 +39,15 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-line bg-carbon">
+    <footer className="border-t border-line-dark bg-night text-white">
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4 lg:grid-cols-5">
           <div className="col-span-2 lg:col-span-2">
             <Link
               href="/"
-              className="flex items-center gap-2 text-lg font-bold tracking-tight text-white"
+              className="flex items-center gap-2.5 font-display text-lg font-bold tracking-widest uppercase"
             >
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white">
+              <span className="flex h-9 w-9 items-center justify-center bg-brand text-white">
                 <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="5.5" cy="17.5" r="3.5" />
                   <circle cx="18.5" cy="17.5" r="3.5" />
@@ -79,7 +79,7 @@ export function Footer() {
           </div>
 
           <nav aria-label="Shop categories">
-            <h3 className="text-xs font-semibold tracking-widest text-white uppercase">
+            <h3 className="font-display text-sm font-semibold tracking-widest uppercase">
               Shop
             </h3>
             <ul className="mt-4 flex flex-col gap-3">
@@ -87,7 +87,7 @@ export function Footer() {
                 <li key={category.slug}>
                   <Link
                     href={`/products?category=${category.slug}`}
-                    className="flex items-center gap-1 text-sm text-smoke transition-colors hover:text-brand"
+                    className="link-underline flex w-fit items-center gap-1 text-sm text-smoke transition-colors hover:text-white"
                   >
                     {category.label}
                     <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -98,27 +98,27 @@ export function Footer() {
           </nav>
 
           <nav aria-label="Company">
-            <h3 className="text-xs font-semibold tracking-widest text-white uppercase">
+            <h3 className="font-display text-sm font-semibold tracking-widest uppercase">
               Company
             </h3>
             <ul className="mt-4 flex flex-col gap-3">
               <li>
-                <Link href="/about" className="text-sm text-smoke transition-colors hover:text-brand">
+                <Link href="/about" className="link-underline text-sm text-smoke transition-colors hover:text-white">
                   About us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm text-smoke transition-colors hover:text-brand">
+                <Link href="/contact" className="link-underline text-sm text-smoke transition-colors hover:text-white">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/contact#faq" className="text-sm text-smoke transition-colors hover:text-brand">
+                <Link href="/contact#faq" className="link-underline text-sm text-smoke transition-colors hover:text-white">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/account" className="text-sm text-smoke transition-colors hover:text-brand">
+                <Link href="/account" className="link-underline text-sm text-smoke transition-colors hover:text-white">
                   Your account
                 </Link>
               </li>
@@ -126,7 +126,7 @@ export function Footer() {
           </nav>
 
           <div>
-            <h3 className="text-xs font-semibold tracking-widest text-white uppercase">
+            <h3 className="font-display text-sm font-semibold tracking-widest uppercase">
               Follow the ride
             </h3>
             <div className="mt-4 flex items-center gap-3">
@@ -137,7 +137,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.name}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-night text-smoke transition-all hover:border-brand/50 hover:text-brand"
+                  className="flex h-10 w-10 items-center justify-center border border-line-dark text-smoke transition-all hover:border-brand hover:text-brand"
                 >
                   {social.icon}
                 </a>
@@ -150,9 +150,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-line pt-8 text-sm text-smoke sm:flex-row">
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-line-dark pt-8 text-sm text-smoke sm:flex-row">
           <p>© {year} RideReady. All rights reserved.</p>
-          <p>Made for riders, in India.</p>
+          <p className="uppercase tracking-widest">
+            Made for riders, in India.
+          </p>
         </div>
       </div>
     </footer>

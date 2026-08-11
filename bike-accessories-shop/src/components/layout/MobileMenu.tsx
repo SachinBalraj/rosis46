@@ -49,7 +49,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
         aria-expanded={open}
         aria-controls="mobile-menu"
         aria-label={open ? "Close menu" : "Open menu"}
-        className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-carbon text-smoke transition-colors hover:text-brand lg:hidden"
+        className="flex h-10 w-10 items-center justify-center border border-line text-foreground transition-colors hover:text-brand lg:hidden"
       >
         {open ? (
           <X aria-hidden="true" className="h-5 w-5" />
@@ -61,7 +61,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
       <div
         id="mobile-menu"
         className={cn(
-          "fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-night/95 px-6 pt-8 backdrop-blur-xl transition-all duration-300 lg:hidden",
+          "fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-white px-6 pt-8 transition-all duration-300 lg:hidden",
           open
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0"
@@ -82,10 +82,10 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
                 onClick={() => onOpenChange(false)}
                 aria-current={isActive(link.href) ? "page" : undefined}
                 className={cn(
-                  "block rounded-xl px-4 py-4 text-2xl font-bold transition-colors",
+                  "block border-b border-line px-4 py-4 font-display text-2xl font-bold uppercase tracking-wide transition-colors",
                   isActive(link.href)
-                    ? "bg-carbon text-white"
-                    : "text-white hover:bg-carbon hover:text-brand"
+                    ? "text-brand"
+                    : "text-foreground hover:text-brand"
                 )}
               >
                 {link.label}
@@ -95,7 +95,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
         </ul>
 
         <div className="mt-auto mb-8">
-          <p className="text-sm text-smoke">
+          <p className="border-l-2 border-brand pl-4 text-sm text-smoke">
             Free shipping on orders over ₹999 · 2-year warranty on all gear
           </p>
         </div>

@@ -15,9 +15,7 @@ export default async function AdminCategoriesPage() {
 
   return (
     <div>
-      <h2 className="text-2xl font-extrabold tracking-tight text-white">
-        Categories
-      </h2>
+      <h2 className="display-heading text-3xl text-foreground">Categories</h2>
       <p className="mt-1 text-sm text-smoke">
         {categories.length} categor{categories.length === 1 ? "y" : "ies"}{" "}
         powering the storefront navigation.

@@ -29,11 +29,14 @@ type CategoryManagerProps = {
 
 const inputClass = (hasError: boolean) =>
   cn(
-    "w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none",
+    "w-full border bg-white px-4 py-3 text-sm text-foreground placeholder:text-smoke focus:outline-none",
     hasError
-      ? "border-rose-500/70 focus:border-rose-500"
-      : "border-line focus:border-brand"
+      ? "border-rose-500 focus:border-rose-500 focus:ring-1 focus:ring-rose-500"
+      : "border-line focus:border-brand focus:ring-1 focus:ring-brand"
   );
+
+const labelClass =
+  "mb-2 block text-xs font-semibold tracking-widest text-foreground uppercase";
 
 export function CategoryManager({ categories }: CategoryManagerProps) {
   const router = useRouter();
@@ -128,7 +131,7 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
       <div>
-        <h2 className="text-lg font-bold text-white">
+        <h2 className="display-heading text-2xl text-foreground">
           Categories ({categories.length})
         </h2>
         <p className="mt-1 text-sm text-smoke">
@@ -136,36 +139,38 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
         </p>
 
         {categories.length === 0 ? (
-          <div className="mt-6 flex flex-col items-center rounded-3xl border border-dashed border-line bg-carbon/60 px-6 py-16 text-center">
-            <p className="text-lg font-bold text-white">No categories yet</p>
+          <div className="mt-6 flex flex-col items-center border border-dashed border-line bg-white px-6 py-16 text-center">
+            <p className="font-display text-lg font-semibold text-foreground uppercase">
+              No categories yet
+            </p>
             <p className="mt-2 max-w-sm text-sm text-smoke">
               Create your first category to start organising products.
             </p>
           </div>
         ) : (
-          <ul className="mt-6 flex flex-col gap-3">
+          <ul className="mt-6 flex flex-col gap-px border border-line bg-line">
             {categories.map((category) => (
               <li
                 key={category.id}
-                className="flex items-center gap-4 rounded-2xl border border-line bg-carbon p-4"
+                className="flex items-center gap-4 bg-white p-4"
               >
                 {category.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={category.image}
                     alt=""
-                    className="h-12 w-12 shrink-0 rounded-xl border border-line bg-night object-cover"
+                    className="h-12 w-12 shrink-0 border border-line bg-carbon-soft object-cover"
                     onError={(event) => {
                       event.currentTarget.style.display = "none";
                     }}
                   />
                 ) : (
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-sm font-bold text-brand">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-brand/10 text-sm font-bold text-brand">
                     {category.name.slice(0, 2).toUpperCase()}
                   </span>
                 )}
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold text-white">
+                  <p className="truncate font-semibold text-foreground">
                     {category.name}
                   </p>
                   <p className="truncate text-xs text-smoke">
@@ -178,7 +183,7 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
                     type="button"
                     onClick={() => startEdit(category)}
                     aria-label={`Edit ${category.name}`}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-smoke transition-colors hover:border-brand/40 hover:text-brand"
+                    className="inline-flex h-9 w-9 items-center justify-center border border-line text-smoke transition-colors hover:border-brand/40 hover:text-brand"
                   >
                     <Pencil aria-hidden="true" className="h-4 w-4" />
                   </button>
@@ -186,7 +191,7 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
                     type="button"
                     onClick={() => setDeletingCategory(category)}
                     aria-label={`Delete ${category.name}`}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-smoke transition-colors hover:border-rose-400/40 hover:text-rose-400"
+                    className="inline-flex h-9 w-9 items-center justify-center border border-line text-smoke transition-colors hover:border-rose-500/40 hover:text-rose-500"
                   >
                     <Trash2 aria-hidden="true" className="h-4 w-4" />
                   </button>
@@ -197,8 +202,8 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
         )}
       </div>
 
-      <div className="h-fit rounded-3xl border border-line bg-carbon p-6">
-        <h2 className="flex items-center gap-2 text-lg font-bold text-white">
+      <div className="h-fit border border-line bg-white p-6">
+        <h2 className="flex items-center gap-2 font-display text-lg font-semibold tracking-wide uppercase">
           {isEditing ? (
             <>
               <Pencil aria-hidden="true" className="h-5 w-5 text-brand" />
@@ -218,7 +223,7 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
           className="mt-6 space-y-5"
         >
           <div>
-            <label htmlFor="category-name" className="mb-2 block text-sm font-medium text-white">
+            <label htmlFor="category-name" className={labelClass}>
               Name
             </label>
             <input
@@ -230,14 +235,14 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
               {...register("name")}
             />
             {errors.name ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-400">
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {errors.name.message}
               </p>
             ) : null}
           </div>
 
           <div>
-            <label htmlFor="category-slug" className="mb-2 block text-sm font-medium text-white">
+            <label htmlFor="category-slug" className={labelClass}>
               Slug
             </label>
             <input
@@ -249,7 +254,7 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
               {...register("slug")}
             />
             {errors.slug ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-400">
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {errors.slug.message}
               </p>
             ) : (
@@ -260,7 +265,7 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
           </div>
 
           <div>
-            <label htmlFor="category-image" className="mb-2 block text-sm font-medium text-white">
+            <label htmlFor="category-image" className={labelClass}>
               Image URL
             </label>
             <input
@@ -272,7 +277,7 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
               {...register("image")}
             />
             {errors.image ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-400">
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {errors.image.message}
               </p>
             ) : null}

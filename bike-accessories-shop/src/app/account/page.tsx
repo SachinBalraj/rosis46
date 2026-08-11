@@ -61,25 +61,17 @@ export default async function AccountPage() {
     <>
       <section
         aria-labelledby="account-hero"
-        className="relative overflow-hidden border-b border-line"
+        className="border-b border-line bg-white"
       >
-        <div aria-hidden="true" className="bg-grid absolute inset-0" />
-        <div
-          aria-hidden="true"
-          className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-brand/15 blur-[120px]"
-        />
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
-            Your account
-          </p>
+        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <p className="eyebrow">Your account</p>
           <h1
             id="account-hero"
-            className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl"
+            className="display-heading mt-6 max-w-3xl text-5xl text-foreground sm:text-6xl"
           >
-            Your rides, <span className="text-brand">your gear.</span>
+            Your rides, your gear
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-smoke">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-smoke">
             {user
               ? "Track your orders, review payments and keep your gear moving."
               : "Track orders, save your fit profile and check out in one tap. Create an account or sign in to get started."}
@@ -119,20 +111,21 @@ export default async function AccountPage() {
                 title="What an account gets you"
                 description=""
               />
-              <ul className="mt-8 flex flex-col gap-4">
+              <ul className="mt-8 flex flex-col gap-px border border-line bg-line">
                 {accountBenefits.map((benefit) => (
-                  <li
-                    key={benefit.title}
-                    className="flex items-start gap-4 rounded-2xl border border-line bg-carbon p-5"
-                  >
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand">
-                      <benefit.icon aria-hidden="true" className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <h3 className="font-semibold text-white">{benefit.title}</h3>
-                      <p className="mt-1 text-sm leading-relaxed text-smoke">
-                        {benefit.description}
-                      </p>
+                  <li key={benefit.title} className="bg-white">
+                    <div className="flex items-start gap-4 p-5">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-line text-brand">
+                        <benefit.icon aria-hidden="true" className="h-5 w-5" />
+                      </span>
+                      <div>
+                        <h3 className="font-display text-sm font-semibold tracking-wide uppercase">
+                          {benefit.title}
+                        </h3>
+                        <p className="mt-1 text-sm leading-relaxed text-smoke">
+                          {benefit.description}
+                        </p>
+                      </div>
                     </div>
                   </li>
                 ))}

@@ -21,26 +21,17 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     <>
       <section
         aria-labelledby="products-hero"
-        className="relative overflow-hidden border-b border-line"
+        className="border-b border-line bg-white"
       >
-        <div aria-hidden="true" className="bg-grid absolute inset-0" />
-        <div
-          aria-hidden="true"
-          className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-brand/15 blur-[120px]"
-        />
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
-            The catalogue
-          </p>
+        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <p className="eyebrow">The catalogue</p>
           <h1
             id="products-hero"
-            className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl"
+            className="display-heading mt-6 max-w-3xl text-5xl text-foreground sm:text-6xl"
           >
-            Find your next{" "}
-            <span className="text-brand">piece of kit.</span>
+            Find your next piece of kit
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-smoke">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-smoke">
             Every product below has been ridden, rained on and tested by our
             own team. Search, filter and sort to find the gear for your ride.
           </p>

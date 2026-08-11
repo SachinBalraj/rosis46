@@ -44,9 +44,9 @@ export function AddToCartForm({ product, stock }: AddToCartFormProps) {
 
   if (outOfStock) {
     return (
-      <div className="flex items-center gap-3 rounded-xl border border-rose-500/40 bg-rose-500/10 px-5 py-4">
-        <PackageX aria-hidden="true" className="h-5 w-5 text-rose-400" />
-        <p className="text-sm font-medium text-rose-300">
+      <div className="flex items-center gap-3 border border-rose-400/40 bg-rose-500/10 px-5 py-4">
+        <PackageX aria-hidden="true" className="h-5 w-5 text-rose-500" />
+        <p className="text-sm font-medium text-rose-600">
           Currently out of stock. Check back soon.
         </p>
       </div>
@@ -55,18 +55,18 @@ export function AddToCartForm({ product, stock }: AddToCartFormProps) {
 
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <div className="flex items-center gap-1 rounded-xl border border-line bg-carbon p-1">
+      <div className="flex items-center border border-line bg-white">
         <button
           type="button"
           onClick={() => setQuantity((q) => Math.max(1, q - 1))}
           aria-label="Decrease quantity"
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-smoke transition-colors hover:text-brand"
+          className="flex h-12 w-12 items-center justify-center border-r border-line text-smoke transition-colors hover:text-brand"
         >
           <Minus aria-hidden="true" className="h-4 w-4" />
         </button>
         <span
           aria-live="polite"
-          className="w-10 text-center font-semibold text-white"
+          className="w-12 text-center font-display text-lg font-semibold text-foreground"
         >
           {quantity}
         </span>
@@ -74,7 +74,7 @@ export function AddToCartForm({ product, stock }: AddToCartFormProps) {
           type="button"
           onClick={() => setQuantity((q) => Math.min(max, q + 1))}
           aria-label="Increase quantity"
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-smoke transition-colors hover:text-brand"
+          className="flex h-12 w-12 items-center justify-center border-l border-line text-smoke transition-colors hover:text-brand"
         >
           <Plus aria-hidden="true" className="h-4 w-4" />
         </button>
@@ -83,7 +83,7 @@ export function AddToCartForm({ product, stock }: AddToCartFormProps) {
       <button
         type="button"
         onClick={handleAdd}
-        className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-all hover:bg-brand-deep hover:shadow-[0_0_24px_rgb(225_6_0/0.35)] sm:flex-none"
+        className="inline-flex h-12 flex-1 items-center justify-center gap-2 bg-brand px-7 text-sm font-semibold tracking-widest text-white uppercase transition-all hover:bg-brand-deep sm:flex-none sm:min-w-56"
       >
         <ShoppingCart aria-hidden="true" className="h-4 w-4" />
         Add to Cart

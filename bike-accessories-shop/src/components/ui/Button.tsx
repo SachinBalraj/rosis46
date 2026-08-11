@@ -6,26 +6,27 @@ import {
 } from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "ghost" | "brand-outline";
+type Variant = "primary" | "secondary" | "ghost" | "brand-outline" | "dark";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 font-semibold uppercase tracking-widest transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-brand text-white hover:bg-brand-deep hover:shadow-[0_0_28px_rgb(225_6_0/0.4)] active:scale-[0.98]",
+    "bg-brand text-white hover:bg-brand-deep active:scale-[0.98]",
   secondary:
-    "border border-line bg-carbon text-white hover:border-brand/60 hover:bg-carbon-soft",
-  ghost: "text-smoke hover:text-white hover:bg-carbon",
+    "border border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-white",
+  ghost: "text-foreground hover:text-brand",
   "brand-outline":
-    "border border-brand/60 text-brand hover:bg-brand/10 active:scale-[0.98]",
+    "border border-brand text-brand hover:bg-brand hover:text-white active:scale-[0.98]",
+  dark: "bg-night text-white hover:bg-charcoal active:scale-[0.98]",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-4 text-sm",
-  md: "h-11 px-5 text-sm",
-  lg: "h-12 px-7 text-base",
+  sm: "h-9 px-4 text-xs",
+  md: "h-11 px-5 text-xs",
+  lg: "h-12 px-8 text-sm",
 };
 
 type CommonProps = {

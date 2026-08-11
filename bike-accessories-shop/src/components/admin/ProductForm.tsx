@@ -41,11 +41,14 @@ type ProductFormProps = {
 
 const inputClass = (hasError: boolean) =>
   cn(
-    "w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none",
+    "w-full border bg-white px-4 py-3 text-sm text-foreground placeholder:text-smoke focus:outline-none",
     hasError
-      ? "border-rose-500/70 focus:border-rose-500"
-      : "border-line focus:border-brand"
+      ? "border-rose-500 focus:border-rose-500 focus:ring-1 focus:ring-rose-500"
+      : "border-line focus:border-brand focus:ring-1 focus:ring-brand"
   );
+
+const labelClass =
+  "mb-2 block text-xs font-semibold tracking-widest text-foreground uppercase";
 
 export function ProductForm({ categories, product }: ProductFormProps) {
   const router = useRouter();
@@ -146,7 +149,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         Back to products
       </Link>
 
-      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+      <h1 className="display-heading mt-4 text-4xl text-foreground">
         {isEditing ? "Edit product" : "New product"}
       </h1>
       <p className="mt-2 text-sm text-smoke">
@@ -158,14 +161,16 @@ export function ProductForm({ categories, product }: ProductFormProps) {
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        className="mt-8 space-y-8"
+        className="mt-8 space-y-6"
       >
-        <div className="rounded-3xl border border-line bg-carbon p-6 sm:p-8">
-          <h2 className="text-lg font-bold text-white">Product details</h2>
+        <div className="border border-line bg-white p-6 sm:p-8">
+          <h2 className="border-b border-line pb-4 font-display text-sm font-semibold tracking-widest uppercase">
+            Product details
+          </h2>
 
           <div className="mt-6 space-y-5">
             <div>
-              <label htmlFor="product-name" className="mb-2 block text-sm font-medium text-white">
+              <label htmlFor="product-name" className={labelClass}>
                 Name
               </label>
               <input
@@ -177,14 +182,14 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                 {...register("name")}
               />
               {errors.name ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.name.message}
                 </p>
               ) : null}
             </div>
 
             <div>
-              <label htmlFor="product-slug" className="mb-2 block text-sm font-medium text-white">
+              <label htmlFor="product-slug" className={labelClass}>
                 Slug
               </label>
               <input
@@ -196,7 +201,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                 {...register("slug")}
               />
               {errors.slug ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.slug.message}
                 </p>
               ) : (
@@ -208,7 +213,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             </div>
 
             <div>
-              <label htmlFor="product-description" className="mb-2 block text-sm font-medium text-white">
+              <label htmlFor="product-description" className={labelClass}>
                 Description
               </label>
               <textarea
@@ -220,14 +225,14 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                 {...register("description")}
               />
               {errors.description ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.description.message}
                 </p>
               ) : null}
             </div>
 
             <div>
-              <label htmlFor="product-category" className="mb-2 block text-sm font-medium text-white">
+              <label htmlFor="product-category" className={labelClass}>
                 Category
               </label>
               <select
@@ -244,7 +249,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                 ))}
               </select>
               {errors.categoryId ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.categoryId.message}
                 </p>
               ) : null}
@@ -252,12 +257,14 @@ export function ProductForm({ categories, product }: ProductFormProps) {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-line bg-carbon p-6 sm:p-8">
-          <h2 className="text-lg font-bold text-white">Pricing & stock</h2>
+        <div className="border border-line bg-white p-6 sm:p-8">
+          <h2 className="border-b border-line pb-4 font-display text-sm font-semibold tracking-widest uppercase">
+            Pricing & stock
+          </h2>
 
           <div className="mt-6 grid gap-5 sm:grid-cols-2">
             <div>
-              <label htmlFor="product-price" className="mb-2 block text-sm font-medium text-white">
+              <label htmlFor="product-price" className={labelClass}>
                 Regular price (₹)
               </label>
               <input
@@ -272,7 +279,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                 {...register("price")}
               />
               {errors.price ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.price.message}
                 </p>
               ) : null}
@@ -282,7 +289,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               <div className="mb-2 flex items-center justify-between">
                 <label
                   htmlFor="product-sale-price"
-                  className="flex items-center gap-2 text-sm font-medium text-white"
+                  className="flex items-center gap-2 text-xs font-semibold tracking-widest text-foreground uppercase"
                 >
                   <BadgePercent aria-hidden="true" className="h-4 w-4 text-brand" />
                   Sale price (₹)
@@ -309,20 +316,20 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                     {...register("salePrice")}
                   />
                   {errors.salePrice ? (
-                    <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                    <p role="alert" className="mt-1.5 text-sm text-rose-500">
                       {errors.salePrice.message}
                     </p>
                   ) : null}
                 </>
               ) : (
-                <p className="rounded-xl border border-line bg-night px-4 py-3 text-sm text-smoke">
+                <p className="border border-dashed border-line bg-carbon-soft px-4 py-3 text-sm text-smoke">
                   No discount — full price applies.
                 </p>
               )}
             </div>
 
             {hasDiscount ? (
-              <p className="sm:col-span-2 rounded-xl border border-brand/30 bg-brand/10 px-4 py-3 text-sm font-medium text-brand">
+              <p className="border border-brand/40 bg-brand/10 px-4 py-3 text-sm font-medium text-brand sm:col-span-2">
                 Shoppers see {formatPrice(saleNum)} —{" "}
                 {formatPrice(priceNum - saleNum)} off (
                 {Math.round(((priceNum - saleNum) / priceNum) * 100)}%).
@@ -331,7 +338,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
           </div>
 
           <div className="mt-5">
-            <label htmlFor="product-stock" className="mb-2 block text-sm font-medium text-white">
+            <label htmlFor="product-stock" className={labelClass}>
               Stock on hand
             </label>
             <input
@@ -346,18 +353,20 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               {...register("stock")}
             />
             {errors.stock ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-400">
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {errors.stock.message}
               </p>
             ) : null}
           </div>
         </div>
 
-        <div className="rounded-3xl border border-line bg-carbon p-6 sm:p-8">
-          <h2 className="text-lg font-bold text-white">Image</h2>
+        <div className="border border-line bg-white p-6 sm:p-8">
+          <h2 className="border-b border-line pb-4 font-display text-sm font-semibold tracking-widest uppercase">
+            Image
+          </h2>
 
           <div className="mt-6">
-            <label htmlFor="product-image" className="mb-2 block text-sm font-medium text-white">
+            <label htmlFor="product-image" className={labelClass}>
               Image URL
             </label>
             <input
@@ -369,7 +378,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               {...register("imageUrl")}
             />
             {errors.imageUrl ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-400">
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {errors.imageUrl.message}
               </p>
             ) : (
@@ -381,8 +390,10 @@ export function ProductForm({ categories, product }: ProductFormProps) {
 
           {imageUrl ? (
             <div className="mt-5">
-              <p className="mb-2 text-sm font-medium text-white">Preview</p>
-              <div className="flex h-40 w-full items-center justify-center overflow-hidden rounded-2xl border border-line bg-night">
+              <p className="mb-2 text-xs font-semibold tracking-widest text-foreground uppercase">
+                Preview
+              </p>
+              <div className="flex h-40 w-full items-center justify-center overflow-hidden border border-line bg-carbon-soft">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={imageUrl}
@@ -397,18 +408,20 @@ export function ProductForm({ categories, product }: ProductFormProps) {
           ) : null}
         </div>
 
-        <div className="rounded-3xl border border-line bg-carbon p-6 sm:p-8">
-          <h2 className="text-lg font-bold text-white">Storefront visibility</h2>
+        <div className="border border-line bg-white p-6 sm:p-8">
+          <h2 className="border-b border-line pb-4 font-display text-sm font-semibold tracking-widest uppercase">
+            Storefront visibility
+          </h2>
 
           <div className="mt-6 flex flex-col gap-5">
             <label className="flex cursor-pointer items-start gap-3">
               <input
                 type="checkbox"
-                className="mt-0.5 h-5 w-5 shrink-0 rounded border-line bg-night accent-brand"
+                className="mt-0.5 h-5 w-5 shrink-0 border-line bg-white accent-brand"
                 {...register("featured")}
               />
               <span>
-                <span className="block text-sm font-semibold text-white">
+                <span className="block text-sm font-semibold text-foreground">
                   Featured product
                 </span>
                 <span className="block text-sm text-smoke">
@@ -420,11 +433,11 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             <label className="flex cursor-pointer items-start gap-3">
               <input
                 type="checkbox"
-                className="mt-0.5 h-5 w-5 shrink-0 rounded border-line bg-night accent-brand"
+                className="mt-0.5 h-5 w-5 shrink-0 border-line bg-white accent-brand"
                 {...register("active")}
               />
               <span>
-                <span className="block text-sm font-semibold text-white">
+                <span className="block text-sm font-semibold text-foreground">
                   Active on storefront
                 </span>
                 <span className="block text-sm text-smoke">

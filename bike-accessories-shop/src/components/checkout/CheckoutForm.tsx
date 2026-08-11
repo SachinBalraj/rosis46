@@ -67,11 +67,14 @@ function loadRazorpayScript(): Promise<boolean> {
 
 const inputClass = (hasError: boolean) =>
   cn(
-    "w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none",
+    "w-full border bg-white px-4 py-3 text-sm text-foreground placeholder:text-smoke focus:outline-none",
     hasError
-      ? "border-rose-500/70 focus:border-rose-500"
-      : "border-line focus:border-brand"
+      ? "border-rose-500 focus:border-rose-500 focus:ring-1 focus:ring-rose-500"
+      : "border-line focus:border-brand focus:ring-1 focus:ring-brand"
   );
+
+const labelClass =
+  "mb-2 block text-xs font-semibold tracking-widest text-foreground uppercase";
 
 export function CheckoutForm() {
   const router = useRouter();
@@ -130,7 +133,7 @@ export function CheckoutForm() {
         email: customer.email,
         contact: customer.phone,
       },
-      theme: { color: "#c8f031" },
+      theme: { color: "#e10600" },
       handler: (response) => {
         void handleSuccess(response);
       },
@@ -243,10 +246,10 @@ export function CheckoutForm() {
   if (items.length === 0) {
     return (
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-24 text-center sm:px-6 lg:px-8">
-        <span className="flex h-20 w-20 items-center justify-center rounded-3xl bg-brand/10 text-brand">
+        <span className="flex h-20 w-20 items-center justify-center border border-line bg-white text-brand">
           <ShoppingCart aria-hidden="true" className="h-10 w-10" />
         </span>
-        <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-white">
+        <h1 className="display-heading mt-8 text-4xl text-foreground">
           Your cart is empty
         </h1>
         <p className="mt-3 max-w-md text-smoke">
@@ -254,7 +257,7 @@ export function CheckoutForm() {
         </p>
         <Link
           href="/products"
-          className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
+          className="mt-8 inline-flex h-12 items-center justify-center gap-2 bg-brand px-7 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
         >
           Browse products
           <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -277,7 +280,8 @@ export function CheckoutForm() {
         Back to cart
       </Link>
 
-      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+      <p className="eyebrow mt-6">Secure checkout</p>
+      <h1 className="display-heading mt-3 text-4xl text-foreground sm:text-5xl">
         Checkout
       </h1>
       <p className="mt-2 text-sm text-smoke">
@@ -287,16 +291,13 @@ export function CheckoutForm() {
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_400px]">
         <fieldset className="space-y-5">
-          <legend className="text-lg font-bold text-white">
+          <legend className="border-b border-line pb-4 font-display text-xl font-semibold tracking-wide text-foreground uppercase">
             Delivery details
           </legend>
 
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <label
-                htmlFor="checkout-name"
-                className="mb-2 block text-sm font-medium text-white"
-              >
+              <label htmlFor="checkout-name" className={labelClass}>
                 Full name
               </label>
               <input
@@ -309,17 +310,14 @@ export function CheckoutForm() {
                 {...register("fullName")}
               />
               {errors.fullName ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.fullName.message}
                 </p>
               ) : null}
             </div>
 
             <div>
-              <label
-                htmlFor="checkout-email"
-                className="mb-2 block text-sm font-medium text-white"
-              >
+              <label htmlFor="checkout-email" className={labelClass}>
                 Email
               </label>
               <input
@@ -332,17 +330,14 @@ export function CheckoutForm() {
                 {...register("email")}
               />
               {errors.email ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.email.message}
                 </p>
               ) : null}
             </div>
 
             <div>
-              <label
-                htmlFor="checkout-phone"
-                className="mb-2 block text-sm font-medium text-white"
-              >
+              <label htmlFor="checkout-phone" className={labelClass}>
                 Phone number
               </label>
               <input
@@ -355,17 +350,14 @@ export function CheckoutForm() {
                 {...register("phone")}
               />
               {errors.phone ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.phone.message}
                 </p>
               ) : null}
             </div>
 
             <div className="sm:col-span-2">
-              <label
-                htmlFor="checkout-address"
-                className="mb-2 block text-sm font-medium text-white"
-              >
+              <label htmlFor="checkout-address" className={labelClass}>
                 Shipping address
               </label>
               <textarea
@@ -378,17 +370,14 @@ export function CheckoutForm() {
                 {...register("address")}
               />
               {errors.address ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.address.message}
                 </p>
               ) : null}
             </div>
 
             <div>
-              <label
-                htmlFor="checkout-city"
-                className="mb-2 block text-sm font-medium text-white"
-              >
+              <label htmlFor="checkout-city" className={labelClass}>
                 City
               </label>
               <input
@@ -401,17 +390,14 @@ export function CheckoutForm() {
                 {...register("city")}
               />
               {errors.city ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.city.message}
                 </p>
               ) : null}
             </div>
 
             <div>
-              <label
-                htmlFor="checkout-state"
-                className="mb-2 block text-sm font-medium text-white"
-              >
+              <label htmlFor="checkout-state" className={labelClass}>
                 State
               </label>
               <input
@@ -424,17 +410,14 @@ export function CheckoutForm() {
                 {...register("state")}
               />
               {errors.state ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.state.message}
                 </p>
               ) : null}
             </div>
 
             <div>
-              <label
-                htmlFor="checkout-pin"
-                className="mb-2 block text-sm font-medium text-white"
-              >
+              <label htmlFor="checkout-pin" className={labelClass}>
                 Postal code
               </label>
               <input
@@ -448,17 +431,14 @@ export function CheckoutForm() {
                 {...register("postalCode")}
               />
               {errors.postalCode ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.postalCode.message}
                 </p>
               ) : null}
             </div>
 
             <div className="sm:col-span-2">
-              <label
-                htmlFor="checkout-notes"
-                className="mb-2 block text-sm font-medium text-white"
-              >
+              <label htmlFor="checkout-notes" className={labelClass}>
                 Order notes{" "}
                 <span className="font-normal text-smoke">(optional)</span>
               </label>
@@ -471,7 +451,7 @@ export function CheckoutForm() {
                 {...register("orderNotes")}
               />
               {errors.orderNotes ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-400">
+                <p role="alert" className="mt-1.5 text-sm text-rose-500">
                   {errors.orderNotes.message}
                 </p>
               ) : null}
@@ -483,8 +463,10 @@ export function CheckoutForm() {
           aria-label="Checkout summary"
           className="h-fit space-y-4 lg:sticky lg:top-24"
         >
-          <div className="rounded-2xl border border-line bg-carbon p-6">
-            <h2 className="text-lg font-bold text-white">Order summary</h2>
+          <div className="border border-line-dark bg-night p-6 text-white">
+            <h2 className="font-display text-lg font-semibold tracking-widest uppercase">
+              Order summary
+            </h2>
             <ul className="mt-4 flex flex-col gap-3">
               {items.map((item) => {
                 const Icon = iconMap[item.icon] ?? ShoppingCart;
@@ -492,7 +474,7 @@ export function CheckoutForm() {
                   <li key={item.id} className="flex items-center gap-3">
                     <span
                       className={cn(
-                        "flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br",
+                        "flex h-12 w-12 shrink-0 items-center justify-center border border-line-dark bg-white/5 bg-gradient-to-br",
                         item.accent
                       )}
                     >
@@ -514,7 +496,7 @@ export function CheckoutForm() {
               })}
             </ul>
 
-            <dl className="mt-5 space-y-3 border-t border-line pt-4 text-sm">
+            <dl className="mt-5 space-y-3 border-t border-line-dark pt-4 text-sm">
               <div className="flex justify-between">
                 <dt className="text-smoke">Subtotal</dt>
                 <dd className="font-semibold text-white">
@@ -532,17 +514,19 @@ export function CheckoutForm() {
                   {shipping === 0 ? "Free" : formatPrice(shipping)}
                 </dd>
               </div>
-              <div className="flex justify-between border-t border-line pt-3 text-base">
+              <div className="flex justify-between border-t border-line-dark pt-3 text-base">
                 <dt className="font-semibold text-white">Total</dt>
-                <dd className="font-bold text-brand">{formatPrice(total)}</dd>
+                <dd className="font-display font-bold text-brand">
+                  {formatPrice(total)}
+                </dd>
               </div>
             </dl>
           </div>
 
-          <div className="flex items-start gap-3 rounded-2xl border border-line bg-carbon p-4">
+          <div className="flex items-start gap-3 border border-line bg-white p-4">
             <Truck aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
             <div>
-              <p className="text-sm font-semibold text-white">
+              <p className="font-display text-sm font-semibold tracking-wide uppercase">
                 Delivery estimate: 3–5 business days
               </p>
               <p className="mt-0.5 text-xs text-smoke">
@@ -551,13 +535,13 @@ export function CheckoutForm() {
             </div>
           </div>
 
-          <div className="flex items-start gap-3 rounded-2xl border border-line bg-carbon p-4">
+          <div className="flex items-start gap-3 border border-line bg-white p-4">
             <Lock
               aria-hidden="true"
               className="mt-0.5 h-5 w-5 shrink-0 text-brand"
             />
             <div>
-              <p className="text-sm font-semibold text-white">
+              <p className="font-display text-sm font-semibold tracking-wide uppercase">
                 Secure payment
               </p>
               <p className="mt-0.5 text-xs text-smoke">
@@ -570,7 +554,7 @@ export function CheckoutForm() {
           <button
             type="submit"
             disabled={payDisabled}
-            className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-brand px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-brand-deep hover:shadow-[0_0_24px_rgb(225_6_0/0.35)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex h-13 w-full items-center justify-center gap-2 bg-brand px-7 py-3.5 text-sm font-semibold tracking-widest text-white uppercase transition-all hover:bg-brand-deep disabled:cursor-not-allowed disabled:opacity-60"
           >
             {paymentStatus === "creating" ? (
               <>

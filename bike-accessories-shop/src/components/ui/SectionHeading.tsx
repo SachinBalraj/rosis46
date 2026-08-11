@@ -5,6 +5,7 @@ type SectionHeadingProps = {
   title: string;
   description?: string;
   align?: "left" | "center";
+  light?: boolean;
   className?: string;
 };
 
@@ -13,30 +14,36 @@ export function SectionHeading({
   title,
   description,
   align = "left",
+  light = false,
   className,
 }: SectionHeadingProps) {
   return (
     <div
       className={cn(
-        "flex flex-col gap-3",
+        "flex flex-col gap-4",
         align === "center" && "items-center text-center",
         className
       )}
     >
       {eyebrow ? (
-        <p className="inline-flex w-fit items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-semibold tracking-widest text-brand uppercase">
-          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
-          {eyebrow}
-        </p>
-      ) : null}
-      <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <p className="eyebrow">{eyebrow}</p>
+      ) : (
+        <span aria-hidden="true" className="h-2 w-2 bg-brand" />
+      )}
+      <h2
+        className={cn(
+          "display-heading max-w-3xl text-4xl sm:text-5xl lg:text-6xl",
+          light ? "text-white" : "text-foreground"
+        )}
+      >
         {title}
       </h2>
       {description ? (
         <p
           className={cn(
-            "max-w-2xl text-base leading-relaxed text-smoke",
-            align === "center" && "mx-auto"
+            "max-w-2xl text-base leading-relaxed",
+            align === "center" && "mx-auto",
+            light ? "text-smoke" : "text-smoke"
           )}
         >
           {description}

@@ -31,38 +31,36 @@ export function ProductCard({ product }: { product: Product }) {
       : 0;
 
   return (
-    <article className="card flex h-full flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_20px_60px_-20px_rgb(225_6_0/0.35)]">
+    <article className="group flex h-full flex-col border border-line bg-white transition-all duration-300 hover:border-foreground hover:shadow-[0_24px_60px_-28px_rgb(11_11_11/0.35)]">
       <Link
         href={`/products/${product.id}`}
-        className="group block"
+        className="block"
         aria-label={`View ${product.name}`}
       >
         <div
           className={cn(
-            "relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-gradient-to-br",
+            "relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b border-line bg-gradient-to-br",
             product.accent
           )}
         >
           {product.badge ? (
             <span
               className={cn(
-                "absolute top-3 left-3 z-10 rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide uppercase",
+                "absolute top-0 left-0 z-10 px-2.5 py-1.5 text-[11px] font-bold tracking-wider uppercase",
                 product.badge === "Sale"
                   ? "bg-brand text-white"
-                  : product.badge === "New"
-                    ? "bg-white text-black"
-                    : "bg-white text-black"
+                  : "bg-night text-white"
               )}
             >
               {product.badge}
             </span>
           ) : null}
           {discount > 0 ? (
-            <span className="absolute top-3 right-3 z-10 rounded-full border border-line bg-night/70 px-2.5 py-1 text-[11px] font-semibold text-brand backdrop-blur">
+            <span className="absolute top-0 right-0 z-10 border-b border-l border-line bg-white px-2.5 py-1.5 text-[11px] font-semibold text-brand">
               {discount}% off
             </span>
           ) : null}
-          <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-night/40 text-white backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+          <div className="flex h-24 w-24 items-center justify-center border border-line bg-white/70 text-brand backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
             <Icon
               aria-hidden="true"
               className="h-12 w-12 text-brand"
@@ -72,14 +70,14 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <p className="text-[11px] font-semibold tracking-widest text-brand uppercase">
+      <div className="flex flex-1 flex-col gap-2 p-5">
+        <p className="text-[11px] font-semibold tracking-[0.25em] text-brand uppercase">
           {product.categoryLabel}
         </p>
-        <h3 className="font-bold text-white">
+        <h3 className="font-display text-lg font-semibold tracking-wide uppercase">
           <Link
             href={`/products/${product.id}`}
-            className="transition-colors hover:text-brand"
+            className="link-underline text-foreground transition-colors hover:text-brand"
           >
             {product.name}
           </Link>
@@ -89,11 +87,8 @@ export function ProductCard({ product }: { product: Product }) {
         </p>
 
         <div className="mt-auto flex items-center gap-1 pt-3">
-          <Star
-            aria-hidden="true"
-            className="h-4 w-4 fill-brand text-brand"
-          />
-          <span className="text-sm font-semibold text-white">
+          <Star aria-hidden="true" className="h-4 w-4 fill-brand text-brand" />
+          <span className="text-sm font-semibold text-foreground">
             {product.rating.toFixed(1)}
           </span>
           <span className="text-xs text-smoke">
@@ -101,8 +96,8 @@ export function ProductCard({ product }: { product: Product }) {
           </span>
         </div>
 
-        <div className="flex items-baseline gap-2">
-          <span className="text-lg font-bold text-brand">
+        <div className="flex items-baseline gap-2 border-t border-line pt-3">
+          <span className="font-display text-xl font-bold text-brand">
             {formatPrice(product.price)}
           </span>
           {product.mrp > product.price ? (
@@ -115,7 +110,7 @@ export function ProductCard({ product }: { product: Product }) {
         <button
           type="button"
           onClick={handleAddToCart}
-          className="mt-2 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
+          className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 bg-brand text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
         >
           <ShoppingCart aria-hidden="true" className="h-4 w-4" />
           Add to Cart

@@ -50,13 +50,14 @@ export default async function OrderSuccessPage({
         <span
           className={
             paid
-              ? "flex h-20 w-20 items-center justify-center rounded-3xl bg-brand/10 text-brand"
-              : "flex h-20 w-20 items-center justify-center rounded-3xl bg-amber-400/10 text-amber-400"
+              ? "flex h-20 w-20 items-center justify-center bg-brand text-white"
+              : "flex h-20 w-20 items-center justify-center bg-brand/15 text-brand"
           }
         >
           <CheckCircle2 aria-hidden="true" className="h-10 w-10" />
         </span>
-        <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+        <p className="eyebrow mt-8">RideReady</p>
+        <h1 className="display-heading mt-4 text-4xl text-foreground sm:text-5xl">
           {paid ? "Order confirmed!" : "Payment not completed"}
         </h1>
         <p className="mt-3 max-w-md text-smoke">
@@ -66,20 +67,22 @@ export default async function OrderSuccessPage({
         </p>
       </div>
 
-      <div className="mt-10 overflow-hidden rounded-2xl border border-line bg-carbon">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line p-6">
+      <div className="mt-10 border border-line bg-white">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line bg-carbon-soft p-6">
           <div>
             <p className="text-xs font-semibold tracking-widest text-smoke uppercase">
               Order ID
             </p>
-            <p className="mt-1 font-mono text-sm text-white">{order.id}</p>
+            <p className="mt-1 font-mono text-sm text-foreground">
+              #{order.id.slice(0, 8).toUpperCase()}
+            </p>
           </div>
           {order.razorpayPaymentId ? (
             <div>
               <p className="text-xs font-semibold tracking-widest text-smoke uppercase">
                 Payment ID
               </p>
-              <p className="mt-1 font-mono text-sm text-white">
+              <p className="mt-1 font-mono text-sm text-foreground">
                 {order.razorpayPaymentId}
               </p>
             </div>
@@ -93,36 +96,38 @@ export default async function OrderSuccessPage({
               className="flex items-center justify-between gap-4 p-6"
             >
               <div>
-                <p className="font-semibold text-white">{item.product.name}</p>
+                <p className="font-semibold text-foreground">
+                  {item.product.name}
+                </p>
                 <p className="mt-0.5 text-sm text-smoke">
                   {item.quantity} × {formatPaise(item.unitPriceInPaise)}
                 </p>
               </div>
-              <p className="font-semibold text-white">
+              <p className="font-display font-bold text-foreground">
                 {formatPaise(item.unitPriceInPaise * item.quantity)}
               </p>
             </li>
           ))}
         </ul>
 
-        <dl className="space-y-3 border-t border-line p-6 text-sm">
+        <dl className="space-y-3 border-t border-line bg-carbon-soft p-6 text-sm">
           <div className="flex justify-between">
             <dt className="text-smoke">Subtotal</dt>
-            <dd className="font-semibold text-white">
+            <dd className="font-semibold text-foreground">
               {formatPaise(order.subtotalInPaise)}
             </dd>
           </div>
           <div className="flex justify-between">
             <dt className="text-smoke">Shipping</dt>
-            <dd className="font-semibold text-white">
+            <dd className="font-semibold text-foreground">
               {order.shippingInPaise === 0
                 ? "Free"
                 : formatPaise(order.shippingInPaise)}
             </dd>
           </div>
           <div className="flex justify-between border-t border-line pt-3 text-base">
-            <dt className="font-semibold text-white">Total</dt>
-            <dd className="font-bold text-brand">
+            <dt className="font-semibold text-foreground">Total</dt>
+            <dd className="font-display text-lg font-bold text-brand">
               {formatPaise(order.totalInPaise)}
             </dd>
           </div>
@@ -134,7 +139,7 @@ export default async function OrderSuccessPage({
             className="mt-0.5 h-5 w-5 shrink-0 text-brand"
           />
           <div>
-            <p className="text-sm font-semibold text-white">
+            <p className="text-sm font-semibold text-foreground">
               Shipping to {order.customerName}
             </p>
             <p className="mt-0.5 text-sm text-smoke">{order.customerAddress}</p>
@@ -152,7 +157,7 @@ export default async function OrderSuccessPage({
       <div className="mt-10 flex flex-col items-center gap-3">
         <Link
           href="/products"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
+          className="inline-flex h-12 items-center justify-center gap-2 bg-brand px-7 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
         >
           Continue shopping
           <ArrowRight aria-hidden="true" className="h-4 w-4" />

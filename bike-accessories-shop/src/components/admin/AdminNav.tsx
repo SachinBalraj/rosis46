@@ -26,7 +26,7 @@ export function AdminNav() {
   return (
     <nav
       aria-label="Admin navigation"
-      className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0"
+      className="flex gap-px overflow-x-auto border border-line bg-line lg:flex-col lg:overflow-visible"
     >
       {adminLinks.map((link) => (
         <Link
@@ -34,10 +34,10 @@ export function AdminNav() {
           href={link.href}
           aria-current={isActive(link.href) ? "page" : undefined}
           className={cn(
-            "inline-flex shrink-0 items-center gap-2.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors",
+            "inline-flex shrink-0 items-center gap-2.5 px-4 py-3 text-sm font-semibold tracking-wide transition-colors",
             isActive(link.href)
-              ? "bg-brand text-white"
-              : "text-smoke hover:bg-carbon hover:text-white"
+              ? "border-brand bg-brand text-white"
+              : "bg-white text-smoke hover:text-foreground"
           )}
         >
           <link.icon aria-hidden="true" className="h-4 w-4" />

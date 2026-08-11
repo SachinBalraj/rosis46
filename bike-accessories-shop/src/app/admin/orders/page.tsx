@@ -91,9 +91,7 @@ export default async function AdminOrdersPage({
     <div>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-extrabold tracking-tight text-white">
-            Orders
-          </h2>
+          <h2 className="display-heading text-3xl text-foreground">Orders</h2>
           <p className="mt-1 text-sm text-smoke">
             {orders.length} order{orders.length === 1 ? "" : "s"}
             {query ? ` matching “${query}”` : ""}
@@ -119,14 +117,14 @@ export default async function AdminOrdersPage({
             name="q"
             defaultValue={query ?? ""}
             placeholder="Search customer or order #…"
-            className="w-full rounded-xl border border-line bg-carbon py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-smoke focus:border-brand focus:outline-none"
+            className="w-full border border-line bg-white py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-smoke focus:border-brand focus:outline-none"
           />
         </div>
         {status ? <input type="hidden" name="status" value={status} /> : null}
         {payment ? <input type="hidden" name="payment" value={payment} /> : null}
         <button
           type="submit"
-          className="inline-flex h-10 shrink-0 items-center rounded-xl bg-brand px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
+          className="inline-flex h-10 shrink-0 items-center bg-brand px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
         >
           Search
         </button>
@@ -143,7 +141,7 @@ export default async function AdminOrdersPage({
               href={pillHref("status", filter.value)}
               aria-current={status === filter.value ? "page" : undefined}
               className={cn(
-                "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
+                "border px-3.5 py-1.5 text-xs font-semibold transition-colors",
                 status === filter.value
                   ? "border-brand bg-brand text-white"
                   : "border-line text-smoke hover:border-brand/40 hover:text-brand"
@@ -163,7 +161,7 @@ export default async function AdminOrdersPage({
               href={pillHref("payment", filter.value)}
               aria-current={payment === filter.value ? "page" : undefined}
               className={cn(
-                "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
+                "border px-3.5 py-1.5 text-xs font-semibold transition-colors",
                 payment === filter.value
                   ? "border-brand bg-brand text-white"
                   : "border-line text-smoke hover:border-brand/40 hover:text-brand"
@@ -176,17 +174,19 @@ export default async function AdminOrdersPage({
       </div>
 
       {orders.length === 0 ? (
-        <div className="mt-8 flex flex-col items-center rounded-3xl border border-dashed border-line bg-carbon/60 px-6 py-16 text-center">
-          <p className="text-lg font-bold text-white">No orders found</p>
+        <div className="mt-8 flex flex-col items-center border border-dashed border-line bg-white px-6 py-16 text-center">
+          <p className="font-display text-lg font-semibold text-foreground uppercase">
+            No orders found
+          </p>
           <p className="mt-2 max-w-sm text-sm text-smoke">
             Try a different filter, or check back after the next checkout.
           </p>
         </div>
       ) : (
-        <div className="mt-6 overflow-x-auto rounded-2xl border border-line bg-carbon">
+        <div className="mt-6 overflow-x-auto border border-line bg-white">
           <table className="w-full min-w-[980px] text-left text-sm">
             <thead>
-              <tr className="border-b border-line text-xs font-semibold tracking-widest text-smoke uppercase">
+              <tr className="border-b border-line bg-carbon-soft text-xs font-semibold tracking-widest text-smoke uppercase">
                 <th className="px-6 py-4">Order</th>
                 <th className="px-6 py-4">Customer</th>
                 <th className="px-6 py-4">Date</th>
@@ -201,11 +201,14 @@ export default async function AdminOrdersPage({
             </thead>
             <tbody className="divide-y divide-line">
               {orders.map((order) => (
-                <tr key={order.id} className="transition-colors hover:bg-carbon-soft/60">
+                <tr
+                  key={order.id}
+                  className="transition-colors hover:bg-carbon-soft"
+                >
                   <td className="px-6 py-4 font-mono text-xs text-smoke">
                     #{order.id.slice(0, 8).toUpperCase()}
                   </td>
-                  <td className="px-6 py-4 font-semibold text-white">
+                  <td className="px-6 py-4 font-semibold text-foreground">
                     {order.customerName}
                   </td>
                   <td className="px-6 py-4 text-smoke">
@@ -218,7 +221,7 @@ export default async function AdminOrdersPage({
                   <td className="px-6 py-4 text-center text-smoke">
                     {order.items.reduce((sum, item) => sum + item.quantity, 0)}
                   </td>
-                  <td className="px-6 py-4 font-semibold text-white">
+                  <td className="px-6 py-4 font-semibold text-foreground">
                     {formatPaise(order.totalInPaise)}
                   </td>
                   <td className="px-6 py-4">
@@ -231,7 +234,7 @@ export default async function AdminOrdersPage({
                     <Link
                       href={`/account/orders/${order.id}`}
                       aria-label={`View order ${order.id.slice(0, 8)}`}
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-smoke transition-colors hover:border-brand/40 hover:text-brand"
+                      className="inline-flex h-9 w-9 items-center justify-center border border-line text-smoke transition-colors hover:border-brand/40 hover:text-brand"
                     >
                       <Eye aria-hidden="true" className="h-4 w-4" />
                     </Link>

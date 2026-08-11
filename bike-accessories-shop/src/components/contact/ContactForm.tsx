@@ -34,15 +34,20 @@ export function ContactForm() {
   };
 
   const fieldClass = (hasError: boolean) =>
-    `w-full rounded-xl border bg-carbon px-4 py-3 text-sm text-white placeholder:text-smoke focus:outline-none ${
-      hasError ? "border-rose-500/70 focus:border-rose-500" : "border-line focus:border-brand"
+    `w-full border bg-white px-4 py-3 text-sm text-foreground placeholder:text-smoke focus:outline-none ${
+      hasError
+        ? "border-rose-500 focus:border-rose-500 focus:ring-1 focus:ring-rose-500"
+        : "border-line focus:border-brand focus:ring-1 focus:ring-brand"
     }`;
+
+  const labelClass =
+    "mb-2 block text-xs font-semibold tracking-widest text-foreground uppercase";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="mb-2 block text-sm font-medium text-white">
+          <label htmlFor="name" className={labelClass}>
             Name
           </label>
           <input
@@ -55,13 +60,13 @@ export function ContactForm() {
             {...register("name")}
           />
           {errors.name ? (
-            <p role="alert" className="mt-1.5 text-sm text-rose-400">
+            <p role="alert" className="mt-1.5 text-sm text-rose-500">
               {errors.name.message}
             </p>
           ) : null}
         </div>
         <div>
-          <label htmlFor="email" className="mb-2 block text-sm font-medium text-white">
+          <label htmlFor="email" className={labelClass}>
             Email
           </label>
           <input
@@ -74,7 +79,7 @@ export function ContactForm() {
             {...register("email")}
           />
           {errors.email ? (
-            <p role="alert" className="mt-1.5 text-sm text-rose-400">
+            <p role="alert" className="mt-1.5 text-sm text-rose-500">
               {errors.email.message}
             </p>
           ) : null}
@@ -82,7 +87,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="subject" className="mb-2 block text-sm font-medium text-white">
+        <label htmlFor="subject" className={labelClass}>
           Subject
         </label>
         <input
@@ -94,14 +99,14 @@ export function ContactForm() {
           {...register("subject")}
         />
         {errors.subject ? (
-          <p role="alert" className="mt-1.5 text-sm text-rose-400">
+          <p role="alert" className="mt-1.5 text-sm text-rose-500">
             {errors.subject.message}
           </p>
         ) : null}
       </div>
 
       <div>
-        <label htmlFor="message" className="mb-2 block text-sm font-medium text-white">
+        <label htmlFor="message" className={labelClass}>
           Message
         </label>
         <textarea
@@ -113,7 +118,7 @@ export function ContactForm() {
           {...register("message")}
         />
         {errors.message ? (
-          <p role="alert" className="mt-1.5 text-sm text-rose-400">
+          <p role="alert" className="mt-1.5 text-sm text-rose-500">
             {errors.message.message}
           </p>
         ) : null}
@@ -122,7 +127,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-brand-deep disabled:opacity-60"
+        className="inline-flex h-12 items-center justify-center gap-2 bg-brand px-7 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep disabled:opacity-60"
       >
         {isSubmitting ? "Sending…" : "Send message"}
         <Send aria-hidden="true" className="h-4 w-4" />

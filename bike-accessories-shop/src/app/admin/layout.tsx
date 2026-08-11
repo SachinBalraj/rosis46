@@ -24,11 +24,11 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
+          <p className="inline-flex items-center gap-2 border border-brand/40 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
             <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
             Admin console
           </p>
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          <h1 className="display-heading mt-4 text-4xl text-foreground">
             RideReady admin
           </h1>
         </div>

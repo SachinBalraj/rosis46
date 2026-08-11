@@ -42,10 +42,11 @@ export default async function PaymentFailedPage({
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-20 text-center sm:px-6 lg:px-8">
-      <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-rose-500/10 text-rose-400">
+      <span className="mx-auto flex h-20 w-20 items-center justify-center bg-rose-500/10 text-rose-500">
         <Ban aria-hidden="true" className="h-10 w-10" />
       </span>
-      <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+      <p className="eyebrow mt-8">RideReady</p>
+      <h1 className="display-heading mt-4 text-4xl text-foreground sm:text-5xl">
         {copy.title}
       </h1>
       <p className="mt-4 text-smoke">{copy.message}</p>
@@ -53,14 +54,14 @@ export default async function PaymentFailedPage({
       <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <Link
           href="/cart"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
+          className="inline-flex h-12 items-center justify-center gap-2 bg-brand px-7 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
         >
           <RefreshCcw aria-hidden="true" className="h-4 w-4" />
           Try payment again
         </Link>
         <Link
           href="/products"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-line px-7 text-sm font-semibold text-white transition-colors hover:border-brand/50 hover:text-brand"
+          className="inline-flex h-12 items-center justify-center gap-2 border border-line px-7 text-sm font-semibold tracking-widest text-foreground uppercase transition-colors hover:border-brand hover:text-brand"
         >
           Continue shopping
           <ArrowRight aria-hidden="true" className="h-4 w-4" />

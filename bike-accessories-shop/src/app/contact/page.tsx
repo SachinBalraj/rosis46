@@ -38,25 +38,17 @@ export default function ContactPage() {
     <>
       <section
         aria-labelledby="contact-hero"
-        className="relative overflow-hidden border-b border-line"
+        className="border-b border-line bg-white"
       >
-        <div aria-hidden="true" className="bg-grid absolute inset-0" />
-        <div
-          aria-hidden="true"
-          className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-brand/15 blur-[120px]"
-        />
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-xs font-semibold tracking-widest text-brand uppercase">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
-            Get in touch
-          </p>
+        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <p className="eyebrow">Get in touch</p>
           <h1
             id="contact-hero"
-            className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl"
+            className="display-heading mt-6 max-w-3xl text-5xl text-foreground sm:text-6xl"
           >
-            We&apos;d love to <span className="text-brand">hear from you.</span>
+            We&apos;d love to hear from you
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-smoke">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-smoke">
             Order help, sizing advice, partnership ideas — our rider team reads
             every message and replies within a day.
           </p>
@@ -74,7 +66,7 @@ export default function ContactPage() {
               title="How can we help?"
               description="Fill in the form and our team will get back to you within 24 hours on business days."
             />
-            <div className="mt-8 rounded-3xl border border-line bg-carbon p-6 sm:p-8">
+            <div className="mt-8 border border-line bg-white p-6 sm:p-8">
               <ContactForm />
             </div>
           </div>
@@ -85,25 +77,24 @@ export default function ContactPage() {
               title="Visit or reach us"
               description=""
             />
-            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <ul className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2">
               {shopDetails.map((detail) => (
-                <li
-                  key={detail.label}
-                  className="rounded-2xl border border-line bg-carbon p-5"
-                >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
-                    <detail.icon aria-hidden="true" className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-4 font-semibold text-white">
-                    {detail.label}
-                  </h3>
-                  <ul className="mt-1.5 space-y-0.5">
-                    {detail.lines.map((line) => (
-                      <li key={line} className="text-sm text-smoke">
-                        {line}
-                      </li>
-                    ))}
-                  </ul>
+                <li key={detail.label} className="bg-white">
+                  <div className="flex h-full flex-col p-5 transition-colors hover:bg-carbon-soft">
+                    <span className="flex h-11 w-11 items-center justify-center border border-line text-brand">
+                      <detail.icon aria-hidden="true" className="h-5 w-5" />
+                    </span>
+                    <h3 className="mt-4 font-display text-sm font-semibold tracking-wide uppercase">
+                      {detail.label}
+                    </h3>
+                    <ul className="mt-1.5 space-y-0.5">
+                      {detail.lines.map((line) => (
+                        <li key={line} className="text-sm text-smoke">
+                          {line}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -111,17 +102,17 @@ export default function ContactPage() {
             <div
               aria-label="Map showing the RideReady store location"
               role="img"
-              className="relative flex min-h-64 flex-1 items-center justify-center overflow-hidden rounded-3xl border border-line bg-carbon"
+              className="relative flex min-h-64 flex-1 items-center justify-center overflow-hidden border border-line bg-night text-white"
             >
               <div
                 aria-hidden="true"
-                className="bg-grid absolute inset-0 opacity-70"
+                className="bg-grid-dark absolute inset-0 opacity-70"
               />
               <div className="relative flex flex-col items-center gap-3 text-center">
-                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white">
+                <span className="flex h-14 w-14 items-center justify-center bg-brand text-white">
                   <MapPin aria-hidden="true" className="h-7 w-7" />
                 </span>
-                <p className="font-semibold text-white">
+                <p className="font-display text-lg font-semibold tracking-wide uppercase">
                   RideReady Flagship Store
                 </p>
                 <p className="max-w-xs text-sm text-smoke">
@@ -136,7 +127,7 @@ export default function ContactPage() {
       <section
         aria-labelledby="faq-heading"
         id="faq"
-        className="border-t border-line bg-carbon/50 py-20"
+        className="border-t border-line bg-carbon-soft py-20"
       >
         <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
@@ -149,9 +140,9 @@ export default function ContactPage() {
             {faqs.map((faq) => (
               <details
                 key={faq.question}
-                className="group rounded-2xl border border-line bg-carbon transition-colors open:border-brand/40"
+                className="group border border-line bg-white transition-colors open:border-brand"
               >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold text-white marker:hidden [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-display font-semibold tracking-wide text-foreground uppercase marker:hidden [&::-webkit-details-marker]:hidden">
                   {faq.question}
                   <ChevronDown
                     aria-hidden="true"

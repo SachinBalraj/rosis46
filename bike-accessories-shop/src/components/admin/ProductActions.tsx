@@ -81,14 +81,14 @@ export function ProductActions({
           disabled={toggling}
           aria-label={active ? `Hide ${name}` : `Show ${name}`}
           title={active ? "Hide from storefront" : "Show on storefront"}
-          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-smoke transition-colors hover:border-brand/40 hover:text-brand disabled:opacity-50"
+          className="inline-flex h-9 w-9 items-center justify-center border border-line text-smoke transition-colors hover:border-brand/40 hover:text-brand disabled:opacity-50"
         >
           <EyeOff aria-hidden="true" className="h-4 w-4" />
         </button>
         <Link
           href={`/admin/products/${id}/edit`}
           aria-label={`Edit ${name}`}
-          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-smoke transition-colors hover:border-brand/40 hover:text-brand"
+          className="inline-flex h-9 w-9 items-center justify-center border border-line text-smoke transition-colors hover:border-brand/40 hover:text-brand"
         >
           <Pencil aria-hidden="true" className="h-4 w-4" />
         </Link>
@@ -110,7 +110,7 @@ export function ProductActions({
               ? "Delete product"
               : "Can't delete — has order history"
           }
-          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-smoke transition-colors hover:border-rose-400/40 hover:text-rose-400 disabled:opacity-50"
+          className="inline-flex h-9 w-9 items-center justify-center border border-line text-smoke transition-colors hover:border-rose-500/40 hover:text-rose-500 disabled:opacity-50"
         >
           {deleting ? (
             <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
