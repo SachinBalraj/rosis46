@@ -20,7 +20,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Dashboard | Admin console",
-  description: "RideReady admin overview.",
+  description: "46 Rossis Biker Spot admin overview.",
 };
 
 export default async function AdminDashboardPage() {

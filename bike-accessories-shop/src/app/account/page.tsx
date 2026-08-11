@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Account",
   description:
-    "Sign in or create your RideReady account to track orders, manage addresses and get faster checkout.",
+    "Sign in or create your 46 Rossis Biker Spot account to track orders and check out faster.",
 };
 
 const accountBenefits = [

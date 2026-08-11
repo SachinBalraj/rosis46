@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ShoppingCart, User } from "lucide-react";
 import { useState } from "react";
@@ -33,27 +34,20 @@ export function Navbar() {
       >
         <Link
           href="/"
-          className="flex items-center gap-2.5 font-display text-lg font-bold tracking-widest text-foreground uppercase"
-          aria-label="RideReady home"
+          className="flex items-center gap-2.5 font-display text-sm font-bold tracking-widest whitespace-nowrap text-foreground uppercase sm:text-base lg:text-lg"
+          aria-label="46 Rossis Biker Spot home"
         >
-          <span className="flex h-9 w-9 items-center justify-center bg-brand text-white">
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="5.5" cy="17.5" r="3.5" />
-              <circle cx="18.5" cy="17.5" r="3.5" />
-              <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-              <path d="M12 17.5V14l-3-3 4-3 2 3h2" />
-            </svg>
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden bg-brand">
+            <Image
+              src="/images/rossis-46-logo.jpg"
+              alt=""
+              width={36}
+              height={28}
+              priority
+              className="h-full w-full object-contain"
+            />
           </span>
-          RideReady
+          46 Rossis Biker Spot
         </Link>
 
         <ul className="hidden items-center gap-1 lg:flex">

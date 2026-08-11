@@ -1,6 +1,8 @@
 import "server-only";
 
 import { prisma } from "@/lib/prisma";
+import { getCategoryVisual } from "@/lib/category-visuals";
+import type { Product } from "@/lib/data";
 
 export type ProductListFilters = {
   category?: string;
@@ -8,6 +10,44 @@ export type ProductListFilters = {
   query?: string;
   limit?: number;
 };
+
+type DbProductWithCategory = {
+  slug: string;
+  name: string;
+  description: string;
+  priceInPaise: number;
+  salePriceInPaise: number | null;
+  featured: boolean;
+  category: { name: string; slug: string };
+};
+
+export function toCatalogProduct(
+  product: DbProductWithCategory
+): Product {
+  const visual = getCategoryVisual(product.category.slug);
+  const hasSale =
+    product.salePriceInPaise !== null &&
+    product.salePriceInPaise < product.priceInPaise;
+  const price = Math.round(
+    (hasSale ? product.salePriceInPaise! : product.priceInPaise) / 100
+  );
+  const mrp = hasSale ? Math.round(product.priceInPaise / 100) : price;
+  return {
+    id: product.slug,
+    name: product.name,
+    category: product.category.slug as Product["category"],
+    categoryLabel: product.category.name,
+    price,
+    mrp,
+    rating: null,
+    reviewCount: null,
+    description: product.description,
+    accent: visual.accent,
+    icon: visual.icon,
+    featured: product.featured,
+    badge: hasSale ? "Sale" : undefined,
+  };
+}
 
 export async function getCategoriesWithCounts() {
   return prisma.category.findMany({

@@ -6,20 +6,14 @@ const connectionString = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
 
 if (!connectionString) {
   throw new Error(
-    "Missing DATABASE_URL or DIRECT_URL. Add it to .env before seeding."
+    "Missing DATABASE_URL or DIRECT_URL. Add it to .env before running this script."
   );
 }
 
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
-type SeedCategory = {
-  name: string;
-  slug: string;
-  image: string | null;
-};
-
-const categories: SeedCategory[] = [
+const storefrontCategories = [
   { name: "Sports Helmets", slug: "sports-helmets", image: null },
   { name: "Riding Gloves", slug: "riding-gloves", image: null },
   { name: "Bike Grips", slug: "bike-grips", image: null },
@@ -33,29 +27,27 @@ const categories: SeedCategory[] = [
 ];
 
 async function main() {
-  console.log("Seeding database…");
-
   await prisma.paymentEvent.deleteMany();
   await prisma.orderItem.deleteMany();
   await prisma.order.deleteMany();
   await prisma.product.deleteMany();
+
   await prisma.category.deleteMany();
-  await prisma.user.deleteMany();
+  await prisma.category.createMany({ data: storefrontCategories });
 
-  const createdCategories = await prisma.category.createMany({
-    data: categories,
+  const categories = await prisma.category.findMany({
+    select: { name: true, slug: true },
+    orderBy: { name: "asc" },
   });
-  console.log(`Created ${createdCategories.count} categories`);
-
-  console.log(
-    "Products are created through the admin panel only — the storefront catalogue starts empty."
-  );
-  console.log("Seed complete.");
+  console.log(`Deleted all products. Categories now powering the storefront (${categories.length}):`);
+  for (const category of categories) {
+    console.log(`  - ${category.name} (${category.slug})`);
+  }
 }
 
 main()
   .catch((error) => {
-    console.error("Seed failed:", error);
+    console.error("Align failed:", error);
     process.exit(1);
   })
   .finally(async () => {

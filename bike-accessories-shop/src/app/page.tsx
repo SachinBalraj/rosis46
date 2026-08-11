@@ -1,31 +1,43 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Quote, Star } from "lucide-react";
+import { ArrowRight, ArrowUpRight, MapPin, Quote, Star, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { NewsletterForm } from "@/components/home/NewsletterForm";
 import { iconMap } from "@/lib/icons";
-import { benefits, categories, products, testimonials } from "@/lib/data";
+import { getActiveProducts, toCatalogProduct } from "@/lib/db";
+import { benefits, homeCategories, testimonials } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "RideReady — Premium Bike Accessories Shop",
+  title: "46 Rossis Biker Spot — Salem's Rider HQ",
   description:
-    "Helmets, gloves, lights, locks and bags tested by riders. Free shipping over ₹999 and a 2-year warranty on all RideReady gear.",
+    "Premium riding gear, helmets, accessories, spare parts, and custom bike upgrades—all in one place at 46 Rossis Biker Spot, Salem.",
 };
 
-const featuredProducts = products.filter((product) => product.featured);
-
 const marqueeItems = [
-  "Free shipping over ₹999",
-  "2-year warranty on all gear",
-  "Tested by riders",
-  "Same-day dispatch",
-  "Certified fit guidance",
+  "Sports helmets",
+  "Riding gear",
+  "Custom decals",
+  "Spare parts",
+  "On-site installation",
+  "Open daily till 9 PM",
 ];
 
-export default function Home() {
+const installationServices = [
+  "Helmet fitting and visor swaps",
+  "Grip and lever installation",
+  "LED light and mobile holder fitment",
+  "Custom decal design and application",
+  "Exhaust accessories and spare part replacement",
+];
+
+export default async function Home() {
+  const featuredProducts = (await getActiveProducts({ featured: true })).map(
+    toCatalogProduct
+  );
+
   return (
     <>
       <section
@@ -34,14 +46,22 @@ export default function Home() {
       >
         <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="relative -mx-4 sm:-mx-6 lg:mx-0">
-            <figure className="relative aspect-[4/5] overflow-hidden bg-night sm:aspect-[16/12] lg:aspect-[4/5]">
+            <figure className="relative flex aspect-[5/4] items-center justify-center overflow-hidden bg-night">
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgb(225_6_0/0.22),transparent_65%)]"
+              />
               <Image
-                src="/images/hero-bike.svg"
-                alt="RideReady sport bicycle with red-accented wheels"
-                fill
+                src="/images/rossis-46-logo.jpg"
+                alt="46 Rossis Biker Spot logo"
+                width={1600}
+                height={1257}
                 priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="img-zoom object-cover"
+                className="relative h-full w-full object-contain"
+              />
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 ring-1 ring-brand/50 ring-inset"
               />
               <span
                 aria-hidden="true"
@@ -51,46 +71,57 @@ export default function Home() {
             <div className="mt-4 flex items-center gap-3">
               <span aria-hidden="true" className="h-2.5 w-2.5 bg-brand" />
               <p className="text-xs font-semibold tracking-[0.25em] text-smoke uppercase">
-                RideReady gear — ridden, rained on, crash-tested
+                Built for riders. Ready for every road.
               </p>
             </div>
           </div>
 
-          <div className="flex flex-col justify-center gap-8 py-14 lg:py-24 lg:pl-16">
-            <p className="eyebrow">
-              Premium cycling accessories · Est. 2019
-            </p>
+          <div className="relative flex flex-col justify-center gap-8 py-14 lg:py-24 lg:pl-16">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-6 right-0 hidden font-display text-[10rem] leading-none font-bold text-brand/5 select-none lg:block"
+            >
+              46
+            </span>
+            <p className="eyebrow">Salem&apos;s Rider HQ</p>
             <h1 className="display-heading max-w-xl text-5xl text-foreground sm:text-6xl lg:text-7xl">
-              Built for
+              Gear up.
               <br />
-              every ride
+              Ride bold.
             </h1>
             <p className="max-w-lg text-lg leading-relaxed text-smoke">
-              Helmets, gloves, lights, locks and bags — every product ridden,
-              rained on and crash-tested by our own team before it earns a
-              spot on the shelf. Gear that keeps you safe, seen and fast.
+              Premium riding gear, helmets, accessories, spare parts, and custom
+              bike upgrades—all in one place.
             </p>
 
-            <div className="flex items-center gap-5">
+            <div className="flex flex-wrap items-center gap-5">
               <span
                 aria-hidden="true"
                 className="hidden h-12 w-1 shrink-0 bg-brand sm:block"
               />
               <Button href="/products" size="lg" variant="brand-outline">
-                + Explore products
-                <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                Shop accessories
+              </Button>
+              <Button
+                href="/contact"
+                size="lg"
+                variant="secondary"
+                className="bg-white"
+              >
+                <MapPin aria-hidden="true" className="h-4 w-4" />
+                Visit our store
               </Button>
             </div>
 
             <dl className="mt-2 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-8">
               {[
-                { value: "5,000+", label: "Riders geared up" },
-                { value: "4.8/5", label: "Average rating" },
-                { value: "2-yr", label: "Warranty on gear" },
+                { value: "Gear", label: "Helmets & riding gear" },
+                { value: "Spares", label: "Genuine spare parts" },
+                { value: "Fit", label: "On-site installation" },
               ].map((stat) => (
                 <div key={stat.label}>
                   <dt className="sr-only">{stat.label}</dt>
-                  <dd className="font-display text-3xl font-bold text-foreground">
+                  <dd className="font-display text-3xl font-bold text-brand">
                     {stat.value}
                   </dd>
                   <dd className="mt-1 text-xs tracking-widest text-smoke uppercase">
@@ -118,42 +149,39 @@ export default function Home() {
       </section>
 
       <section
-        aria-label="Season campaign"
+        aria-label="Brand statement"
         className="relative overflow-hidden border-y border-line-dark bg-night text-white"
       >
-        <div aria-hidden="true" className="absolute inset-0">
-          <Image
-            src="/images/hero-bike.svg"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover opacity-25"
-          />
-        </div>
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"
+          className="absolute inset-0 bg-night bg-[url('/images/rosisbg.png')] bg-cover bg-[center_35%] sm:bg-center"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-black/65 sm:bg-black/70"
         />
         <div className="relative mx-auto w-full max-w-7xl px-4 py-24 text-center sm:px-6 lg:px-8 lg:py-32">
-          <p className="text-xs font-semibold tracking-[0.35em] text-white uppercase">
-            The winter gear drop
+          <p className="text-xs font-semibold tracking-[0.35em] text-brand uppercase">
+            46 Rossis Biker Spot
           </p>
-          <h2 className="display-heading mx-auto mt-5 max-w-3xl text-5xl text-brand sm:text-6xl lg:text-7xl">
-            Ride into the dark, lit
+          <h2 className="display-heading mx-auto mt-5 max-w-3xl text-5xl text-white sm:text-6xl lg:text-7xl">
+            Built for riders. Ready for every road.
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/80">
-            High-beam lights, thermal gloves and storm-proof bags — up to 30%
-            off for a limited time. Built for the riders who don&apos;t stop
-            when the sun does.
+            Sports helmets, riding gear, custom decals, spare parts and
+            modifications—with on-site installation at our store in Salem.
           </p>
-          <div className="mt-10">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <Button href="/products" size="lg">
+              Shop accessories
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Button>
             <Button
-              href="/products"
+              href="/contact"
               size="lg"
               className="border border-white bg-transparent text-white hover:bg-white hover:text-black"
             >
-              Shop the drop
-              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              Visit our store
             </Button>
           </div>
         </div>
@@ -166,9 +194,9 @@ export default function Home() {
         <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading
-              eyebrow="Popular categories"
+              eyebrow="46 · What we stock"
               title="Everything your bike needs"
-              description="From your first commute to your longest tour, we've got the gear to keep you safe and comfortable."
+              description="From your first helmet to custom decals and genuine spares—fit and installed for you in Salem."
             />
             <Button href="/products" variant="secondary">
               Browse all products
@@ -176,32 +204,25 @@ export default function Home() {
             </Button>
           </div>
 
-          <ul className="mt-12 grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-3 lg:grid-cols-5">
-            {categories.map((category) => {
+          <ul className="mt-12 grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-3 xl:grid-cols-6">
+            {homeCategories.map((category) => {
               const Icon = iconMap[category.icon];
               return (
                 <li key={category.slug} className="bg-white">
                   <Link
-                    href={`/products?category=${category.slug}`}
+                    href={category.href}
                     className="group flex h-full flex-col gap-4 bg-white p-6 transition-colors duration-300 hover:bg-night"
                   >
                     <span className="flex h-12 w-12 items-center justify-center border border-line text-brand transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-white">
                       <Icon aria-hidden="true" className="h-6 w-6" />
                     </span>
-                    <span>
+                    <span className="flex flex-1 flex-col justify-center">
                       <span className="block font-display text-lg font-semibold tracking-wide text-foreground uppercase transition-colors group-hover:text-white">
                         {category.label}
                       </span>
                       <span className="mt-1 block text-sm text-smoke transition-colors group-hover:text-white/70">
-                        {category.count} products
+                        {category.blurb}
                       </span>
-                    </span>
-                    <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold tracking-widest text-brand uppercase">
-                      Shop now
-                      <ArrowRight
-                        aria-hidden="true"
-                        className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                      />
                     </span>
                   </Link>
                 </li>
@@ -212,26 +233,104 @@ export default function Home() {
       </section>
 
       <section
-        aria-labelledby="featured-heading"
-        className="border-t border-line bg-white"
+        aria-labelledby="installation-heading"
+        id="installation"
+        className="relative overflow-hidden border-y border-line-dark bg-night text-white"
       >
-        <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading
-              eyebrow="Rider favorites"
-              title="Featured products"
-              description="The gear our riders reach for every single day. Handpicked for quality, tested for real roads."
-            />
-            <Button href="/products" variant="secondary">
-              View all products
-              <ArrowRight aria-hidden="true" className="h-4 w-4" />
-            </Button>
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgb(225_6_0/0.2),transparent_55%)]"
+        />
+        <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-28">
+          <div className="flex flex-col gap-6">
+            <p className="eyebrow">On-site installation</p>
+            <h2
+              id="installation-heading"
+              className="display-heading max-w-xl text-4xl text-white sm:text-5xl lg:text-6xl"
+            >
+              Bring your bike. Leave upgraded.
+            </h2>
+            <p className="max-w-xl text-base leading-relaxed text-white/75">
+              We don&apos;t just sell—we fit. Roll in with your bike and our
+              team handles the rest: fitting, wiring, decals and part
+              replacement, all on-site at our Salem store.
+            </p>
+            <ul className="flex flex-col gap-3">
+              {installationServices.map((service) => (
+                <li key={service} className="flex items-start gap-3">
+                  <span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 bg-brand" />
+                  <span className="text-sm leading-relaxed text-white/80">
+                    {service}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-2 flex flex-wrap items-center gap-4">
+              <Button href="/contact" size="lg">
+                Plan your visit
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              </Button>
+              <Button
+                href="/products"
+                size="lg"
+                className="border border-white bg-transparent text-white hover:bg-white hover:text-black"
+              >
+                Shop the gear
+              </Button>
+            </div>
           </div>
-          <div className="mt-12">
-            <ProductGrid products={featuredProducts} />
+
+          <div className="relative border border-line-dark bg-charcoal p-10 text-white">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute top-2 right-4 font-display text-8xl leading-none font-bold text-brand/15 select-none"
+            >
+              46
+            </span>
+            <span className="flex h-14 w-14 items-center justify-center bg-brand text-white">
+              <Wrench aria-hidden="true" className="h-7 w-7" />
+            </span>
+            <p className="mt-6 font-display text-2xl font-bold tracking-wide uppercase">
+              Open daily until 9:00 PM
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-smoke">
+              Opposite KPN Petrol Bunk, Buddhar Street / Suramangalam Main Road,
+              Thiruvakavundanur, Salem – 636005.
+            </p>
+            <Link
+              href="/contact"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:text-white"
+            >
+              Get directions
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
+
+      {featuredProducts.length > 0 ? (
+        <section
+          aria-labelledby="featured-heading"
+          className="bg-white"
+        >
+          <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <SectionHeading
+                eyebrow="Rider favorites"
+                title="Featured gear"
+                description="The products our Salem riders reach for most—handpicked for quality and everyday use."
+              />
+              <Button href="/products" variant="secondary">
+                View all products
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="mt-12">
+              <ProductGrid products={featuredProducts} />
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section
         aria-labelledby="benefits-heading"
@@ -239,10 +338,10 @@ export default function Home() {
       >
         <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
           <SectionHeading
-            eyebrow="Why RideReady"
-            title="Built for the way you ride"
+            eyebrow="Why 46 Rossis Biker Spot"
+            title="Built for riders. Ready for every road."
             align="center"
-            description="We obsess over the details so you can focus on the road ahead."
+            description="A local destination for motorcycle enthusiasts in Salem—gear, spares and hands-on service."
           />
           <ul className="mt-12 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
             {benefits.map((benefit) => {
@@ -274,9 +373,9 @@ export default function Home() {
         <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Rider reviews"
-            title="Trusted by riders across India"
+            title="Trusted by riders across Salem"
             align="center"
-            description="Real reviews from people who actually ride what we sell."
+            description="Real words from riders who gear up and get upgraded at our store."
           />
           <ul className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
             {testimonials.map((testimonial) => (
@@ -331,11 +430,11 @@ export default function Home() {
               id="newsletter-heading"
               className="display-heading mx-auto mt-5 max-w-3xl text-4xl sm:text-5xl lg:text-6xl"
             >
-              Gear drops, ride tips & exclusive deals
+              New arrivals, ride tips & store offers
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-smoke">
-              Join 12,000+ riders. One email a week, no spam, unsubscribe
-              anytime.
+              Be the first to know about fresh gear and custom builds at 46
+              Rossis Biker Spot.
             </p>
             <div className="mt-10">
               <NewsletterForm />

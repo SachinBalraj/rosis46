@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Order details",
-  description: "Review your RideReady order.",
+  description: "Review your 46 Rossis Biker Spot order.",
 };
 
 type OrderDetailPageProps = {

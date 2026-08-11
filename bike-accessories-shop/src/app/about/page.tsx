@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { BadgeCheck, CheckCircle2, Target } from "lucide-react";
+import {
+  BadgeCheck,
+  Clock,
+  MapPin,
+  ShieldCheck,
+  Wrench,
+  CheckCircle2,
+} from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { team } from "@/lib/data";
@@ -8,36 +15,42 @@ import { team } from "@/lib/data";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "The RideReady story — built by riders for riders. Learn about our mission, our quality promise and the team behind the gear.",
+    "46 Rossis Biker Spot is a local destination for motorcycle enthusiasts in Salem—riding gear, spare parts, custom decals and on-site installation.",
 };
 
-const values = [
+const pillars = [
   {
-    icon: Target,
-    title: "Ride more, worry less",
+    icon: ShieldCheck,
+    title: "Rider safety first",
     description:
-      "Every decision we make starts with one question: does this make the next ride better? If it doesn't, it doesn't ship.",
+      "We only stock ISI/E-marked helmets and certified riding gear, and we fit them properly before you ride.",
   },
   {
     icon: BadgeCheck,
-    title: "Tested, not just listed",
+    title: "Quality you can trust",
     description:
-      "Products don't go on the shelf until our own team has ridden them through heat, rain and rough roads.",
+      "Every accessory and part we sell is picked to survive real Salem roads—no short-cuts, no fading quickly.",
   },
   {
     icon: CheckCircle2,
-    title: "Honesty over hype",
+    title: "Practical spare parts",
     description:
-      "We publish real ratings, honest specs and transparent pricing. If a product has limits, we say so.",
+      "Hard-to-find spares for everyday repairs and maintenance, sourced and stocked so you're never stuck.",
+  },
+  {
+    icon: Wrench,
+    title: "Personalised modifications",
+    description:
+      "Custom decals, lighting, grips and upgrades built around how you actually ride your bike.",
   },
 ];
 
-const promiseItems = [
-  "In-mold construction and impact liners on every helmet we sell",
-  "Hardened steel cores and independently rated locks",
-  "Waterproofing verified against a 40km rain simulation",
-  "USB-C charging on every light for universal compatibility",
-  "2-year replacement warranty on helmets, locks and bags",
+const installationServices = [
+  "Helmet fitting and visor swaps",
+  "Grip and lever installation",
+  "LED light and mobile holder fitment",
+  "Custom decal design and application",
+  "Exhaust accessories and spare part replacement",
 ];
 
 export default function AboutPage() {
@@ -47,29 +60,42 @@ export default function AboutPage() {
         aria-labelledby="about-hero"
         className="border-b border-line bg-white"
       >
-        <div className="mx-auto grid w-full max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-24">
-          <div className="flex flex-col gap-6">
-            <p className="eyebrow">About RideReady</p>
+        <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div className="flex flex-col justify-center gap-6 py-14 lg:py-24 lg:pr-16">
+            <p className="eyebrow">About 46 Rossis Biker Spot</p>
             <h1
               id="about-hero"
               className="display-heading max-w-xl text-5xl text-foreground sm:text-6xl lg:text-7xl"
             >
-              Built by riders, for riders
+              Salem&apos;s local destination for riders
             </h1>
             <p className="max-w-xl text-lg leading-relaxed text-smoke">
-              RideReady started in a Bengaluru garage with a broken helmet
-              strap, a borrowed wrench and a simple frustration: riders were
-              being sold gear that hadn&apos;t earned the road. We decided to
-              change that.
+              From daily commuters to weekend enthusiasts, riders across Salem
+              come to us for quality gear, genuine spare parts and hands-on
+              service—all under one roof.
             </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <Button href="/products" size="lg" variant="brand-outline">
+                Shop accessories
+              </Button>
+              <Button href="/contact" size="lg" variant="secondary">
+                Visit the store
+              </Button>
+            </div>
           </div>
-          <figure className="relative aspect-[4/3] overflow-hidden bg-night">
+
+          <figure className="relative -mx-4 flex aspect-[5/4] items-center justify-center overflow-hidden bg-night sm:-mx-6 lg:mx-0">
             <Image
-              src="/images/hero-bike.svg"
-              alt="RideReady bicycle being built and tested"
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="img-zoom object-cover"
+              src="/images/rosisabout.png"
+              alt="46 Rossis Biker Spot storefront"
+              width={1672}
+              height={941}
+              priority
+              className="relative h-full w-full object-cover object-center"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 ring-1 ring-brand/50 ring-inset"
             />
             <span
               aria-hidden="true"
@@ -86,58 +112,56 @@ export default function AboutPage() {
         <div className="grid items-start gap-12 lg:grid-cols-2">
           <SectionHeading
             eyebrow="Our story"
-            title="From garage project to gear you can trust"
+            title="Built for riders. Ready for every road."
             description=""
           />
           <div className="flex flex-col gap-5 leading-relaxed text-smoke">
             <p>
-              In 2019, our founder Vikram was preparing for a national track
-              cycling championship when a low-cost helmet failed him in training.
-              The strap broke at speed. He walked away, but too many riders
-              wouldn&apos;t have. That close call became the founding question of
-              RideReady:{" "}
-              <strong className="text-foreground">why is most bike gear so poorly made?</strong>
+              46 Rossis Biker Spot is a local destination for motorcycle
+              enthusiasts in Salem. We&apos;re the shop you ride into when you
+              need a new helmet, a missing spare part, or a bike that feels
+              like yours again.
             </p>
             <p>
-              So we started testing. We bought gear from around the world, broke
-              it apart on benches, and rode thousands of kilometres with what
-              survived. We partnered with manufacturers willing to build to our
-              spec — not just to a price tag — and put the RideReady name only on
-              products that passed our own crash, rain and long-distance tests.
+              What started as a neighbourhood accessories store has grown into
+              a full biker spot: sports helmets fitted to your head, riding
+              gear for every season, practical spare parts that are hard to
+              find elsewhere, and custom decals and modifications done
+              in-house.
             </p>
             <p>
-              Today, more than 5,000 riders across India depend on our helmets,
-              lights, locks and bags. Every order still ships from our
-              Bengaluru warehouse, and every product still earns its place the
-              same way it did on day one: on the road.
+              Located opposite KPN Petrol Bunk on Suramangalam Main Road, we
+              stay open daily until 9:00 PM—so even after work, your bike can
+              get what it needs. Bring it in, tell us the plan, and leave
+              upgraded.
             </p>
           </div>
         </div>
       </section>
 
       <section
-        aria-labelledby="mission-heading"
+        aria-labelledby="pillars-heading"
         className="border-y border-line bg-carbon-soft py-20"
       >
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            eyebrow="Our mission"
-            title="Why we exist"
+            eyebrow="What we stand for"
+            title="Why riders trust us"
             align="center"
-            description="Three principles guide everything we build, test and sell."
+            description="Four promises we keep on every visit, every fitting and every install."
           />
-          <ul className="mt-12 grid grid-cols-1 gap-px border border-line bg-line md:grid-cols-3">
-            {values.map((value) => (
-              <li key={value.title} className="bg-white">
+          <ul className="mt-12 grid grid-cols-1 gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
+            {pillars.map((pillar) => (
+              <li key={pillar.title} className="bg-white">
                 <div className="flex h-full flex-col p-7 transition-colors duration-300 hover:bg-night hover:text-white">
                   <span className="flex h-12 w-12 items-center justify-center border border-line text-brand">
-                    <value.icon aria-hidden="true" className="h-6 w-6" />
+                    <pillar.icon aria-hidden="true" className="h-6 w-6" />
                   </span>
                   <h3 className="mt-5 font-display text-lg font-semibold tracking-wide uppercase">
-                    {value.title}
+                    {pillar.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-smoke">
-                    {value.description}
+                    {pillar.description}
                   </p>
                 </div>
               </li>
@@ -147,45 +171,63 @@ export default function AboutPage() {
       </section>
 
       <section
-        aria-labelledby="quality-heading"
+        aria-labelledby="installation-heading"
+        id="installation"
         className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28"
       >
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
             <SectionHeading
-              eyebrow="Quality promise"
-              title="If it fails on the road, it never reaches your bike"
-              description="Our quality standard is simple: every product must survive a full season of hard riding. Here's what that means in practice."
+              eyebrow="On-site installation"
+              title="Bring your bike. Leave upgraded."
+              description="We fit, wire and apply everything ourselves—so you ride out confident, not curious."
             />
             <ul className="mt-8 flex flex-col gap-3">
-              {promiseItems.map((item) => (
+              {installationServices.map((service) => (
                 <li
-                  key={item}
+                  key={service}
                   className="flex items-start gap-3 border border-line bg-white p-4"
                 >
-                  <CheckCircle2
+                  <Wrench
                     aria-hidden="true"
                     className="mt-0.5 h-5 w-5 shrink-0 text-brand"
                   />
                   <span className="text-sm leading-relaxed text-foreground">
-                    {item}
+                    {service}
                   </span>
                 </li>
               ))}
             </ul>
+            <Button href="/contact" size="lg" variant="brand-outline" className="mt-8">
+              Plan your visit
+            </Button>
           </div>
-          <div className="border border-line-dark bg-night p-10 text-white">
-            <p className="border-l-4 border-brand pl-4 font-display text-6xl font-bold text-brand">
-              9,600+
+          <div className="relative overflow-hidden border border-line-dark bg-night p-10 text-white">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-4 right-2 font-display text-[10rem] leading-none font-bold text-brand/15 select-none"
+            >
+              46
+            </span>
+            <p className="flex items-center gap-3 border-l-4 border-brand pl-4 font-display text-4xl font-bold text-white sm:text-5xl">
+              Open daily
             </p>
-            <p className="mt-4 font-display text-lg font-semibold tracking-wide uppercase">
-              kilometres of combined test riding per product line
+            <p className="mt-2 pl-8 font-display text-lg font-semibold tracking-wide text-brand uppercase">
+              Until 9:00 PM
             </p>
-            <p className="mt-4 text-sm leading-relaxed text-smoke">
-              Each new product is ridden across highways, monsoons and pothole
-              city streets before it earns the RideReady badge. This is how we
-              keep our 2-year warranty honest.
-            </p>
+            <ul className="mt-8 flex flex-col gap-4 text-sm leading-relaxed text-smoke">
+              <li className="flex items-start gap-3">
+                <MapPin aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
+                <span>
+                  Opposite KPN Petrol Bunk, Buddhar Street / Suramangalam Main
+                  Road, Thiruvakavundanur, Salem – 636005
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Clock aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
+                <span>Open all seven days until 9:00 PM.</span>
+              </li>
+            </ul>
           </div>
         </div>
       </section>
@@ -197,11 +239,11 @@ export default function AboutPage() {
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="The team"
-            title="The people behind the gear"
+            title="The people behind the spot"
             align="center"
-            description="Riders, engineers and support nerds who would rather be on two wheels than in meetings."
+            description="Riders and mechanics who'd rather be at the workbench than anywhere else."
           />
-          <ul className="mt-12 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-12 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {team.map((member) => (
               <li key={member.name} className="bg-white">
                 <div className="flex h-full flex-col p-6 transition-colors hover:bg-night hover:text-white">
@@ -235,11 +277,11 @@ export default function AboutPage() {
               id="about-cta"
               className="display-heading mx-auto mt-5 max-w-3xl text-4xl text-white sm:text-5xl lg:text-6xl"
             >
-              Join 5,000+ riders who trust the gear
+              Built for riders. Ready for every road.
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-smoke">
-              RideReady gear keeps riders safe and fast on every ride. Find
-              yours today.
+              Ride in today and leave with better gear—fitted, installed and
+              ready for the road ahead.
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <Button href="/products" size="lg">
@@ -250,7 +292,7 @@ export default function AboutPage() {
                 size="lg"
                 className="border border-white bg-transparent text-white hover:bg-white hover:text-black"
               >
-                Talk to the team
+                Visit our store
               </Button>
             </div>
           </div>

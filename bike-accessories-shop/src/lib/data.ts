@@ -1,42 +1,122 @@
 export const categories = [
   {
-    slug: "helmets",
-    label: "Helmets",
+    slug: "sports-helmets",
+    label: "Sports Helmets",
     icon: "HardHat",
-    blurb: "Aero shells with impact-absorbing liners for every ride.",
+    blurb: "ISI/E-marked sports helmets fitted to your head for every ride.",
     count: 3,
   },
   {
-    slug: "gloves",
-    label: "Gloves",
+    slug: "riding-gloves",
+    label: "Riding Gloves",
     icon: "Hand",
-    blurb: "Grip, comfort and knuckle protection in all weather.",
+    blurb: "Grip, comfort and knuckle protection in every season.",
     count: 2,
   },
   {
-    slug: "lights",
-    label: "Lights",
+    slug: "bike-grips",
+    label: "Bike Grips",
+    icon: "Grip",
+    blurb: "Ergonomic grips for comfort, control and all-day riding.",
+    count: 2,
+  },
+  {
+    slug: "mobile-holders",
+    label: "Mobile Holders",
+    icon: "Smartphone",
+    blurb: "Secure phone mounts for navigation and calls on the go.",
+    count: 2,
+  },
+  {
+    slug: "led-lights",
+    label: "LED Lights",
     icon: "Flashlight",
-    blurb: "USB-chargeable beams that keep you seen after dark.",
+    blurb: "Bright, road-legal lighting for safe night rides.",
     count: 2,
   },
   {
-    slug: "locks",
-    label: "Locks",
-    icon: "Lock",
-    blurb: "Hardened steel security for city stops and overnights.",
+    slug: "custom-decals",
+    label: "Custom Decals",
+    icon: "Sticker",
+    blurb: "Personalised graphics, number boards and racing decals.",
     count: 2,
   },
   {
-    slug: "bags",
-    label: "Bags",
-    icon: "Backpack",
-    blurb: "Waterproof packs and panniers built for the daily commute.",
-    count: 3,
+    slug: "mirrors",
+    label: "Mirrors",
+    icon: "Disc",
+    blurb: "Wide-angle mirrors for safer lane changes and city riding.",
+    count: 1,
+  },
+  {
+    slug: "exhaust-accessories",
+    label: "Exhaust Accessories",
+    icon: "Zap",
+    blurb: "Muffler tips, heat shields and exhaust add-ons.",
+    count: 1,
+  },
+  {
+    slug: "spare-parts",
+    label: "Spare Parts",
+    icon: "Settings",
+    blurb: "Practical, hard-to-find spares for repairs and upgrades.",
+    count: 2,
+  },
+  {
+    slug: "chain-care",
+    label: "Chain Care & Cleaning",
+    icon: "Droplets",
+    blurb: "Cleaners, lubes and kits that keep your chain running smooth.",
+    count: 2,
   },
 ] as const;
 
 export type CategorySlug = (typeof categories)[number]["slug"];
+
+export const homeCategories = [
+  {
+    slug: "sports-helmets",
+    label: "Helmets",
+    icon: "HardHat",
+    blurb: "ISI/E-marked sports helmets, fitted to your head.",
+    href: "/products?category=sports-helmets",
+  },
+  {
+    slug: "riding-gloves",
+    label: "Riding Gear",
+    icon: "Hand",
+    blurb: "Gloves and gear for comfort and protection.",
+    href: "/products?category=riding-gloves",
+  },
+  {
+    slug: "bike-grips",
+    label: "Grips",
+    icon: "Grip",
+    blurb: "Ergonomic grips fitted and installed on-site.",
+    href: "/products?category=bike-grips",
+  },
+  {
+    slug: "custom-decals",
+    label: "Custom Decals",
+    icon: "Sticker",
+    blurb: "Custom graphics and decals applied to your bike.",
+    href: "/products?category=custom-decals",
+  },
+  {
+    slug: "spare-parts",
+    label: "Spare Parts",
+    icon: "Settings",
+    blurb: "Genuine spares for every make and model.",
+    href: "/products?category=spare-parts",
+  },
+  {
+    slug: "bike-modifications",
+    label: "Bike Modifications",
+    icon: "Wrench",
+    blurb: "Custom builds and upgrades with on-site installation.",
+    href: "/#installation",
+  },
+];
 
 export type Product = {
   id: string;
@@ -45,273 +125,82 @@ export type Product = {
   categoryLabel: string;
   price: number;
   mrp: number;
-  rating: number;
-  reviewCount: number;
+  rating: number | null;
+  reviewCount: number | null;
   badge?: "Bestseller" | "New" | "Sale" | "Limited";
   description: string;
   accent: string;
   icon: string;
   featured?: boolean;
+  installation?: boolean;
 };
 
-export const products: Product[] = [
+export const team = [
   {
-    id: "aero-vanguard-helmet",
-    name: "Aero Vanguard Helmet",
-    category: "helmets",
-    categoryLabel: "Helmets",
-    price: 3499,
-    mrp: 4299,
-    rating: 4.8,
-    reviewCount: 214,
-    badge: "Bestseller",
-    description:
-      "In-mold polycarbonate shell with 18 vents, magnetic Fidlock strap and a dial-fit retention system.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "HardHat",
-    featured: true,
+    name: "Suresh Kumar",
+    role: "Owner & Store Manager",
+    bio: "Runs 46 Rossis Biker Spot with a rider-first attitude—helping every customer find the right gear, part or upgrade for their bike.",
+    initials: "SK",
   },
   {
-    id: "carbon-aero-helmet",
-    name: "Carbon Aero Helmet",
-    category: "helmets",
-    categoryLabel: "Helmets",
-    price: 7499,
-    mrp: 8999,
-    rating: 4.9,
-    reviewCount: 96,
-    badge: "New",
-    description:
-      "Full-carbon road helmet at 220g with an integrated MIPS liner and wide-field visor mount.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "HardHat",
-    featured: true,
+    name: "Mohammed Farhan",
+    role: "Installation Specialist",
+    bio: "Fits helmets, grips, lights, decals and spares on-site. If it bolts on, wires up or sticks to your bike, he's the one doing it right.",
+    initials: "MF",
   },
   {
-    id: "city-commuter-helmet",
-    name: "City Commuter Helmet",
-    category: "helmets",
-    categoryLabel: "Helmets",
-    price: 1999,
-    mrp: 2499,
-    rating: 4.6,
-    reviewCount: 158,
-    description:
-      "Urban lid with a flip-up magnetic visor, built-in tail light and a sweat-guard brow pad.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "HardHat",
-  },
-  {
-    id: "gripline-padded-gloves",
-    name: "Gripline Padded Gloves",
-    category: "gloves",
-    categoryLabel: "Gloves",
-    price: 1299,
-    mrp: 1699,
-    rating: 4.7,
-    reviewCount: 187,
-    badge: "Bestseller",
-    description:
-      "Ventilated half-finger gloves with silicone grip print and gel padding on the heel of the palm.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "Hand",
-    featured: true,
-  },
-  {
-    id: "winter-thermal-gloves",
-    name: "Winter Thermal Gloves",
-    category: "gloves",
-    categoryLabel: "Gloves",
-    price: 1899,
-    mrp: 2399,
-    rating: 4.5,
-    reviewCount: 64,
-    badge: "Sale",
-    description:
-      "Windproof, water-resistant full-finger gloves with fleece lining and touchscreen fingertips.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "Hand",
-  },
-  {
-    id: "lumos-1200-headlight",
-    name: "Lumos 1200 Headlight",
-    category: "lights",
-    categoryLabel: "Lights",
-    price: 2499,
-    mrp: 2999,
-    rating: 4.8,
-    reviewCount: 143,
-    badge: "New",
-    description:
-      "1200-lumen USB-C headlight with a daytime-visible flash mode and 4-hour high-beam runtime.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "Flashlight",
-    featured: true,
-  },
-  {
-    id: "beampod-rear-taillight",
-    name: "BeamPOD Rear Taillight",
-    category: "lights",
-    categoryLabel: "Lights",
-    price: 999,
-    mrp: 1299,
-    rating: 4.6,
-    reviewCount: 121,
-    description:
-      "Crank-mounted auto-brightness taillight with a 30-hour battery and an auto-on motion sensor.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "Zap",
-  },
-  {
-    id: "steelcore-u-lock",
-    name: "Steelcore U-Lock",
-    category: "locks",
-    categoryLabel: "Locks",
-    price: 2199,
-    mrp: 2699,
-    rating: 4.7,
-    reviewCount: 98,
-    badge: "Bestseller",
-    description:
-      "16mm hardened-steel shackle with a double-bolt locking mechanism and a silicone anti-scratch sleeve.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "Lock",
-    featured: true,
-  },
-  {
-    id: "foldlock-compact-chain",
-    name: "FoldLock Compact Chain",
-    category: "locks",
-    categoryLabel: "Locks",
-    price: 2799,
-    mrp: 3399,
-    rating: 4.5,
-    reviewCount: 77,
-    description:
-      "Pocket-sized folding lock that expands to 85cm, with a hardened steel core and keyed cylinder.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "Lock",
-  },
-  {
-    id: "urban-rolltop-backpack",
-    name: "Urban Roll-Top Backpack",
-    category: "bags",
-    categoryLabel: "Bags",
-    price: 3299,
-    mrp: 3999,
-    rating: 4.9,
-    reviewCount: 231,
-    badge: "Bestseller",
-    description:
-      "26L fully waterproof roll-top with a 15\" laptop sleeve, reflective piping and a helmet carry strap.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "Backpack",
-    featured: true,
-  },
-  {
-    id: "pannier-commuter-25l",
-    name: "Commuter Pannier 25L",
-    category: "bags",
-    categoryLabel: "Bags",
-    price: 3899,
-    mrp: 4599,
-    rating: 4.6,
-    reviewCount: 89,
-    badge: "New",
-    description:
-      "Quick-release pannier with a welded waterproof liner, expandable roll-top and a padded laptop dock.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "Package",
-  },
-  {
-    id: "saddlebag-toolkit",
-    name: "Under-Saddle Tool Kit",
-    category: "bags",
-    categoryLabel: "Bags",
-    price: 1499,
-    mrp: 1899,
-    rating: 4.4,
-    reviewCount: 52,
-    badge: "Sale",
-    description:
-      "Compact wedge pack with tire levers, a multi-tool, a spare tube and a frame-mount CO2 holder.",
-    accent: "from-brand/35 via-white/10 to-transparent",
-    icon: "Wrench",
+    name: "Priya S",
+    role: "Riding Gear Specialist",
+    bio: "Knows helmets, gloves and riding gear inside out. She sizes and fits gear so it protects properly—not just looks good.",
+    initials: "PS",
   },
 ];
 
 export const testimonials = [
   {
-    name: "Aarav Mehta",
-    role: "Daily commuter · Bengaluru",
+    name: "Karthik R",
+    role: "Daily commuter · Salem",
     quote:
-      "The Vanguard helmet is feather-light and the vents actually work. I've worn it through two monsoon seasons and it still looks brand new.",
+      "Got a full-face helmet fitted and LED bulbs installed in one visit. The team is patient and genuinely knows their stuff.",
   },
   {
-    name: "Nisha Iyer",
-    role: "Endurance rider · Pune",
+    name: "Mohammed Farhan",
+    role: "Enthusiast · Suramangalam",
     quote:
-      "Ordered the roll-top backpack on a Tuesday, it reached by Thursday. The waterproofing is no joke — my laptop survived a full thunderstorm.",
+      "Custom decals came out cleaner than I imagined. Brought my bike in the morning, left upgraded by afternoon.",
   },
   {
-    name: "Rahul Deshpande",
-    role: "Weekend tourer · Goa",
+    name: "Priya S",
+    role: "Weekend tourer · Salem",
     quote:
-      "The Lumos headlight turned my night rides from sketchy to confident. Battery genuinely lasts my whole 3-hour loop on high beam.",
-  },
-];
-
-export const team = [
-  {
-    name: "Vikram Singh",
-    role: "Founder & Chief Rider",
-    bio: "Former national-level track cyclist who spent a decade fitting helmets on other people before launching RideReady.",
-    initials: "VS",
-  },
-  {
-    name: "Ananya Rao",
-    role: "Head of Product",
-    bio: "Ex-product designer at a major mobility brand. She tests every bag against a 40km rain simulation before it ships.",
-    initials: "AR",
-  },
-  {
-    name: "Kabir Menon",
-    role: "Head of Quality",
-    bio: "Mechanical engineer with a background in automotive safety testing. He signs off on every batch of locks and helmets.",
-    initials: "KM",
-  },
-  {
-    name: "Meera Krishnan",
-    role: "Head of Rider Experience",
-    bio: "Runs our support team and community rides. She answers more product questions than anyone in the company.",
-    initials: "MK",
+      "Found the spare part no other shop could get. They fitted it on-site and even sorted my chain at the same time.",
   },
 ];
 
 export const benefits = [
   {
-    icon: "Truck",
-    title: "Free shipping over ₹999",
-    description:
-      "Tracked, insured delivery across India in 3–5 business days. Faster in metro cities.",
-  },
-  {
     icon: "ShieldCheck",
-    title: "2-year warranty",
+    title: "Rider safety first",
     description:
-      "Every helmet, lock and bag carries a no-questions-asked replacement warranty.",
-  },
-  {
-    icon: "Zap",
-    title: "Same-day dispatch",
-    description:
-      "Order before 2 PM and your gear leaves our warehouse the same afternoon.",
+      "ISI/E-marked helmets and certified riding gear for every kind of road and rider.",
   },
   {
     icon: "Wrench",
-    title: "Certified fit guidance",
+    title: "On-site installation",
     description:
-      "Not sure about sizing? Our rider team gives free one-on-one fit advice before you buy.",
+      "Bring your bike in. We fit, install and test everything before you ride out.",
+  },
+  {
+    icon: "Clock",
+    title: "Open daily till 9 PM",
+    description:
+      "Seven days a week, opposite KPN Petrol Bunk on Suramangalam Main Road, Salem.",
+  },
+  {
+    icon: "Settings",
+    title: "Genuine spare parts",
+    description:
+      "Practical, hard-to-find spares for everyday repairs, maintenance and upgrades.",
   },
 ];
 
@@ -319,31 +208,49 @@ export const faqs = [
   {
     question: "How do I choose the right helmet size?",
     answer:
-      "Measure the circumference of your head just above your eyebrows. Compare it to our sizing chart — S (52–55cm), M (55–58cm), L (58–61cm), XL (61–64cm). When in doubt, order a size up; our retention dials tighten down securely.",
+      "Bring your bike and drop by the store — we measure your head and fit the helmet properly before you buy. Every sports helmet is ISI/E-marked and comes with a secure quick-release strap.",
   },
   {
-    question: "Are your locks really sold secure?",
+    question: "Do you install products on-site?",
     answer:
-      "Yes. Every lock we sell is independently tested and rated by an accredited security lab. Ratings are printed on each listing so you can match the lock to your bike value and parking situation.",
+      "Yes. Grips, mobile holders, LED lights, mirrors, decals, exhaust accessories and most spare parts are installed while you wait. Bring your bike and leave upgraded.",
   },
   {
-    question: "What is your return policy?",
+    question: "Can I get custom decals for my bike?",
     answer:
-      "You have 30 days to return any unused product in its original packaging for a full refund. Helmets and other safety gear must be returned unworn. We issue refunds within 5 business days of receiving the return.",
+      "Absolutely. Pick a design and colour scheme, and we'll cut, print and apply custom racing stripes, number boards and graphics — right at our store in Salem.",
   },
   {
-    question: "How long does delivery take?",
+    question: "Do you stock spare parts for my bike?",
     answer:
-      "Orders dispatched from our Bengaluru warehouse typically arrive in 3–5 business days. Remote areas may take a day or two longer, and you'll receive a tracking link the moment your order ships.",
+      "We keep a practical range of spares for popular commuter and sports models. If we don't have a part in stock, tell us what you need and we'll source it for you.",
   },
   {
-    question: "Do you ship internationally?",
+    question: "What are your store hours?",
     answer:
-      "We currently ship across India. International shipping is on our roadmap — join the newsletter and we'll let you know the moment it launches.",
+      "We're open daily until 9:00 PM, opposite KPN Petrol Bunk, Buddhar Street / Suramangalam Main Road, Thiruvakavundanur, Salem – 636005.",
   },
   {
-    question: "Can I get help fitting my gear?",
+    question: "Can I request a bike modification?",
     answer:
-      "Absolutely. Book a free video call with our rider team using the contact form, or message us on WhatsApp. We'll walk you through sizing, helmet dial adjustments and bag mounting.",
+      "Yes. Whether it's an accessory upgrade, a custom build or a comfort tweak, talk to us in store or send a message and we'll plan the work with you.",
   },
 ];
+
+export const storeAddress = {
+  line1: "46 Rossis Biker Spot",
+  line2: "Opposite KPN Petrol Bunk, Buddhar Street",
+  line3: "Suramangalam Main Road, Thiruvakavundanur",
+  line4: "Salem – 636005",
+};
+
+export const mapsQuery =
+  "46 Rossis Biker Spot, Opposite KPN Petrol Bunk, Thiruvakavundanur, Salem 636005";
+
+export const mapsDirectionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  mapsQuery
+)}`;
+
+export const mapsEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(
+  mapsQuery
+)}&output=embed`;

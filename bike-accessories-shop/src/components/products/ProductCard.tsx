@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Package, ShoppingCart, Star } from "lucide-react";
+import { Package, ShoppingCart, Star, Wrench } from "lucide-react";
 import { toast } from "sonner";
 import { formatPrice, cn } from "@/lib/utils";
 import { iconMap } from "@/lib/icons";
@@ -86,15 +86,24 @@ export function ProductCard({ product }: { product: Product }) {
           {product.description}
         </p>
 
-        <div className="mt-auto flex items-center gap-1 pt-3">
-          <Star aria-hidden="true" className="h-4 w-4 fill-brand text-brand" />
-          <span className="text-sm font-semibold text-foreground">
-            {product.rating.toFixed(1)}
-          </span>
-          <span className="text-xs text-smoke">
-            ({product.reviewCount} reviews)
-          </span>
-        </div>
+        {product.rating !== null ? (
+          <div className="mt-auto flex items-center gap-1 pt-3">
+            <Star aria-hidden="true" className="h-4 w-4 fill-brand text-brand" />
+            <span className="text-sm font-semibold text-foreground">
+              {product.rating.toFixed(1)}
+            </span>
+            <span className="text-xs text-smoke">
+              ({product.reviewCount} reviews)
+            </span>
+          </div>
+        ) : null}
+
+        {product.installation ? (
+          <p className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-brand uppercase">
+            <Wrench aria-hidden="true" className="h-3.5 w-3.5" />
+            On-site installation available
+          </p>
+        ) : null}
 
         <div className="flex items-baseline gap-2 border-t border-line pt-3">
           <span className="font-display text-xl font-bold text-brand">

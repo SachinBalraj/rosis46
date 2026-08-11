@@ -5,7 +5,7 @@ import { ProductForm } from "@/components/admin/ProductForm";
 
 export const metadata: Metadata = {
   title: "Edit product | Admin console",
-  description: "Update a RideReady product.",
+  description: "Update a 46 Rossis Biker Spot product.",
 };
 
 type AdminEditProductPageProps = {

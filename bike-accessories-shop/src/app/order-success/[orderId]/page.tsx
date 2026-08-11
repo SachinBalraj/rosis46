@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Order confirmed",
-  description: "Your RideReady order is confirmed.",
+  description: "Your 46 Rossis Biker Spot order is confirmed.",
 };
 
 type OrderSuccessPageProps = {
@@ -56,13 +56,13 @@ export default async function OrderSuccessPage({
         >
           <CheckCircle2 aria-hidden="true" className="h-10 w-10" />
         </span>
-        <p className="eyebrow mt-8">RideReady</p>
+        <p className="eyebrow mt-8">46 Rossis Biker Spot</p>
         <h1 className="display-heading mt-4 text-4xl text-foreground sm:text-5xl">
           {paid ? "Order confirmed!" : "Payment not completed"}
         </h1>
         <p className="mt-3 max-w-md text-smoke">
           {paid
-            ? "Thanks for riding with RideReady. We've received your payment and your gear is being packed."
+            ? "Thanks for riding with 46 Rossis Biker Spot. We've received your payment and your gear is being prepared."
             : "Your order was created but the payment was not completed. You can retry from your cart."}
         </p>
       </div>

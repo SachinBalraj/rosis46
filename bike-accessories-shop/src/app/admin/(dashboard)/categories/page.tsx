@@ -4,7 +4,7 @@ import { CategoryManager } from "@/components/admin/CategoryManager";
 
 export const metadata: Metadata = {
   title: "Categories | Admin console",
-  description: "Manage RideReady product categories.",
+  description: "Manage 46 Rossis Biker Spot product categories.",
 };
 
 export default async function AdminCategoriesPage() {

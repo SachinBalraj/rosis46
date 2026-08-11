@@ -5,19 +5,20 @@ import { redirect } from "next/navigation";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { getAdminSession } from "@/lib/admin-auth";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { AdminSignOutButton } from "@/components/admin/AdminSignOutButton";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Admin console",
-  description: "Manage RideReady products, categories and orders.",
+  title: "46 Rossis Biker Spot Admin",
+  description: "Manage 46 Rossis Biker Spot products, categories and orders.",
 };
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const session = await getAdminSession();
 
   if (!session) {
-    redirect("/account");
+    redirect("/admin/login");
   }
 
   return (
@@ -28,17 +29,20 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
             Admin console
           </p>
-          <h1 className="display-heading mt-4 text-4xl text-foreground">
-            RideReady admin
+          <h1 className="display-heading mt-4 text-4xl uppercase text-foreground">
+            46 Rossis Biker Spot admin
           </h1>
         </div>
-        <Link
-          href="/account"
-          className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
-        >
-          <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-          Back to account
-        </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
+          >
+            <ArrowLeft aria-hidden="true" className="h-4 w-4" />
+            View store
+          </Link>
+          <AdminSignOutButton />
+        </div>
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[220px_1fr]">

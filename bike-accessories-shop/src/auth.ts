@@ -10,6 +10,41 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     CredentialsProvider({
+      id: "admin",
+      name: "Admin username and password",
+      credentials: {
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const username = credentials?.username?.trim();
+        const password = credentials?.password;
+        const expectedUsername = process.env.ADMIN_USERNAME?.trim();
+        const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+
+        if (!username || !password || !expectedUsername || !passwordHash) {
+          return null;
+        }
+
+        const usernameMatches =
+          username.toLowerCase() === expectedUsername.toLowerCase();
+        if (!usernameMatches) {
+          return null;
+        }
+
+        const valid = await compare(password, passwordHash);
+        if (!valid) {
+          return null;
+        }
+
+        return {
+          id: "admin",
+          name: "46 Rossis Admin",
+          role: "ADMIN",
+        };
+      },
+    }),
+    CredentialsProvider({
       name: "Email and password",
       credentials: {
         email: { label: "Email", type: "email" },

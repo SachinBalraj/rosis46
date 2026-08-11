@@ -59,7 +59,7 @@ export function ProductCatalog({
         sorted.sort((a, b) => b.price - a.price);
         break;
       case "rating":
-        sorted.sort((a, b) => b.rating - a.rating);
+        sorted.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
         break;
       default:
         sorted.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
@@ -94,7 +94,7 @@ export function ProductCatalog({
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search helmets, gloves, locks…"
+              placeholder="Search helmets, grips, decals…"
               className="h-12 w-full border border-line bg-white pl-12 pr-4 text-sm text-foreground placeholder:text-smoke focus:border-brand focus:outline-none"
             />
           </div>
@@ -169,7 +169,7 @@ export function ProductCatalog({
               {isPending ? "…" : filtered.length}
             </span>{" "}
             {filtered.length === 1 ? "product" : "products"}
-            {hasFilters ? " matching your filters" : ""}
+            {filtered.length === 0 || hasFilters ? " matching your filters" : ""}
           </p>
           {hasFilters ? (
             <button
@@ -192,20 +192,21 @@ export function ProductCatalog({
             <span className="flex h-16 w-16 items-center justify-center border border-line bg-white text-brand">
               <PackageSearch aria-hidden="true" className="h-8 w-8" />
             </span>
-            <h2 className="mt-6 font-display text-xl font-bold tracking-wide uppercase">
-              No products found
+            <h2 className="mt-6 font-display text-xl font-bold tracking-wide text-foreground uppercase">
+              No products available yet
             </h2>
             <p className="mt-2 max-w-sm text-sm text-smoke">
-              We couldn&apos;t find anything matching your search. Try a different
-              keyword or clear your filters to see the full collection.
+              New riding gear and accessories will be added soon.
             </p>
-            <button
-              type="button"
-              onClick={resetFilters}
-              className="mt-6 inline-flex h-11 items-center justify-center border border-brand px-6 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:bg-brand hover:text-white"
-            >
-              Clear all filters
-            </button>
+            {hasFilters ? (
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="mt-6 inline-flex h-11 items-center justify-center border border-brand px-6 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:bg-brand hover:text-white"
+              >
+                Clear all filters
+              </button>
+            ) : null}
           </div>
         )}
       </div>

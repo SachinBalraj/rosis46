@@ -125,7 +125,7 @@ export function CheckoutForm() {
       key: created.keyId,
       amount: created.amount,
       currency: created.currency,
-      name: "RideReady",
+      name: "46 Rossis Biker Spot",
       description: `Order ${created.orderId}`,
       order_id: created.razorpayOrderId,
       prefill: {
@@ -384,7 +384,7 @@ export function CheckoutForm() {
                 id="checkout-city"
                 type="text"
                 autoComplete="address-level2"
-                placeholder="Bengaluru"
+                placeholder="Salem"
                 aria-invalid={errors.city ? "true" : "false"}
                 className={inputClass(Boolean(errors.city))}
                 {...register("city")}

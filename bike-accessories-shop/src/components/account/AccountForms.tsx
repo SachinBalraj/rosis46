@@ -80,7 +80,7 @@ export function AccountForms() {
       return;
     }
 
-    toast.success(`Welcome to RideReady, ${values.name.split(" ")[0]}!`);
+    toast.success(`Welcome to 46 Rossis Biker Spot, ${values.name.split(" ")[0]}!`);
     registerForm.reset();
     router.push("/account");
     router.refresh();

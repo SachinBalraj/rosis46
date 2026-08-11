@@ -3,7 +3,7 @@ import { CartView } from "@/components/cart/CartView";
 
 export const metadata: Metadata = {
   title: "Cart",
-  description: "Review the gear in your RideReady cart and proceed to checkout.",
+  description: "Review the gear in your 46 Rossis Biker Spot cart and proceed to checkout.",
 };
 
 export default function CartPage() {

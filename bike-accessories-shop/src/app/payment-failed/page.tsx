@@ -45,7 +45,7 @@ export default async function PaymentFailedPage({
       <span className="mx-auto flex h-20 w-20 items-center justify-center bg-rose-500/10 text-rose-500">
         <Ban aria-hidden="true" className="h-10 w-10" />
       </span>
-      <p className="eyebrow mt-8">RideReady</p>
+      <p className="eyebrow mt-8">46 Rossis Biker Spot</p>
       <h1 className="display-heading mt-4 text-4xl text-foreground sm:text-5xl">
         {copy.title}
       </h1>

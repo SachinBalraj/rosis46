@@ -96,7 +96,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
 
         <div className="mt-auto mb-8">
           <p className="border-l-2 border-brand pl-4 text-sm text-smoke">
-            Free shipping on orders over ₹999 · 2-year warranty on all gear
+            Open daily until 9:00 PM · On-site installation available
           </p>
         </div>
       </div>

@@ -24,11 +24,11 @@ const oswald = Oswald({
 
 export const metadata: Metadata = {
   title: {
-    default: "RideReady — Premium Bike Accessories Shop",
-    template: "%s · RideReady",
+    default: "46 Rossis Biker Spot — Salem's Rider HQ",
+    template: "%s · 46 Rossis Biker Spot",
   },
   description:
-    "Premium bike accessories — helmets, gloves, lights, locks and bags tested by riders. Free shipping over ₹999 and a 2-year warranty on all gear.",
+    "Premium riding gear, sports helmets, accessories, spare parts, custom bike decals and on-site installation at 46 Rossis Biker Spot, Salem.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronRight, ShieldCheck, Star, Truck, Zap } from "lucide-react";
+import { ChevronRight, Clock, ShieldCheck, Star, Wrench } from "lucide-react";
 import { AddToCartForm } from "@/components/products/AddToCartForm";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { iconMap } from "@/lib/icons";
 import { getProductBySlug, getRelatedProducts } from "@/lib/db";
 import { getCategoryVisual } from "@/lib/category-visuals";
-import { products as staticProducts, type Product } from "@/lib/data";
+import type { Product } from "@/lib/data";
 import { cn, formatPaise } from "@/lib/utils";
 
 type ProductView = {
@@ -24,6 +24,7 @@ type ProductView = {
   badge: string | null;
   icon: string;
   accent: string;
+  installation?: boolean;
 };
 
 function fromDatabase(product: NonNullable<Awaited<ReturnType<typeof getProductBySlug>>>): ProductView {
@@ -45,24 +46,7 @@ function fromDatabase(product: NonNullable<Awaited<ReturnType<typeof getProductB
     badge: hasSale ? "Sale" : product.featured ? "Featured" : null,
     icon: visual.icon,
     accent: visual.accent,
-  };
-}
-
-function fromStatic(product: Product): ProductView {
-  return {
-    id: product.id,
-    name: product.name,
-    description: product.description,
-    priceInPaise: product.price * 100,
-    originalPriceInPaise: product.mrp > product.price ? product.mrp * 100 : null,
-    stock: null,
-    categoryName: product.categoryLabel,
-    categorySlug: product.category,
-    rating: product.rating,
-    reviewCount: product.reviewCount,
-    badge: product.badge ?? null,
-    icon: product.icon,
-    accent: product.accent,
+    installation: false,
   };
 }
 
@@ -78,8 +62,8 @@ function toCatalogShape(view: ProductView): Product {
     categoryLabel: view.categoryName,
     price,
     mrp,
-    rating: view.rating ?? 4.5,
-    reviewCount: view.reviewCount ?? 0,
+    rating: view.rating,
+    reviewCount: view.reviewCount,
     description: view.description,
     accent: view.accent,
     icon: view.icon,
@@ -89,39 +73,24 @@ function toCatalogShape(view: ProductView): Product {
 
 async function resolveProduct(slug: string) {
   const databaseProduct = await getProductBySlug(slug);
-  if (databaseProduct) {
-    return fromDatabase(databaseProduct);
+  if (!databaseProduct) {
+    return null;
   }
 
-  const staticProduct = staticProducts.find(
-    (product) => product.id === slug || product.name === slug
-  );
-  if (staticProduct) {
-    return fromStatic(staticProduct);
-  }
-
-  return null;
+  return fromDatabase(databaseProduct);
 }
 
-async function resolveRelated(view: ProductView, slug: string) {
+async function resolveRelated(slug: string) {
   const databaseProduct = await getProductBySlug(slug);
-  if (databaseProduct) {
-    const related = await getRelatedProducts(
-      databaseProduct.categoryId,
-      databaseProduct.id
-    );
-    if (related.length > 0) {
-      return related.map(fromDatabase);
-    }
+  if (!databaseProduct) {
+    return [];
   }
 
-  return staticProducts
-    .filter(
-      (product) =>
-        product.categoryLabel === view.categoryName && product.id !== view.id
-    )
-    .slice(0, 4)
-    .map(fromStatic);
+  const related = await getRelatedProducts(
+    databaseProduct.categoryId,
+    databaseProduct.id
+  );
+  return related.map(fromDatabase);
 }
 
 type PageProps = {
@@ -152,7 +121,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const related = await resolveRelated(product, slug);
+  const related = await resolveRelated(slug);
   const Icon = iconMap[product.icon];
   const discount = product.originalPriceInPaise
     ? Math.round(
@@ -164,19 +133,19 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
   const trustPoints = [
     {
-      icon: Truck,
-      title: "Free shipping",
-      description: "On orders over ₹999, delivered in 3–5 days.",
+      icon: Wrench,
+      title: "On-site installation",
+      description: "Fitted and installed at our Salem store while you wait.",
     },
     {
       icon: ShieldCheck,
-      title: "2-year warranty",
-      description: "No-questions-asked replacement on all gear.",
+      title: "Genuine & tested",
+      description: "ISI/E-marked gear and quality parts for real roads.",
     },
     {
-      icon: Zap,
-      title: "Same-day dispatch",
-      description: "Order before 2 PM and it ships today.",
+      icon: Clock,
+      title: "Open daily till 9 PM",
+      description: "Seven days a week, opposite KPN Petrol Bunk, Salem.",
     },
   ];
 
@@ -276,7 +245,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   </span>
                 ) : (
                   <span className="border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
-                    RideReady tested &amp; approved
+                    46 Rossis Biker Spot — genuine &amp; tested
                   </span>
                 )}
                 {product.stock !== null ? (
@@ -315,6 +284,22 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </div>
 
             <p className="leading-relaxed text-smoke">{product.description}</p>
+
+            {product.installation ? (
+              <div className="flex items-start gap-3 border border-brand/30 bg-brand/5 p-4">
+                <Wrench
+                  aria-hidden="true"
+                  className="mt-0.5 h-5 w-5 shrink-0 text-brand"
+                />
+                <p className="text-sm leading-relaxed text-foreground">
+                  <span className="font-semibold text-brand uppercase">
+                    On-site installation available
+                  </span>{" "}
+                  — bring your bike to 46 Rossis Biker Spot and we&apos;ll fit
+                  it for you while you wait.
+                </p>
+              </div>
+            ) : null}
 
             <AddToCartForm
               product={{

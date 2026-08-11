@@ -1,37 +1,14 @@
 import type { Metadata } from "next";
-import { ChevronDown, Clock, Mail, MapPin, Phone } from "lucide-react";
+import { ChevronDown, Clock, MapPin, Navigation, Wrench } from "lucide-react";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { faqs } from "@/lib/data";
+import { faqs, mapsDirectionsUrl, mapsEmbedUrl, storeAddress } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with the RideReady team — product help, sizing advice, order support and partnerships. Visit our Bengaluru store or drop us a line.",
+    "Visit 46 Rossis Biker Spot opposite KPN Petrol Bunk, Suramangalam Main Road, Thiruvakavundanur, Salem – 636005. Open daily until 9:00 PM.",
 };
-
-const shopDetails = [
-  {
-    icon: MapPin,
-    label: "Visit the store",
-    lines: ["42 Gear Street, Koramangala", "Bengaluru, Karnataka 560034"],
-  },
-  {
-    icon: Phone,
-    label: "Call or WhatsApp",
-    lines: ["+91 98765 43210", "Mon–Sat, 9 AM to 7 PM"],
-  },
-  {
-    icon: Mail,
-    label: "Email us",
-    lines: ["support@rideready.in", "We reply within 24 hours"],
-  },
-  {
-    icon: Clock,
-    label: "Store hours",
-    lines: ["Mon–Sat: 9 AM – 9 PM", "Sunday: 10 AM – 6 PM"],
-  },
-];
 
 export default function ContactPage() {
   return (
@@ -46,12 +23,76 @@ export default function ContactPage() {
             id="contact-hero"
             className="display-heading mt-6 max-w-3xl text-5xl text-foreground sm:text-6xl"
           >
-            We&apos;d love to hear from you
+            Ride in. We&apos;re here till 9 PM.
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-smoke">
-            Order help, sizing advice, partnership ideas — our rider team reads
-            every message and replies within a day.
+            Questions about gear, spares or an upgrade for your bike? Send a
+            message below or drop by our store in Salem.
           </p>
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="store-heading"
+        className="border-b border-line bg-white"
+      >
+        <div className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+            <div>
+              <SectionHeading
+                eyebrow="Visit the store"
+                title={storeAddress.line1}
+                description="A local destination for motorcycle enthusiasts in Salem."
+              />
+              <div className="mt-6 flex flex-col gap-5">
+                <div className="flex items-start gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-line text-brand">
+                    <MapPin aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <address className="text-sm leading-relaxed text-smoke not-italic">
+                    {storeAddress.line2}
+                    <br />
+                    {storeAddress.line3}
+                    <br />
+                    {storeAddress.line4}
+                  </address>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-line text-brand">
+                    <Clock aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <p className="text-sm font-semibold tracking-widest text-foreground uppercase">
+                    Open Daily · Until 9:00 PM
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href={mapsDirectionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-12 items-center justify-center gap-2 bg-brand px-7 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
+                  >
+                    <Navigation aria-hidden="true" className="h-4 w-4" />
+                    Get Directions
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div
+              aria-label="Map showing the 46 Rossis Biker Spot store location"
+              className="relative min-h-72 overflow-hidden border border-line bg-night"
+            >
+              <iframe
+                title="46 Rossis Biker Spot location on Google Maps"
+                src={mapsEmbedUrl}
+                className="absolute inset-0 h-full w-full border-0"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -64,7 +105,7 @@ export default function ContactPage() {
             <SectionHeading
               eyebrow="Send a message"
               title="How can we help?"
-              description="Fill in the form and our team will get back to you within 24 hours on business days."
+              description="Fill in the form with your bike or product question and we'll get back to you."
             />
             <div className="mt-8 border border-line bg-white p-6 sm:p-8">
               <ContactForm />
@@ -73,53 +114,72 @@ export default function ContactPage() {
 
           <div className="flex flex-col gap-6">
             <SectionHeading
-              eyebrow="Shop details"
-              title="Visit or reach us"
+              eyebrow="Good to know"
+              title="Visiting us"
               description=""
             />
             <ul className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2">
-              {shopDetails.map((detail) => (
-                <li key={detail.label} className="bg-white">
-                  <div className="flex h-full flex-col p-5 transition-colors hover:bg-carbon-soft">
-                    <span className="flex h-11 w-11 items-center justify-center border border-line text-brand">
-                      <detail.icon aria-hidden="true" className="h-5 w-5" />
-                    </span>
-                    <h3 className="mt-4 font-display text-sm font-semibold tracking-wide uppercase">
-                      {detail.label}
-                    </h3>
-                    <ul className="mt-1.5 space-y-0.5">
-                      {detail.lines.map((line) => (
-                        <li key={line} className="text-sm text-smoke">
-                          {line}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </li>
-              ))}
+              <li className="bg-white">
+                <div className="flex h-full flex-col p-5 transition-colors hover:bg-carbon-soft">
+                  <span className="flex h-11 w-11 items-center justify-center border border-line text-brand">
+                    <Clock aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-4 font-display text-sm font-semibold tracking-wide uppercase">
+                    Store hours
+                  </h3>
+                  <ul className="mt-1.5 space-y-0.5">
+                    <li className="text-sm text-smoke">Open daily until 9:00 PM</li>
+                    <li className="text-sm text-smoke">Seven days a week</li>
+                  </ul>
+                </div>
+              </li>
+              <li className="bg-white">
+                <div className="flex h-full flex-col p-5 transition-colors hover:bg-carbon-soft">
+                  <span className="flex h-11 w-11 items-center justify-center border border-line text-brand">
+                    <Wrench aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-4 font-display text-sm font-semibold tracking-wide uppercase">
+                    On-site installation
+                  </h3>
+                  <ul className="mt-1.5 space-y-0.5">
+                    <li className="text-sm text-smoke">Bring your bike in</li>
+                    <li className="text-sm text-smoke">Fitted while you wait</li>
+                  </ul>
+                </div>
+              </li>
+              <li className="bg-white">
+                <div className="flex h-full flex-col p-5 transition-colors hover:bg-carbon-soft">
+                  <span className="flex h-11 w-11 items-center justify-center border border-line text-brand">
+                    <MapPin aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-4 font-display text-sm font-semibold tracking-wide uppercase">
+                    Finding us
+                  </h3>
+                  <ul className="mt-1.5 space-y-0.5">
+                    <li className="text-sm text-smoke">
+                      Opposite KPN Petrol Bunk
+                    </li>
+                    <li className="text-sm text-smoke">
+                      Suramangalam Main Road, Salem
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li className="bg-white">
+                <div className="flex h-full flex-col p-5 transition-colors hover:bg-carbon-soft">
+                  <span className="flex h-11 w-11 items-center justify-center border border-line text-brand">
+                    <Navigation aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-4 font-display text-sm font-semibold tracking-wide uppercase">
+                    Getting directions
+                  </h3>
+                  <ul className="mt-1.5 space-y-0.5">
+                    <li className="text-sm text-smoke">Search 46 Rossis Biker Spot</li>
+                    <li className="text-sm text-smoke">Thiruvakavundanur, Salem 636005</li>
+                  </ul>
+                </div>
+              </li>
             </ul>
-
-            <div
-              aria-label="Map showing the RideReady store location"
-              role="img"
-              className="relative flex min-h-64 flex-1 items-center justify-center overflow-hidden border border-line bg-night text-white"
-            >
-              <div
-                aria-hidden="true"
-                className="bg-grid-dark absolute inset-0 opacity-70"
-              />
-              <div className="relative flex flex-col items-center gap-3 text-center">
-                <span className="flex h-14 w-14 items-center justify-center bg-brand text-white">
-                  <MapPin aria-hidden="true" className="h-7 w-7" />
-                </span>
-                <p className="font-display text-lg font-semibold tracking-wide uppercase">
-                  RideReady Flagship Store
-                </p>
-                <p className="max-w-xs text-sm text-smoke">
-                  42 Gear Street, Koramangala, Bengaluru 560034
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -134,7 +194,7 @@ export default function ContactPage() {
             eyebrow="FAQ"
             title="Frequently asked questions"
             align="center"
-            description="Quick answers to the questions we get most. Can't find yours? Send us a message above."
+            description="Quick answers to the questions riders ask us most. Can't find yours? Send us a message above."
           />
           <div className="mt-10 flex flex-col gap-3">
             {faqs.map((faq) => (

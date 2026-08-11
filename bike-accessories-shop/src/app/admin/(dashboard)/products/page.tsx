@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
   title: "Products | Admin console",
-  description: "Manage RideReady products.",
+  description: "Manage 46 Rossis Biker Spot products.",
 };
 
 type ProductsPageProps = {

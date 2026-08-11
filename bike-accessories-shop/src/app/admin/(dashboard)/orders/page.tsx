@@ -14,7 +14,7 @@ import { OrderStatusSelect } from "@/components/admin/OrderStatusSelect";
 
 export const metadata: Metadata = {
   title: "Orders | Admin console",
-  description: "Manage RideReady orders and fulfilment.",
+  description: "Manage 46 Rossis Biker Spot orders and fulfilment.",
 };
 
 type AdminOrdersPageProps = {
