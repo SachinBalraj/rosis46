@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ChevronDown, Clock, MapPin, Navigation, Wrench } from "lucide-react";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -17,18 +18,39 @@ export default function ContactPage() {
         aria-labelledby="contact-hero"
         className="border-b border-line bg-white"
       >
-        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-          <p className="eyebrow">Get in touch</p>
-          <h1
-            id="contact-hero"
-            className="display-heading mt-6 max-w-3xl text-5xl text-foreground sm:text-6xl"
-          >
-            Ride in. We&apos;re here till 9 PM.
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-smoke">
-            Questions about gear, spares or an upgrade for your bike? Send a
-            message below or drop by our store in Salem.
-          </p>
+        <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div className="flex flex-col justify-center gap-6 py-14 lg:py-24 lg:pr-16">
+            <p className="eyebrow">Get in touch</p>
+            <h1
+              id="contact-hero"
+              className="display-heading max-w-xl text-5xl text-foreground sm:text-6xl"
+            >
+              Ride in. We&apos;re here till 9 PM.
+            </h1>
+            <p className="max-w-xl text-lg leading-relaxed text-smoke">
+              Questions about gear, spares or an upgrade for your bike? Send a
+              message below or drop by our store in Salem.
+            </p>
+          </div>
+
+          <figure className="relative -mx-4 flex aspect-[5/4] items-center justify-center overflow-hidden bg-night sm:-mx-6 lg:mx-0">
+            <Image
+              src="/images/rosiscontact.png"
+              alt="46 Rossis Biker Spot contact and store information"
+              width={980}
+              height={1605}
+              priority
+              className="relative h-full w-full object-cover object-center"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 ring-1 ring-brand/50 ring-inset"
+            />
+            <span
+              aria-hidden="true"
+              className="absolute right-0 bottom-0 h-1.5 w-1/3 bg-brand"
+            />
+          </figure>
         </div>
       </section>
 

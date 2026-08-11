@@ -171,7 +171,7 @@ export default async function Home() {
             Sports helmets, riding gear, custom decals, spare parts and
             modifications—with on-site installation at our store in Salem.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-16 flex flex-wrap items-center justify-center gap-4">
             <Button href="/products" size="lg">
               Shop accessories
               <ArrowRight aria-hidden="true" className="h-4 w-4" />
