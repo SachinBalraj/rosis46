@@ -37,8 +37,8 @@ export default function ContactPage() {
             <Image
               src="/images/rosiscontact.png"
               alt="46 Rossis Biker Spot contact and store information"
-              width={980}
-              height={1605}
+              width={1007}
+              height={1562}
               priority
               className="relative h-full w-full object-cover object-center"
             />
