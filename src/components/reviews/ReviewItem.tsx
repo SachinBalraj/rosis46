@@ -9,7 +9,7 @@ type ReviewItemProps = {
 const ReviewItem: React.FC<ReviewItemProps> = ({ reviewer, rating, comment }) => {
   return (
     <div className="review-item">
-      <h3>{reviewer}</h3>
+      <h3>{reviewer.replace(" R", "")}</h3>
       <p>Rating: {rating}/5</p>
       <p>{comment}</p>
     </div>
