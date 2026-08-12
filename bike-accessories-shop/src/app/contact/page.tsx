@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ChevronDown, Clock, MapPin, Navigation, Wrench } from "lucide-react";
+import { ChevronDown, Clock, MapPin, Navigation, Phone, Wrench } from "lucide-react";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { faqs, mapsDirectionsUrl, mapsEmbedUrl, storeAddress } from "@/lib/data";
+import { faqs, mapsDirectionsUrl, mapsEmbedUrl, storeAddress, storePhone } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -86,6 +86,17 @@ export default function ContactPage() {
                   <p className="text-sm font-semibold tracking-widest text-foreground uppercase">
                     Open Daily · Until 9:00 PM
                   </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-line text-brand">
+                    <Phone aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <a
+                    href={storePhone.href}
+                    className="text-sm font-semibold tracking-widest text-foreground uppercase transition-colors hover:text-brand"
+                  >
+                    {storePhone.display}
+                  </a>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
                   <a

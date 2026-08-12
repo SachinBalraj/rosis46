@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Clock, MapPin, ChevronRight } from "lucide-react";
-import { categories } from "@/lib/data";
+import { Clock, MapPin, Phone, ChevronRight } from "lucide-react";
+import { categories, storePhone } from "@/lib/data";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -40,6 +40,15 @@ export function Footer() {
               <li className="flex items-center gap-2">
                 <Clock aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
                 Open daily until 9:00 PM
+              </li>
+              <li>
+                <a
+                  href={storePhone.href}
+                  className="flex items-center gap-2 text-sm text-smoke transition-colors hover:text-white"
+                >
+                  <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
+                  {storePhone.display}
+                </a>
               </li>
             </ul>
           </div>

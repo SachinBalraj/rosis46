@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { storePhone } from "@/lib/data";
 
 type MobileMenuProps = {
   open: boolean;
@@ -93,6 +94,15 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
             </li>
           ))}
         </ul>
+
+        <a
+          href={storePhone.href}
+          onClick={() => onOpenChange(false)}
+          className="mt-6 inline-flex h-12 items-center justify-center gap-2 bg-brand px-6 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
+        >
+          <Phone aria-hidden="true" className="h-4 w-4" />
+          Call us · {storePhone.display}
+        </a>
 
         <div className="mt-auto mb-8">
           <p className="border-l-2 border-brand pl-4 text-sm text-smoke">

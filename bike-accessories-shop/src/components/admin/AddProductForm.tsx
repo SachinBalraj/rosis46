@@ -1,42 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, BadgePercent, Loader2 } from "lucide-react";
+import { BadgePercent, Loader2, PackagePlus } from "lucide-react";
 import { toast } from "sonner";
 import {
   adminProductSchema,
   type AdminProductFormInput,
   type AdminProductFormOutput,
 } from "@/lib/admin-validation";
-import { paiseToRupees, formatPrice, cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
 
-export type ProductFormCategory = {
+export type AddProductFormCategory = {
   id: string;
   name: string;
 };
 
-export type ProductFormProduct = {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  priceInPaise: number;
-  salePriceInPaise: number | null;
-  stock: number;
-  imageUrl: string | null;
-  categoryId: string;
-  featured: boolean;
-  active: boolean;
-};
-
-type ProductFormProps = {
-  categories: ProductFormCategory[];
-  product?: ProductFormProduct;
+type AddProductFormProps = {
+  categories: AddProductFormCategory[];
 };
 
 const inputClass = (hasError: boolean) =>
@@ -50,63 +32,29 @@ const inputClass = (hasError: boolean) =>
 const labelClass =
   "mb-2 block text-xs font-semibold tracking-widest text-foreground uppercase";
 
-export function ProductForm({ categories, product }: ProductFormProps) {
-  const router = useRouter();
-  const isEditing = Boolean(product);
-  const [salePriceEnabled, setSalePriceEnabled] = useState(
-    Boolean(product?.salePriceInPaise)
-  );
+export function AddProductForm({ categories }: AddProductFormProps) {
+  const [salePriceEnabled, setSalePriceEnabled] = useState(false);
 
   const {
     register,
     handleSubmit,
-    control,
     setValue,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<AdminProductFormInput, unknown, AdminProductFormOutput>({
     resolver: zodResolver(adminProductSchema),
-    defaultValues: product
-      ? {
-          name: product.name,
-          slug: product.slug,
-          description: product.description,
-          price: paiseToRupees(product.priceInPaise),
-          salePrice:
-            product.salePriceInPaise !== null
-              ? paiseToRupees(product.salePriceInPaise)
-              : undefined,
-          stock: product.stock,
-          imageUrl: product.imageUrl ?? "",
-          categoryId: product.categoryId,
-          featured: product.featured,
-          active: product.active,
-        }
-      : {
-          name: "",
-          slug: "",
-          description: "",
-          price: undefined,
-          salePrice: undefined,
-          stock: 0,
-          imageUrl: "",
-          categoryId: "",
-          featured: false,
-          active: true,
-        },
+    defaultValues: {
+      name: "",
+      description: "",
+      price: undefined,
+      salePrice: undefined,
+      stock: 0,
+      imageUrl: "",
+      categoryId: "",
+      featured: false,
+      active: true,
+    },
   });
-
-  const imageUrl = useWatch({ control, name: "imageUrl" }) as
-    | string
-    | undefined;
-  const priceRaw = useWatch({ control, name: "price" });
-  const salePriceRaw = useWatch({ control, name: "salePrice" });
-  const priceNum = Number(priceRaw);
-  const saleNum = Number(salePriceRaw);
-  const hasDiscount =
-    Number.isFinite(priceNum) &&
-    Number.isFinite(saleNum) &&
-    saleNum > 0 &&
-    saleNum < priceNum;
 
   const toggleSalePrice = () => {
     setSalePriceEnabled((enabled) => {
@@ -116,46 +64,35 @@ export function ProductForm({ categories, product }: ProductFormProps) {
   };
 
   const onSubmit = async (values: AdminProductFormOutput) => {
-    const url = isEditing ? `/api/admin/products/${product!.id}` : "/api/admin/products";
-    const method = isEditing ? "PATCH" : "POST";
+    try {
+      const response = await fetch("/api/admin/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
 
-    const response = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
+      const data = (await response.json()) as { error?: string };
 
-    const data = (await response.json()) as { product?: unknown; error?: string };
+      if (!response.ok) {
+        toast.error(data.error ?? "Could not add the product. Please try again.");
+        return;
+      }
 
-    if (!response.ok) {
-      toast.error(data.error ?? "Something went wrong. Please try again.");
-      return;
+      toast.success("Product added — it's live on the storefront.");
+      reset();
+      setSalePriceEnabled(false);
+    } catch {
+      toast.error("Something went wrong. Please try again.");
     }
-
-    toast.success(
-      isEditing ? "Product updated." : "Product created — it's live on the storefront."
-    );
-    router.push("/admin/products");
-    router.refresh();
   };
 
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <Link
-        href="/admin/products"
-        className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
-      >
-        <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-        Back to products
-      </Link>
-
-      <h1 className="display-heading mt-4 text-4xl text-foreground">
-        {isEditing ? "Edit product" : "New product"}
+      <h1 className="display-heading text-4xl text-foreground uppercase">
+        Add product
       </h1>
       <p className="mt-2 text-sm text-smoke">
-        {isEditing
-          ? "Update the details below. Changes go live immediately."
-          : "Add a product to the storefront. Prices are in Indian Rupees."}
+        Add a product to the storefront. Prices are in Indian Rupees.
       </p>
 
       <form
@@ -171,7 +108,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
           <div className="mt-6 space-y-5">
             <div>
               <label htmlFor="product-name" className={labelClass}>
-                Name
+                Product name
               </label>
               <input
                 id="product-name"
@@ -189,32 +126,8 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             </div>
 
             <div>
-              <label htmlFor="product-slug" className={labelClass}>
-                Slug
-              </label>
-              <input
-                id="product-slug"
-                type="text"
-                placeholder="Leave blank to auto-generate from the name"
-                aria-invalid={errors.slug ? "true" : "false"}
-                className={inputClass(Boolean(errors.slug))}
-                {...register("slug")}
-              />
-              {errors.slug ? (
-                <p role="alert" className="mt-1.5 text-sm text-rose-500">
-                  {errors.slug.message}
-                </p>
-              ) : (
-                <p className="mt-1.5 text-xs text-smoke">
-                  Used in the product URL. Only lowercase letters, numbers and
-                  hyphens.
-                </p>
-              )}
-            </div>
-
-            <div>
               <label htmlFor="product-description" className={labelClass}>
-                Description
+                Product description
               </label>
               <textarea
                 id="product-description"
@@ -265,7 +178,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
           <div className="mt-6 grid gap-5 sm:grid-cols-2">
             <div>
               <label htmlFor="product-price" className={labelClass}>
-                Regular price (₹)
+                Price (₹)
               </label>
               <input
                 id="product-price"
@@ -327,19 +240,11 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                 </p>
               )}
             </div>
-
-            {hasDiscount ? (
-              <p className="border border-brand/40 bg-brand/10 px-4 py-3 text-sm font-medium text-brand sm:col-span-2">
-                Shoppers see {formatPrice(saleNum)} —{" "}
-                {formatPrice(priceNum - saleNum)} off (
-                {Math.round(((priceNum - saleNum) / priceNum) * 100)}%).
-              </p>
-            ) : null}
           </div>
 
           <div className="mt-5">
             <label htmlFor="product-stock" className={labelClass}>
-              Stock on hand
+              Stock quantity
             </label>
             <input
               id="product-stock"
@@ -367,7 +272,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
 
           <div className="mt-6">
             <label htmlFor="product-image" className={labelClass}>
-              Image URL
+              Product image URL
             </label>
             <input
               id="product-image"
@@ -387,25 +292,6 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               </p>
             )}
           </div>
-
-          {imageUrl ? (
-            <div className="mt-5">
-              <p className="mb-2 text-xs font-semibold tracking-widest text-foreground uppercase">
-                Preview
-              </p>
-              <div className="flex h-40 w-full items-center justify-center overflow-hidden border border-line bg-carbon-soft">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={imageUrl}
-                  alt=""
-                  className="h-full w-full object-cover"
-                  onError={(event) => {
-                    event.currentTarget.style.display = "none";
-                  }}
-                />
-              </div>
-            </div>
-          ) : null}
         </div>
 
         <div className="border border-line bg-white p-6 sm:p-8">
@@ -422,7 +308,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               />
               <span>
                 <span className="block text-sm font-semibold text-foreground">
-                  Featured product
+                  Featured
                 </span>
                 <span className="block text-sm text-smoke">
                   Highlight this product on the home page.
@@ -438,38 +324,33 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               />
               <span>
                 <span className="block text-sm font-semibold text-foreground">
-                  Active on storefront
+                  Active
                 </span>
                 <span className="block text-sm text-smoke">
-                  Visible to shoppers and in stock-checkout. Turn this off to
-                  hide the product without deleting it.
+                  Visible to shoppers on the storefront.
                 </span>
               </span>
             </label>
           </div>
         </div>
 
-        <div className="flex flex-col-reverse gap-3 pb-4 sm:flex-row sm:justify-end">
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => router.push("/admin/products")}
-          >
-            Cancel
-          </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <>
-                <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
-                Saving…
-              </>
-            ) : isEditing ? (
-              "Save changes"
-            ) : (
-              "Create product"
-            )}
-          </Button>
-        </div>
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="inline-flex h-12 w-full items-center justify-center gap-2 bg-brand px-8 text-sm font-semibold tracking-widest text-white uppercase transition-all duration-200 hover:bg-brand-deep active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60 sm:w-auto"
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
+              Adding…
+            </>
+          ) : (
+            <>
+              <PackagePlus aria-hidden="true" className="h-4 w-4" />
+              Add product
+            </>
+          )}
+        </button>
       </form>
     </div>
   );

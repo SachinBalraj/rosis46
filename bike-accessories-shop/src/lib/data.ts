@@ -237,6 +237,11 @@ export const faqs = [
   },
 ];
 
+export const storePhone = {
+  display: "+91 86675 02544",
+  href: "tel:+918667502544",
+};
+
 export const storeAddress = {
   line1: "46 Rossis Biker Spot",
   line2: "Opposite KPN Petrol Bunk, Buddhar Street",

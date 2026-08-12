@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Ban, HelpCircle, RefreshCcw } from "lucide-react";
+import { storePhone } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
@@ -69,13 +70,13 @@ export default async function PaymentFailedPage({
       </div>
 
       <p className="mt-10 flex items-center justify-center gap-2 text-sm text-smoke">
-        <HelpCircle aria-hidden="true" className="h-4 w-4 text-brand" />
-        Need help? Email{" "}
+        <HelpCircle aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
+        Need help? Call us on{" "}
         <a
-          href="mailto:support@rideready.example"
+          href={storePhone.href}
           className="font-medium text-brand hover:text-brand-deep"
         >
-          support@rideready.example
+          {storePhone.display}
         </a>
       </p>
     </main>

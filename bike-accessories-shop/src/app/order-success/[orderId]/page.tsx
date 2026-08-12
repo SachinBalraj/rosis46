@@ -4,12 +4,14 @@ import { notFound } from "next/navigation";
 import {
   ArrowRight,
   CheckCircle2,
+  HelpCircle,
   MapPin,
   PackageCheck,
   Truck,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { formatPaise } from "@/lib/utils";
+import { storePhone } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
@@ -172,6 +174,17 @@ export default async function OrderSuccessPage({
           </Link>
         ) : null}
       </div>
+
+      <p className="mt-10 flex items-center justify-center gap-2 text-sm text-smoke">
+        <HelpCircle aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
+        Questions about your order? Call us on{" "}
+        <a
+          href={storePhone.href}
+          className="font-medium text-brand transition-colors hover:text-brand-deep"
+        >
+          {storePhone.display}
+        </a>
+      </p>
     </main>
   );
 }

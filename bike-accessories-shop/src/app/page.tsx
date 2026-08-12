@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, MapPin, Quote, Star, Wrench } from "lucide-react";
+import { ArrowRight, ArrowUpRight, MapPin, Phone, Quote, Star, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { NewsletterForm } from "@/components/home/NewsletterForm";
 import { iconMap } from "@/lib/icons";
 import { getActiveProducts, toCatalogProduct } from "@/lib/db";
-import { benefits, homeCategories, testimonials } from "@/lib/data";
+import { benefits, homeCategories, storePhone, testimonials } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "46 Rossis Biker Spot — Salem's Rider HQ",
@@ -145,6 +145,22 @@ export default async function Home() {
               <span aria-hidden="true" className="h-1.5 w-1.5 bg-brand" />
             </span>
           ))}
+        </div>
+      </section>
+
+      <section className="border-b border-line bg-white">
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-3 px-4 py-6 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
+          <p className="text-sm text-smoke">
+            Need gear fitted or a part sourced? Call the store during opening
+            hours.
+          </p>
+          <a
+            href={storePhone.href}
+            className="inline-flex items-center gap-2 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:text-brand-deep"
+          >
+            <Phone aria-hidden="true" className="h-4 w-4" />
+            Call us · {storePhone.display}
+          </a>
         </div>
       </section>
 

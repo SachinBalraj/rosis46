@@ -4,13 +4,14 @@ import {
   BadgeCheck,
   Clock,
   MapPin,
+  Phone,
   ShieldCheck,
   Wrench,
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { team } from "@/lib/data";
+import { storePhone, team } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "About",
@@ -295,6 +296,13 @@ export default function AboutPage() {
                 Visit our store
               </Button>
             </div>
+            <a
+              href={storePhone.href}
+              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:text-white"
+            >
+              <Phone aria-hidden="true" className="h-4 w-4" />
+              {storePhone.display}
+            </a>
           </div>
         </div>
       </section>

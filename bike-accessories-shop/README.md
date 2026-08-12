@@ -101,18 +101,11 @@ everyone else is redirected to `/account`.
 
 | Page | Purpose |
 | --- | --- |
-| `/admin` | Overview: order/revenue/product stats, recent orders, low-stock alerts. |
-| `/admin/products` | Product table with search, status/category filters, activate/deactivate, delete (with order-history guard). |
-| `/admin/products/new` · `/admin/products/[id]/edit` | Create/edit form: name, slug, description, category, price + sale price, stock, image URL with live preview, featured and active toggles. |
-| `/admin/categories` | Create, edit and delete categories (delete blocked while products remain). |
-| `/admin/orders` | Order table filtered by fulfilment and payment status; inline fulfilment status updates. |
+| `/admin` | Add-product form: name, description, category, price + optional sale price, stock, image URL, featured and active toggles. |
 
-API endpoints: `POST/PATCH/DELETE /api/admin/products[/[id]][/toggle]`,
-`POST/PATCH/DELETE /api/admin/categories[/[id]]`,
-`PATCH /api/admin/orders/[id]` (fulfilment status). All validate with Zod and
-return 400/401/403/404/409 as appropriate. Prices are sent in rupees and
-converted to paise server-side; product deletion is refused (409) once an
-order references the product — deactivate instead.
+API endpoints: `POST /api/admin/products` (create). The endpoint validates
+with Zod, converts rupees to paise server-side and returns 400/401/403/409 as
+appropriate.
 
 ## Razorpay integration
 

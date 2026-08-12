@@ -4,14 +4,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { getAdminSession } from "@/lib/admin-auth";
-import { AdminNav } from "@/components/admin/AdminNav";
 import { AdminSignOutButton } from "@/components/admin/AdminSignOutButton";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "46 Rossis Biker Spot Admin",
-  description: "Manage 46 Rossis Biker Spot products, categories and orders.",
+  description: "Add products to 46 Rossis Biker Spot.",
 };
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
@@ -45,12 +44,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         </div>
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[220px_1fr]">
-        <aside>
-          <AdminNav />
-        </aside>
-        <div className="min-w-0">{children}</div>
-      </div>
+      <div className="mt-8 min-w-0">{children}</div>
     </div>
   );
 }

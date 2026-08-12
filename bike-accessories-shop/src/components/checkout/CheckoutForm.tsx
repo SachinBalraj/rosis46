@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Loader2,
   Lock,
+  Phone,
   ShieldCheck,
   ShoppingCart,
   Truck,
@@ -19,6 +20,7 @@ import { toast } from "sonner";
 import { cn, formatPrice } from "@/lib/utils";
 import { iconMap } from "@/lib/icons";
 import { checkoutSchema } from "@/lib/validation";
+import { storePhone } from "@/lib/data";
 import { useCart } from "@/store/cart";
 
 type CheckoutFormValues = z.output<typeof checkoutSchema>;
@@ -547,6 +549,28 @@ export function CheckoutForm() {
               <p className="mt-0.5 text-xs text-smoke">
                 Checkout is encrypted and processed securely by Razorpay. We
                 never store your card details.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 border border-line bg-white p-4">
+            <Phone
+              aria-hidden="true"
+              className="mt-0.5 h-5 w-5 shrink-0 text-brand"
+            />
+            <div>
+              <p className="font-display text-sm font-semibold tracking-wide uppercase">
+                Need help?
+              </p>
+              <p className="mt-0.5 text-xs text-smoke">
+                Call us on{" "}
+                <a
+                  href={storePhone.href}
+                  className="font-semibold text-brand transition-colors hover:text-brand-deep"
+                >
+                  {storePhone.display}
+                </a>{" "}
+                during store hours.
               </p>
             </div>
           </div>
