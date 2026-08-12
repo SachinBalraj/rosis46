@@ -40,7 +40,7 @@ export default function ContactPage() {
               width={1007}
               height={1562}
               priority
-              className="relative h-full w-full object-cover object-center"
+              className="relative h-full w-full object-contain object-center"
             />
             <span
               aria-hidden="true"

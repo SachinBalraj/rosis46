@@ -91,7 +91,7 @@ export default function AboutPage() {
               width={1672}
               height={941}
               priority
-              className="relative h-full w-full object-cover object-center"
+              className="relative h-full w-full object-contain object-center"
             />
             <span
               aria-hidden="true"

@@ -150,17 +150,17 @@ export default async function Home() {
 
       <section
         aria-label="Brand statement"
-        className="relative overflow-hidden border-y border-line-dark bg-night text-white"
+        className="relative flex min-h-[420px] items-center justify-center overflow-hidden border-y border-line-dark bg-night text-white lg:h-[540px]"
       >
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-night bg-[url('/images/rosisbg.png')] bg-cover bg-[center_35%] sm:bg-center"
+          className="absolute inset-0 bg-night bg-[url('/images/rosisbg.png')] bg-contain bg-center bg-no-repeat"
         />
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-black/65 sm:bg-black/70"
         />
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-24 text-center sm:px-6 lg:px-8 lg:py-32">
+        <div className="relative mx-auto w-full max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
           <p className="text-xs font-semibold tracking-[0.35em] text-brand uppercase">
             46 Rossis Biker Spot
           </p>
@@ -171,19 +171,6 @@ export default async function Home() {
             Sports helmets, riding gear, custom decals, spare parts and
             modifications—with on-site installation at our store in Salem.
           </p>
-          <div className="mt-16 flex flex-wrap items-center justify-center gap-4">
-            <Button href="/products" size="lg">
-              Shop accessories
-              <ArrowRight aria-hidden="true" className="h-4 w-4" />
-            </Button>
-            <Button
-              href="/contact"
-              size="lg"
-              className="border border-white bg-transparent text-white hover:bg-white hover:text-black"
-            >
-              Visit our store
-            </Button>
-          </div>
         </div>
       </section>
 
