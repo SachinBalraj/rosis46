@@ -10,6 +10,8 @@ import { iconMap } from "@/lib/icons";
 import { getActiveProducts, toCatalogProduct } from "@/lib/db";
 import { benefits, homeCategories, storePhones, testimonials } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Rossis Biker Spot — Salem's Rider HQ",
   description:
