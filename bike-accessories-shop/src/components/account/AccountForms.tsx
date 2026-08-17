@@ -17,6 +17,10 @@ const signInSchema = z.object({
 
 const registerSchema = signInSchema.extend({
   name: z.string().trim().min(2, "Enter your full name"),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^\d{10}$/, "Enter a valid 10-digit mobile number"),
 });
 
 type SignInValues = z.infer<typeof signInSchema>;
@@ -33,7 +37,7 @@ export function AccountForms() {
 
   const registerForm = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { name: "", email: "", password: "" },
+    defaultValues: { name: "", email: "", phone: "", password: "" },
   });
 
   const onSignIn = async (values: SignInValues) => {
@@ -80,7 +84,7 @@ export function AccountForms() {
       return;
     }
 
-    toast.success(`Welcome to 46 Rossis Biker Spot, ${values.name.split(" ")[0]}!`);
+    toast.success(`Welcome to Rossis Biker Spot, ${values.name.split(" ")[0]}!`);
     registerForm.reset();
     router.push("/account");
     router.refresh();
@@ -169,6 +173,26 @@ export function AccountForms() {
             {registerForm.formState.errors.email ? (
               <p role="alert" className="mt-1.5 text-sm text-rose-500">
                 {registerForm.formState.errors.email.message}
+              </p>
+            ) : null}
+          </div>
+          <div>
+            <label htmlFor="register-phone" className={labelClass}>
+              Mobile number
+            </label>
+            <input
+              id="register-phone"
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel"
+              placeholder="Enter 10-digit mobile number"
+              aria-invalid={registerForm.formState.errors.phone ? "true" : "false"}
+              className={inputClass(Boolean(registerForm.formState.errors.phone))}
+              {...registerForm.register("phone")}
+            />
+            {registerForm.formState.errors.phone ? (
+              <p role="alert" className="mt-1.5 text-sm text-rose-500">
+                {registerForm.formState.errors.phone.message}
               </p>
             ) : null}
           </div>

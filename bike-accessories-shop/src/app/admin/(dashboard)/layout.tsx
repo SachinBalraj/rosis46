@@ -9,8 +9,8 @@ import { AdminSignOutButton } from "@/components/admin/AdminSignOutButton";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "46 Rossis Biker Spot Admin",
-  description: "Add products to 46 Rossis Biker Spot.",
+  title: "Rossis Biker Spot Admin",
+  description: "Add products to Rossis Biker Spot.",
 };
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
@@ -29,7 +29,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             Admin console
           </p>
           <h1 className="display-heading mt-4 text-4xl uppercase text-foreground">
-            46 Rossis Biker Spot admin
+            Rossis Biker Spot admin
           </h1>
         </div>
         <div className="flex flex-wrap items-center gap-3">

@@ -11,12 +11,12 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { storePhone, team } from "@/lib/data";
+import { storePhones, team } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "46 Rossis Biker Spot is a local destination for motorcycle enthusiasts in Salem—riding gear, spare parts, custom decals and on-site installation.",
+    "Rossis Biker Spot is a local destination for motorcycle enthusiasts in Salem—riding gear, spare parts, custom decals and on-site installation.",
 };
 
 const pillars = [
@@ -63,7 +63,7 @@ export default function AboutPage() {
       >
         <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="flex flex-col justify-center gap-6 py-14 lg:py-24 lg:pr-16">
-            <p className="eyebrow">About 46 Rossis Biker Spot</p>
+            <p className="eyebrow">About Rossis Biker Spot</p>
             <h1
               id="about-hero"
               className="display-heading max-w-xl text-5xl text-foreground sm:text-6xl lg:text-7xl"
@@ -88,7 +88,7 @@ export default function AboutPage() {
           <figure className="relative -mx-4 flex aspect-[1672/941] items-center justify-center self-center overflow-hidden bg-night sm:-mx-6 lg:mx-0">
             <Image
               src="/images/rosisabout.png"
-              alt="46 Rossis Biker Spot storefront"
+              alt="Rossis Biker Spot storefront"
               width={1672}
               height={941}
               priority
@@ -118,7 +118,7 @@ export default function AboutPage() {
           />
           <div className="flex flex-col gap-5 leading-relaxed text-smoke">
             <p>
-              46 Rossis Biker Spot is a local destination for motorcycle
+              Rossis Biker Spot is a local destination for motorcycle
               enthusiasts in Salem. We&apos;re the shop you ride into when you
               need a new helmet, a missing spare part, or a bike that feels
               like yours again.
@@ -204,12 +204,6 @@ export default function AboutPage() {
             </Button>
           </div>
           <div className="relative overflow-hidden border border-line-dark bg-night p-10 text-white">
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute -top-4 right-2 font-display text-[10rem] leading-none font-bold text-brand/15 select-none"
-            >
-              46
-            </span>
             <p className="flex items-center gap-3 border-l-4 border-brand pl-4 font-display text-4xl font-bold text-white sm:text-5xl">
               Open daily
             </p>
@@ -296,13 +290,18 @@ export default function AboutPage() {
                 Visit our store
               </Button>
             </div>
-            <a
-              href={storePhone.href}
-              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:text-white"
-            >
-              <Phone aria-hidden="true" className="h-4 w-4" />
-              {storePhone.display}
-            </a>
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              {storePhones.map((phone) => (
+                <a
+                  key={phone.href}
+                  href={phone.href}
+                  className="inline-flex items-center gap-2 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:text-white"
+                >
+                  <Phone aria-hidden="true" className="h-4 w-4" />
+                  {phone.display}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>

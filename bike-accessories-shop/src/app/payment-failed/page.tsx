@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Ban, HelpCircle, RefreshCcw } from "lucide-react";
-import { storePhone } from "@/lib/data";
+import { storePhones } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
@@ -46,7 +46,7 @@ export default async function PaymentFailedPage({
       <span className="mx-auto flex h-20 w-20 items-center justify-center bg-rose-500/10 text-rose-500">
         <Ban aria-hidden="true" className="h-10 w-10" />
       </span>
-      <p className="eyebrow mt-8">46 Rossis Biker Spot</p>
+      <p className="eyebrow mt-8">Rossis Biker Spot</p>
       <h1 className="display-heading mt-4 text-4xl text-foreground sm:text-5xl">
         {copy.title}
       </h1>
@@ -72,12 +72,17 @@ export default async function PaymentFailedPage({
       <p className="mt-10 flex items-center justify-center gap-2 text-sm text-smoke">
         <HelpCircle aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
         Need help? Call us on{" "}
-        <a
-          href={storePhone.href}
-          className="font-medium text-brand hover:text-brand-deep"
-        >
-          {storePhone.display}
-        </a>
+        {storePhones.map((phone, i) => (
+          <span key={phone.href}>
+            {i > 0 && " / "}
+            <a
+              href={phone.href}
+              className="font-medium text-brand hover:text-brand-deep"
+            >
+              {phone.display}
+            </a>
+          </span>
+        ))}
       </p>
     </main>
   );

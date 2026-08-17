@@ -139,7 +139,7 @@ export const team = [
   {
     name: "Suresh Kumar",
     role: "Owner & Store Manager",
-    bio: "Runs 46 Rossis Biker Spot with a rider-first attitude—helping every customer find the right gear, part or upgrade for their bike.",
+    bio: "Runs Rossis Biker Spot with a rider-first attitude—helping every customer find the right gear, part or upgrade for their bike.",
     initials: "SK",
   },
   {
@@ -237,20 +237,20 @@ export const faqs = [
   },
 ];
 
-export const storePhone = {
-  display: "+91 86675 02544",
-  href: "tel:+918667502544",
-};
+export const storePhones = [
+  { display: "+91 86675 02544", href: "tel:+918667502544" },
+  { display: "+91 94455 77557", href: "tel:+919445577557" },
+] as const;
 
 export const storeAddress = {
-  line1: "46 Rossis Biker Spot",
+  line1: "Rossis Biker Spot",
   line2: "Opposite KPN Petrol Bunk, Buddhar Street",
   line3: "Suramangalam Main Road, Thiruvakavundanur",
   line4: "Salem – 636005",
 };
 
 export const mapsQuery =
-  "46 Rossis Biker Spot, Opposite KPN Petrol Bunk, Thiruvakavundanur, Salem 636005";
+  "Rossis Biker Spot, Opposite KPN Petrol Bunk, Thiruvakavundanur, Salem 636005";
 
 export const mapsDirectionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   mapsQuery

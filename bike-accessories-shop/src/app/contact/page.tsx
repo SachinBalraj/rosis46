@@ -3,12 +3,12 @@ import Image from "next/image";
 import { ChevronDown, Clock, MapPin, Navigation, Phone, Wrench } from "lucide-react";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { faqs, mapsDirectionsUrl, mapsEmbedUrl, storeAddress, storePhone } from "@/lib/data";
+import { faqs, mapsDirectionsUrl, mapsEmbedUrl, storeAddress, storePhones } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Visit 46 Rossis Biker Spot opposite KPN Petrol Bunk, Suramangalam Main Road, Thiruvakavundanur, Salem – 636005. Open daily until 9:00 PM.",
+    "Visit Rossis Biker Spot opposite KPN Petrol Bunk, Suramangalam Main Road, Thiruvakavundanur, Salem – 636005. Open daily until 9:00 PM.",
 };
 
 export default function ContactPage() {
@@ -36,7 +36,7 @@ export default function ContactPage() {
           <figure className="relative -mx-4 flex aspect-[5/4] items-center justify-center overflow-hidden bg-night sm:-mx-6 lg:mx-0">
             <Image
               src="/images/rosiscontact.png"
-              alt="46 Rossis Biker Spot contact and store information"
+              alt="Rossis Biker Spot contact and store information"
               width={1007}
               height={1562}
               priority
@@ -91,12 +91,17 @@ export default function ContactPage() {
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-line text-brand">
                     <Phone aria-hidden="true" className="h-5 w-5" />
                   </span>
-                  <a
-                    href={storePhone.href}
-                    className="text-sm font-semibold tracking-widest text-foreground uppercase transition-colors hover:text-brand"
-                  >
-                    {storePhone.display}
-                  </a>
+                  <div className="flex flex-col gap-1">
+                    {storePhones.map((phone) => (
+                      <a
+                        key={phone.href}
+                        href={phone.href}
+                        className="text-sm font-semibold tracking-widest text-foreground uppercase transition-colors hover:text-brand"
+                      >
+                        {phone.display}
+                      </a>
+                    ))}
+                  </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
                   <a
@@ -113,11 +118,11 @@ export default function ContactPage() {
             </div>
 
             <div
-              aria-label="Map showing the 46 Rossis Biker Spot store location"
+              aria-label="Map showing the Rossis Biker Spot store location"
               className="relative min-h-72 overflow-hidden border border-line bg-night"
             >
               <iframe
-                title="46 Rossis Biker Spot location on Google Maps"
+                title="Rossis Biker Spot location on Google Maps"
                 src={mapsEmbedUrl}
                 className="absolute inset-0 h-full w-full border-0"
                 loading="lazy"
@@ -207,7 +212,7 @@ export default function ContactPage() {
                     Getting directions
                   </h3>
                   <ul className="mt-1.5 space-y-0.5">
-                    <li className="text-sm text-smoke">Search 46 Rossis Biker Spot</li>
+                    <li className="text-sm text-smoke">Search Rossis Biker Spot</li>
                     <li className="text-sm text-smoke">Thiruvakavundanur, Salem 636005</li>
                   </ul>
                 </div>

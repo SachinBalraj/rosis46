@@ -11,13 +11,13 @@ import {
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { formatPaise } from "@/lib/utils";
-import { storePhone } from "@/lib/data";
+import { storePhones } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Order confirmed",
-  description: "Your 46 Rossis Biker Spot order is confirmed.",
+  description: "Your Rossis Biker Spot order is confirmed.",
 };
 
 type OrderSuccessPageProps = {
@@ -58,13 +58,13 @@ export default async function OrderSuccessPage({
         >
           <CheckCircle2 aria-hidden="true" className="h-10 w-10" />
         </span>
-        <p className="eyebrow mt-8">46 Rossis Biker Spot</p>
+        <p className="eyebrow mt-8">Rossis Biker Spot</p>
         <h1 className="display-heading mt-4 text-4xl text-foreground sm:text-5xl">
           {paid ? "Order confirmed!" : "Payment not completed"}
         </h1>
         <p className="mt-3 max-w-md text-smoke">
           {paid
-            ? "Thanks for riding with 46 Rossis Biker Spot. We've received your payment and your gear is being prepared."
+            ? "Thanks for riding with Rossis Biker Spot. We've received your payment and your gear is being prepared."
             : "Your order was created but the payment was not completed. You can retry from your cart."}
         </p>
       </div>
@@ -178,12 +178,17 @@ export default async function OrderSuccessPage({
       <p className="mt-10 flex items-center justify-center gap-2 text-sm text-smoke">
         <HelpCircle aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
         Questions about your order? Call us on{" "}
-        <a
-          href={storePhone.href}
-          className="font-medium text-brand transition-colors hover:text-brand-deep"
-        >
-          {storePhone.display}
-        </a>
+        {storePhones.map((phone, i) => (
+          <span key={phone.href}>
+            {i > 0 && " / "}
+            <a
+              href={phone.href}
+              className="font-medium text-brand transition-colors hover:text-brand-deep"
+            >
+              {phone.display}
+            </a>
+          </span>
+        ))}
       </p>
     </main>
   );

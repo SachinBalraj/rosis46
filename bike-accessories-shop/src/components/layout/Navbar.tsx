@@ -35,9 +35,9 @@ export function Navbar() {
         <Link
           href="/"
           className="flex items-center gap-2.5 font-display text-sm font-bold tracking-widest whitespace-nowrap text-foreground uppercase sm:text-base lg:text-lg"
-          aria-label="46 Rossis Biker Spot home"
+          aria-label="Rossis Biker Spot home"
         >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden bg-brand">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden bg-white">
             <Image
               src="/images/rossis-46-logo.jpg"
               alt=""
@@ -47,7 +47,7 @@ export function Navbar() {
               className="h-full w-full object-contain"
             />
           </span>
-          46 Rossis Biker Spot
+          Rossis Biker Spot
         </Link>
 
         <ul className="hidden items-center gap-1 lg:flex">

@@ -245,7 +245,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   </span>
                 ) : (
                   <span className="border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
-                    46 Rossis Biker Spot — genuine &amp; tested
+                    Rossis Biker Spot — genuine &amp; tested
                   </span>
                 )}
                 {product.stock !== null ? (
@@ -295,7 +295,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   <span className="font-semibold text-brand uppercase">
                     On-site installation available
                   </span>{" "}
-                  — bring your bike to 46 Rossis Biker Spot and we&apos;ll fit
+                  — bring your bike to Rossis Biker Spot and we&apos;ll fit
                   it for you while you wait.
                 </p>
               </div>

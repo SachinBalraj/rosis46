@@ -5,7 +5,7 @@ import { getActiveProducts, toCatalogProduct } from "@/lib/db";
 export const metadata: Metadata = {
   title: "Products",
   description:
-    "Browse the 46 Rossis Biker Spot catalogue — sports helmets, riding gloves, bike grips, mobile holders, LED lights, custom decals, mirrors, exhaust accessories, spare parts and chain care.",
+    "Browse the Rossis Biker Spot catalogue — sports helmets, riding gloves, bike grips, mobile holders, LED lights, custom decals, mirrors, exhaust accessories, spare parts and chain care.",
 };
 
 type ProductsPageProps = {
@@ -26,12 +26,12 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         className="border-b border-line bg-white"
       >
         <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-          <p className="eyebrow">46 · The catalogue</p>
+          <p className="eyebrow">The catalogue</p>
           <h1
             id="products-hero"
             className="display-heading mt-6 max-w-3xl text-5xl text-foreground sm:text-6xl"
           >
-            Gear up at 46 Rossis
+            Gear up at Rossis
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-smoke">
             Sports helmets, riding gear, grips, LED lights, custom decals,

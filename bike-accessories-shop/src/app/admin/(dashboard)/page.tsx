@@ -4,7 +4,7 @@ import { AddProductForm } from "@/components/admin/AddProductForm";
 
 export const metadata: Metadata = {
   title: "Add product | Admin console",
-  description: "Add a product to 46 Rossis Biker Spot.",
+  description: "Add a product to Rossis Biker Spot.",
 };
 
 export default async function AdminDashboardPage() {

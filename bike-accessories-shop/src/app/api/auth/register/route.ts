@@ -6,6 +6,10 @@ import { prisma } from "@/lib/prisma";
 const registerSchema = z.object({
   name: z.string().trim().min(2, "Enter your full name").max(100),
   email: z.string().trim().toLowerCase().email("Enter a valid email address"),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^\d{10}$/, "Enter a valid 10-digit mobile number"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
@@ -36,7 +40,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { name, email, password } = parsed.data;
+  const { name, email, phone, password } = parsed.data;
 
   const existing = await prisma.user.findUnique({
     where: { email },
@@ -50,7 +54,7 @@ export async function POST(request: NextRequest) {
 
   try {
     await prisma.user.create({
-      data: { name, email, passwordHash },
+      data: { name, email, phone, passwordHash },
       select: { id: true },
     });
   } catch (error) {

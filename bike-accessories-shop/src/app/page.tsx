@@ -8,12 +8,12 @@ import { ProductGrid } from "@/components/products/ProductGrid";
 import { NewsletterForm } from "@/components/home/NewsletterForm";
 import { iconMap } from "@/lib/icons";
 import { getActiveProducts, toCatalogProduct } from "@/lib/db";
-import { benefits, homeCategories, storePhone, testimonials } from "@/lib/data";
+import { benefits, homeCategories, storePhones, testimonials } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "46 Rossis Biker Spot — Salem's Rider HQ",
+  title: "Rossis Biker Spot — Salem's Rider HQ",
   description:
-    "Premium riding gear, helmets, accessories, spare parts, and custom bike upgrades—all in one place at 46 Rossis Biker Spot, Salem.",
+    "Premium riding gear, helmets, accessories, spare parts, and custom bike upgrades—all in one place at Rossis Biker Spot, Salem.",
 };
 
 const marqueeItems = [
@@ -47,27 +47,43 @@ export default async function Home() {
         <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="relative -mx-4 sm:-mx-6 lg:mx-0">
             <figure className="relative flex aspect-[5/4] items-center justify-center overflow-hidden bg-night">
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgb(225_6_0/0.22),transparent_65%)]"
-              />
               <Image
                 src="/images/rossis-46-logo.jpg"
-                alt="46 Rossis Biker Spot logo"
+                alt="Rossis Biker Spot logo"
                 width={1600}
                 height={1257}
                 priority
                 className="relative h-full w-full object-contain"
               />
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 ring-1 ring-brand/50 ring-inset"
-              />
-              <span
-                aria-hidden="true"
-                className="absolute right-0 bottom-0 h-1.5 w-1/3 bg-brand"
-              />
             </figure>
+
+            <Link
+              href="/products/moxi-indicators"
+              className="group mt-4 flex items-center gap-4 border border-line bg-white p-4 transition-all duration-300 hover:border-brand hover:shadow-[0_18px_50px_-24px_rgb(225_6_0/0.25)]"
+            >
+              <span className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden border border-line bg-night">
+                <Image
+                  src="/images/bestsellers1-moxi-indicators-ad.png"
+                  alt="Moxi Indicators"
+                  width={160}
+                  height={160}
+                  className="h-full w-full object-contain"
+                />
+              </span>
+              <div className="flex flex-1 flex-col gap-1.5">
+                <span className="inline-flex w-fit bg-brand px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">
+                  Best seller
+                </span>
+                <span className="font-display text-sm font-semibold tracking-wide uppercase text-foreground transition-colors group-hover:text-brand">
+                  Moxi Indicators
+                </span>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold tracking-widest text-brand uppercase">
+                  View product
+                  <ArrowRight aria-hidden="true" className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </Link>
+
             <div className="mt-4 flex items-center gap-3">
               <span aria-hidden="true" className="h-2.5 w-2.5 bg-brand" />
               <p className="text-xs font-semibold tracking-[0.25em] text-smoke uppercase">
@@ -77,12 +93,6 @@ export default async function Home() {
           </div>
 
           <div className="relative flex flex-col justify-center gap-8 py-14 lg:py-24 lg:pl-16">
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute -top-6 right-0 hidden font-display text-[10rem] leading-none font-bold text-brand/5 select-none lg:block"
-            >
-              46
-            </span>
             <p className="eyebrow">Salem&apos;s Rider HQ</p>
             <h1 className="display-heading max-w-xl text-5xl text-foreground sm:text-6xl lg:text-7xl">
               Gear up.
@@ -154,13 +164,18 @@ export default async function Home() {
             Need gear fitted or a part sourced? Call the store during opening
             hours.
           </p>
-          <a
-            href={storePhone.href}
-            className="inline-flex items-center gap-2 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:text-brand-deep"
-          >
-            <Phone aria-hidden="true" className="h-4 w-4" />
-            Call us · {storePhone.display}
-          </a>
+          <div className="flex flex-wrap items-center gap-4">
+            {storePhones.map((phone) => (
+              <a
+                key={phone.href}
+                href={phone.href}
+                className="inline-flex items-center gap-2 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:text-brand-deep"
+              >
+                <Phone aria-hidden="true" className="h-4 w-4" />
+                {phone.display}
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -178,7 +193,7 @@ export default async function Home() {
         />
         <div className="relative mx-auto w-full max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
           <p className="text-xs font-semibold tracking-[0.35em] text-brand uppercase">
-            46 Rossis Biker Spot
+            Rossis Biker Spot
           </p>
           <h2 className="display-heading mx-auto mt-5 max-w-3xl text-5xl text-white sm:text-6xl lg:text-7xl">
             Built for riders. Ready for every road.
@@ -197,7 +212,7 @@ export default async function Home() {
         <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading
-              eyebrow="46 · What we stock"
+              eyebrow="What we stock"
               title="Everything your bike needs"
               description="From your first helmet to custom decals and genuine spares—fit and installed for you in Salem."
             />
@@ -284,12 +299,6 @@ export default async function Home() {
           </div>
 
           <div className="relative border border-line-dark bg-charcoal p-10 text-white">
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute top-2 right-4 font-display text-8xl leading-none font-bold text-brand/15 select-none"
-            >
-              46
-            </span>
             <span className="flex h-14 w-14 items-center justify-center bg-brand text-white">
               <Wrench aria-hidden="true" className="h-7 w-7" />
             </span>
@@ -341,7 +350,7 @@ export default async function Home() {
       >
         <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
           <SectionHeading
-            eyebrow="Why 46 Rossis Biker Spot"
+            eyebrow="Why Rossis Biker Spot"
             title="Built for riders. Ready for every road."
             align="center"
             description="A local destination for motorcycle enthusiasts in Salem—gear, spares and hands-on service."
@@ -436,7 +445,7 @@ export default async function Home() {
               New arrivals, ride tips & store offers
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-smoke">
-              Be the first to know about fresh gear and custom builds at 46
+              Be the first to know about fresh gear and custom builds at
               Rossis Biker Spot.
             </p>
             <div className="mt-10">

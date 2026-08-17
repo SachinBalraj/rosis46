@@ -24,11 +24,11 @@ const oswald = Oswald({
 
 export const metadata: Metadata = {
   title: {
-    default: "46 Rossis Biker Spot — Salem's Rider HQ",
-    template: "%s · 46 Rossis Biker Spot",
+    default: "Rossis Biker Spot — Salem's Rider HQ",
+    template: "%s · Rossis Biker Spot",
   },
   description:
-    "Premium riding gear, sports helmets, accessories, spare parts, custom bike decals and on-site installation at 46 Rossis Biker Spot, Salem.",
+    "Premium riding gear, sports helmets, accessories, spare parts, custom bike decals and on-site installation at Rossis Biker Spot, Salem.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

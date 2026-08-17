@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
 
         return {
           id: "admin",
-          name: "46 Rossis Admin",
+          name: "Rossis Admin",
           role: "ADMIN",
         };
       },

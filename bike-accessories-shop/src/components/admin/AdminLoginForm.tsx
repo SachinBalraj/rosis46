@@ -57,7 +57,7 @@ export function AdminLoginForm() {
       return;
     }
 
-    toast.success("Welcome back to 46 Rossis Biker Spot.");
+    toast.success("Welcome back to Rossis Biker Spot.");
     router.push("/admin");
     router.refresh();
   };
@@ -86,7 +86,7 @@ export function AdminLoginForm() {
                 id="admin-login-title"
                 className="display-heading mt-5 text-3xl uppercase text-foreground sm:text-4xl"
               >
-                46 Rossis Biker Spot admin
+                Rossis Biker Spot admin
               </h1>
               <p className="mt-3 text-sm leading-relaxed text-smoke">
                 Sign in to manage products, categories and orders.
@@ -96,7 +96,7 @@ export function AdminLoginForm() {
             <div className="mt-8 flex items-center justify-center">
               <Image
                 src="/images/rossis-46-logo.jpg"
-                alt="46 Rossis Biker Spot logo"
+                alt="Rossis Biker Spot logo"
                 width={320}
                 height={252}
                 className="h-24 w-auto border border-line bg-white object-contain p-1"
@@ -193,7 +193,7 @@ export function AdminLoginForm() {
           </div>
 
           <p className="mt-6 text-center text-xs tracking-widest text-white/60 uppercase">
-            Authorized personnel only · 46 Rossis Biker Spot
+            Authorized personnel only · Rossis Biker Spot
           </p>
         </div>
       </div>

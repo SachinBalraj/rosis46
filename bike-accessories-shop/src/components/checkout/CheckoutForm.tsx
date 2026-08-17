@@ -20,7 +20,7 @@ import { toast } from "sonner";
 import { cn, formatPrice } from "@/lib/utils";
 import { iconMap } from "@/lib/icons";
 import { checkoutSchema } from "@/lib/validation";
-import { storePhone } from "@/lib/data";
+import { storePhones } from "@/lib/data";
 import { useCart } from "@/store/cart";
 
 type CheckoutFormValues = z.output<typeof checkoutSchema>;
@@ -127,7 +127,7 @@ export function CheckoutForm() {
       key: created.keyId,
       amount: created.amount,
       currency: created.currency,
-      name: "46 Rossis Biker Spot",
+      name: "Rossis Biker Spot",
       description: `Order ${created.orderId}`,
       order_id: created.razorpayOrderId,
       prefill: {
@@ -564,12 +564,17 @@ export function CheckoutForm() {
               </p>
               <p className="mt-0.5 text-xs text-smoke">
                 Call us on{" "}
-                <a
-                  href={storePhone.href}
-                  className="font-semibold text-brand transition-colors hover:text-brand-deep"
-                >
-                  {storePhone.display}
-                </a>{" "}
+                {storePhones.map((phone, i) => (
+                  <span key={phone.href}>
+                    {i > 0 && " / "}
+                    <a
+                      href={phone.href}
+                      className="font-semibold text-brand transition-colors hover:text-brand-deep"
+                    >
+                      {phone.display}
+                    </a>
+                  </span>
+                ))}{" "}
                 during store hours.
               </p>
             </div>

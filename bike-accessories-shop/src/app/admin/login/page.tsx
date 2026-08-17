@@ -7,8 +7,8 @@ import { AdminLoginForm } from "@/components/admin/AdminLoginForm";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Admin login | 46 Rossis Biker Spot",
-  description: "Sign in to the 46 Rossis Biker Spot admin console.",
+  title: "Admin login | Rossis Biker Spot",
+  description: "Sign in to the Rossis Biker Spot admin console.",
 };
 
 export default async function AdminLoginPage() {
