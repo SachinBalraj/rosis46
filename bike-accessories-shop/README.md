@@ -27,7 +27,10 @@ PostgreSQL/Prisma backend and Razorpay Standard Checkout for payments.
    ```
 
 3. Start PostgreSQL and set `DATABASE_URL` / `DIRECT_URL` in `.env` (a local
-   Postgres, or a free Supabase/Neon instance).
+   Postgres, or a free Supabase/Neon instance). For local development you can
+   use the bundled PGlite server — run it with `npm run db:server` (the
+   `-m 10` flag is required; the default of 1 connection causes Prisma
+   `P1017 ConnectionClosed` errors under concurrent requests).
 
 4. Apply the schema and seed the catalogue:
 

@@ -44,7 +44,7 @@ export function Navbar() {
               width={36}
               height={28}
               priority
-              className="h-full w-full object-contain"
+              className="object-contain"
             />
           </span>
           Rossis Biker Spot
