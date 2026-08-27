@@ -148,12 +148,16 @@
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-semibold tracking-[0.25em] text-brand uppercase;
+    @apply inline-flex items-center gap-2 text-xs font-semibold tracking-[0.25em] uppercase;
+    background: linear-gradient(to right, #ef4444, #eab308, #3b82f6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
   }
 
   .eyebrow::before {
     content: "";
-    @apply h-2 w-2 bg-brand;
+    @apply h-2 w-2 bg-brand text-brand;
   }
 }
 

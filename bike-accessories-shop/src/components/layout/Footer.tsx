@@ -17,7 +17,7 @@ export function Footer() {
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden bg-white">
                 <Image
-                  src="/images/rossis-46-logo.jpg"
+                  src="/images/rossislogo.png"
                   alt=""
                   width={36}
                   height={28}
@@ -26,12 +26,12 @@ export function Footer() {
               </span>
               Rossis Biker Spot
             </Link>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-smoke">
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-[#D6C5B3]">
               Built for riders. Ready for every road. Sports helmets, riding
               gear, spare parts, custom decals and on-site installation at our
               store in Salem.
             </p>
-            <ul className="mt-6 flex flex-col gap-3 text-sm text-smoke">
+            <ul className="mt-6 flex flex-col gap-3 text-sm text-[#D6C5B3]">
               <li className="flex items-start gap-2">
                 <MapPin aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
                 Opposite KPN Petrol Bunk, Buddhar Street /
@@ -44,7 +44,7 @@ export function Footer() {
               <li>
                 <a
                   href={storePhones[0].href}
-                  className="flex items-center gap-2 text-sm text-smoke transition-colors hover:text-white"
+                  className="flex items-center gap-2 text-sm text-[#D6C5B3] transition-colors hover:text-white"
                 >
                   <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
                   {storePhones[0].display}
@@ -53,7 +53,7 @@ export function Footer() {
               <li>
                 <a
                   href={storePhones[1].href}
-                  className="flex items-center gap-2 text-sm text-smoke transition-colors hover:text-white"
+                  className="flex items-center gap-2 text-sm text-[#D6C5B3] transition-colors hover:text-white"
                 >
                   <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
                   {storePhones[1].display}
@@ -71,7 +71,7 @@ export function Footer() {
                 <li key={category.slug}>
                   <Link
                     href={`/products?category=${category.slug}`}
-                    className="link-underline flex w-fit items-center gap-1 text-sm text-smoke transition-colors hover:text-white"
+                    className="link-underline flex w-fit items-center gap-1 text-sm text-[#D6C5B3] transition-colors hover:text-white"
                   >
                     {category.label}
                     <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -90,7 +90,7 @@ export function Footer() {
                 <li key={category.slug}>
                   <Link
                     href={`/products?category=${category.slug}`}
-                    className="link-underline flex w-fit items-center gap-1 text-sm text-smoke transition-colors hover:text-white"
+                    className="link-underline flex w-fit items-center gap-1 text-sm text-[#D6C5B3] transition-colors hover:text-white"
                   >
                     {category.label}
                     <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -106,27 +106,27 @@ export function Footer() {
             </h3>
             <ul className="mt-4 flex flex-col gap-3">
               <li>
-                <Link href="/about" className="link-underline text-sm text-smoke transition-colors hover:text-white">
+                <Link href="/about" className="link-underline text-sm text-[#D6C5B3] transition-colors hover:text-white">
                   About us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="link-underline text-sm text-smoke transition-colors hover:text-white">
+                <Link href="/contact" className="link-underline text-sm text-[#D6C5B3] transition-colors hover:text-white">
                   Contact & directions
                 </Link>
               </li>
               <li>
-                <Link href="/contact#faq" className="link-underline text-sm text-smoke transition-colors hover:text-white">
+                <Link href="/contact#faq" className="link-underline text-sm text-[#D6C5B3] transition-colors hover:text-white">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/account" className="link-underline text-sm text-smoke transition-colors hover:text-white">
+                <Link href="/account" className="link-underline text-sm text-[#D6C5B3] transition-colors hover:text-white">
                   Your account
                 </Link>
               </li>
             </ul>
-            <p className="mt-6 text-sm leading-relaxed text-smoke">
+            <p className="mt-6 text-sm leading-relaxed text-[#D6C5B3]">
               On-site installation available — bring your bike in and leave
               upgraded.
             </p>

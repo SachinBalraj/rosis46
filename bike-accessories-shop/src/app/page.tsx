@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { NewsletterForm } from "@/components/home/NewsletterForm";
+import { BestSellerCarousel } from "@/components/home/BestSellerCarousel";
 import { iconMap } from "@/lib/icons";
 import { getActiveProducts, toCatalogProduct } from "@/lib/db";
 import { benefits, homeCategories, storePhones, testimonials } from "@/lib/data";
@@ -27,6 +28,8 @@ const marqueeItems = [
   "Open daily till 9 PM",
 ];
 
+const marqueeColors = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500", "bg-orange-500"];
+
 const installationServices = [
   "Helmet fitting and visor swaps",
   "Grip and lever installation",
@@ -46,45 +49,20 @@ export default async function Home() {
         aria-label="Introduction"
         className="border-b border-line bg-white"
       >
-        <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div className="relative -mx-4 sm:-mx-6 lg:mx-0">
-            <figure className="relative flex aspect-[5/4] items-center justify-center overflow-hidden bg-night">
-              <Image
-                src="/images/rossis-46-logo.jpg"
-                alt="Rossis Biker Spot logo"
-                width={1600}
-                height={1257}
-                priority
-                className="relative h-full w-full object-contain"
-              />
-            </figure>
+        <figure className="relative w-full overflow-hidden bg-night">
+          <Image
+            src="/images/rossisbanner1.png"
+            alt="Rossis Biker Spot banner"
+            width={1920}
+            height={800}
+            priority
+            className="h-auto w-full object-cover"
+          />
+        </figure>
 
-            <Link
-              href="/products/moxi-indicators"
-              className="group mt-4 flex items-center gap-4 border border-line bg-white p-4 transition-all duration-300 hover:border-brand hover:shadow-[0_18px_50px_-24px_rgb(225_6_0/0.25)]"
-            >
-              <span className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden border border-line bg-night">
-                <Image
-                  src="/images/bestsellers1-moxi-indicators-ad.png"
-                  alt="Moxi Indicators"
-                  width={160}
-                  height={160}
-                  className="h-full w-full object-contain"
-                />
-              </span>
-              <div className="flex flex-1 flex-col gap-1.5">
-                <span className="inline-flex w-fit bg-brand px-2 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">
-                  Best seller
-                </span>
-                <span className="font-display text-sm font-semibold tracking-wide uppercase text-foreground transition-colors group-hover:text-brand">
-                  Moxi Indicators
-                </span>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold tracking-widest text-brand uppercase">
-                  View product
-                  <ArrowRight aria-hidden="true" className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </div>
-            </Link>
+        <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div className="flex flex-col gap-4">
+            <BestSellerCarousel />
 
             <div className="mt-4 flex items-center gap-3">
               <span aria-hidden="true" className="h-2.5 w-2.5 bg-brand" />
@@ -154,7 +132,7 @@ export default async function Home() {
               className="flex items-center gap-12 whitespace-nowrap font-display text-sm font-semibold tracking-[0.3em] text-white uppercase"
             >
               {item}
-              <span aria-hidden="true" className="h-1.5 w-1.5 bg-brand" />
+              <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${marqueeColors[index % marqueeColors.length]}`} />
             </span>
           ))}
         </div>

@@ -95,7 +95,7 @@ export function AdminLoginForm() {
 
             <div className="mt-8 flex items-center justify-center">
               <Image
-                src="/images/rossis-46-logo.jpg"
+                src="/images/rossislogo.png"
                 alt="Rossis Biker Spot logo"
                 width={320}
                 height={252}

@@ -1,32 +1,35 @@
 "use client";
 
-import Link from "next/link";
-import { Menu, Phone, X } from "lucide-react";
-import { usePathname } from "next/navigation";
+import Image from "next/image";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { storePhones } from "@/lib/data";
 
 type MobileMenuProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/products", label: "Products" },
-  { href: "/contact", label: "Contact" },
-  { href: "/cart", label: "Cart" },
-  { href: "/account", label: "Account" },
+const mainMenuItems = [
+  { label: "Home", hasSubmenu: false },
+  { label: "Helmets", hasSubmenu: true },
+  { label: "Gears", hasSubmenu: true },
+  { label: "Essentials & Luggage", hasSubmenu: true },
+  { label: "Ride Care", hasSubmenu: true },
+  { label: "New Arrivals", hasSubmenu: false },
+];
+
+const categoryMenuItems = [
+  "Essentials",
+  "Wheel Accessories",
+  "Light & Light Accessories",
+  "Handlebar Accessories",
+  "Protection Parts",
+  "Luggage",
+  "Performance Parts",
 ];
 
 export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
-  const pathname = usePathname();
-
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
-
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onOpenChange(false);
@@ -50,7 +53,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
         aria-expanded={open}
         aria-controls="mobile-menu"
         aria-label={open ? "Close menu" : "Open menu"}
-        className="flex h-10 w-10 items-center justify-center border border-line text-foreground transition-colors hover:text-brand lg:hidden"
+        className="flex h-10 w-10 items-center justify-center border border-line text-foreground transition-colors hover:text-brand"
       >
         {open ? (
           <X aria-hidden="true" className="h-5 w-5" />
@@ -62,59 +65,83 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
       <div
         id="mobile-menu"
         className={cn(
-          "fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-white px-6 pt-8 transition-all duration-300 lg:hidden",
-          open
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none opacity-0"
+          "fixed inset-y-0 left-0 z-40 flex w-full max-w-sm flex-col bg-white shadow-xl transition-transform duration-300 ease-in-out",
+          open ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <ul className="flex flex-col gap-1">
-          {links.map((link, index) => (
-            <li
-              key={link.href}
-              style={{ transitionDelay: open ? `${index * 40}ms` : "0ms" }}
-              className={cn(
-                "transition-all duration-300",
-                open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
-              )}
-            >
-              <Link
-                href={link.href}
-                onClick={() => onOpenChange(false)}
-                aria-current={isActive(link.href) ? "page" : undefined}
-                className={cn(
-                  "block border-b border-line px-4 py-4 font-display text-2xl font-bold uppercase tracking-wide transition-colors",
-                  isActive(link.href)
-                    ? "text-brand"
-                    : "text-foreground hover:text-brand"
-                )}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-6 flex flex-col gap-3">
-          {storePhones.map((phone) => (
-            <a
-              key={phone.href}
-              href={phone.href}
-              onClick={() => onOpenChange(false)}
-              className="inline-flex h-12 items-center justify-center gap-2 bg-brand px-6 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-brand-deep"
-            >
-              <Phone aria-hidden="true" className="h-4 w-4" />
-              Call us · {phone.display}
-            </a>
-          ))}
+        <div className="flex items-center justify-between border-b border-line px-6 py-4">
+          <Image
+            src="/images/rossislogo.png"
+            alt="Rossis Biker Spot"
+            width={100}
+            height={32}
+            className="h-auto w-auto object-contain"
+          />
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            aria-label="Close menu"
+            className="flex h-10 w-10 items-center justify-center text-foreground transition-colors hover:text-brand"
+          >
+            <X aria-hidden="true" className="h-5 w-5" />
+          </button>
         </div>
 
-        <div className="mt-auto mb-8">
-          <p className="border-l-2 border-brand pl-4 text-sm text-smoke">
-            Open daily until 9:00 PM · On-site installation available
+        <div className="flex-1 overflow-y-auto px-6 py-6">
+          <p className="mb-3 text-xs font-semibold tracking-widest text-gray-400 uppercase">
+            Main Menu
+          </p>
+          <ul className="flex flex-col">
+            {mainMenuItems.map((item) => (
+              <li key={item.label}>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between border-b border-line px-2 py-3.5 text-sm font-medium text-foreground transition-colors hover:text-brand"
+                >
+                  {item.label}
+                  {item.hasSubmenu && (
+                    <ChevronDown aria-hidden="true" className="h-4 w-4 text-gray-400" />
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mb-3 mt-8 text-xs font-semibold tracking-widest text-gray-400 uppercase">
+            Category Menu
+          </p>
+          <ul className="flex flex-col">
+            {categoryMenuItems.map((item) => (
+              <li key={item}>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between border-b border-line px-2 py-3.5 text-sm font-medium text-foreground transition-colors hover:text-brand"
+                >
+                  {item}
+                  <ChevronDown aria-hidden="true" className="h-4 w-4 text-gray-400" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="border-t border-line px-6 py-4">
+          <p className="text-xs text-gray-500">
+            Rossis Biker Spot &copy; 2026. All rights reserved.
+          </p>
+          <p className="text-xs text-gray-500">
+            Powered by YesBe Technologies
           </p>
         </div>
       </div>
+
+      {open && (
+        <div
+          className="fixed inset-0 z-30 bg-black/40"
+          onClick={() => onOpenChange(false)}
+          aria-hidden="true"
+        />
+      )}
     </>
   );
 }
