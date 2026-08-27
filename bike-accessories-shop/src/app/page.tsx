@@ -49,14 +49,14 @@ export default async function Home() {
         aria-label="Introduction"
         className="border-b border-line bg-white"
       >
-        <figure className="relative w-full overflow-hidden bg-night">
+        <figure className="relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw] block w-[100vw] max-w-none overflow-hidden bg-night">
           <Image
             src="/images/rossisbanner1.png"
             alt="Rossis Biker Spot banner"
             width={1920}
             height={800}
             priority
-            className="h-auto w-full object-cover"
+            className="block h-auto w-full object-cover"
           />
         </figure>
 
