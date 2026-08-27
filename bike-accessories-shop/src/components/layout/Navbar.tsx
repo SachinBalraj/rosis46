@@ -17,14 +17,14 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur-xl">
-      <div className="mx-auto grid w-full grid-cols-3 items-center px-4 pb-4 pt-4 sm:px-6 lg:px-8">
-        <div className="justify-self-start">
+      <div className="mx-auto flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="flex h-10 w-10 items-center justify-center">
           <MobileMenu open={menuOpen} onOpenChange={setMenuOpen} />
         </div>
 
         <Link
           href="/"
-          className="justify-self-center"
+          className="flex h-10 items-center justify-center"
           aria-label="Rossis Biker Spot home"
         >
           <Image
@@ -33,11 +33,11 @@ export function Navbar() {
             width={120}
             height={40}
             priority
-            className="max-h-[70px] w-auto object-contain"
+            className="h-10 w-auto object-contain"
           />
         </Link>
 
-        <div className="justify-self-end">
+        <div className="flex h-10 w-10 items-center justify-center">
           <Link
             href="/cart"
             aria-label={`Cart with ${itemCount} item${itemCount === 1 ? "" : "s"}`}
