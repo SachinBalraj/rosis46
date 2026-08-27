@@ -85,7 +85,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <figure className="relative -mx-4 flex aspect-[1672/941] items-center justify-center self-center overflow-hidden bg-night sm:-mx-6 lg:mx-0">
+          <figure className="relative flex aspect-[1672/941] items-center justify-center self-center overflow-hidden bg-night">
             <Image
               src="/images/rosisabout.png"
               alt="Rossis Biker Spot storefront"

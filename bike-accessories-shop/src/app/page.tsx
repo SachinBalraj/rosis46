@@ -63,13 +63,6 @@ export default async function Home() {
         <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="flex flex-col gap-4">
             <BestSellerCarousel />
-
-            <div className="mt-4 flex items-center gap-3">
-              <span aria-hidden="true" className="h-2.5 w-2.5 bg-brand" />
-              <p className="text-xs font-semibold tracking-[0.25em] text-smoke uppercase">
-                Built for riders. Ready for every road.
-              </p>
-            </div>
           </div>
 
           <div className="relative flex flex-col justify-center gap-8 py-14 lg:py-24 lg:pl-16">

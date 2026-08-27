@@ -65,17 +65,17 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
       <div
         id="mobile-menu"
         className={cn(
-          "fixed inset-y-0 left-0 z-40 flex w-full max-w-sm flex-col bg-white shadow-xl transition-transform duration-300 ease-in-out",
+          "fixed inset-y-0 left-0 z-[100] flex w-80 flex-col bg-white shadow-xl transition-transform duration-300 ease-in-out",
           open ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex items-center justify-between border-b border-line px-6 py-4">
+        <div className="flex items-center justify-between border-b border-line p-4">
           <Image
             src="/images/rossislogo.png"
             alt="Rossis Biker Spot"
             width={100}
             height={32}
-            className="h-auto w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
           <button
             type="button"
@@ -87,7 +87,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6 py-6">
+        <div className="flex flex-1 flex-col overflow-y-auto p-4">
           <p className="mb-3 text-xs font-semibold tracking-widest text-gray-400 uppercase">
             Main Menu
           </p>
@@ -125,7 +125,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
           </ul>
         </div>
 
-        <div className="border-t border-line px-6 py-4">
+        <div className="border-t border-line p-4">
           <p className="text-xs text-gray-500">
             Rossis Biker Spot &copy; 2026. All rights reserved.
           </p>
@@ -137,7 +137,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
 
       {open && (
         <div
-          className="fixed inset-0 z-30 bg-black/40"
+          className="fixed inset-0 z-[90] bg-black/50"
           onClick={() => onOpenChange(false)}
           aria-hidden="true"
         />

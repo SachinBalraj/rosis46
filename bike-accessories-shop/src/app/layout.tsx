@@ -38,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-background text-foreground">
+      <body className="flex min-h-full flex-col overflow-x-hidden bg-background text-foreground">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-brand focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to main content
         </a>
         <Navbar />
-        <main id="main-content" className="flex flex-1 flex-col">
+        <main id="main-content" className="flex flex-1 flex-col overflow-x-hidden">
           {children}
         </main>
         <Footer />

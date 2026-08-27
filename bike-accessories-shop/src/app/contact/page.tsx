@@ -33,7 +33,7 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <figure className="relative -mx-4 flex aspect-[5/4] items-center justify-center overflow-hidden bg-night sm:-mx-6 lg:mx-0">
+          <figure className="relative flex aspect-[5/4] items-center justify-center overflow-hidden bg-night">
             <Image
               src="/images/rosiscontact.png"
               alt="Rossis Biker Spot contact and store information"
