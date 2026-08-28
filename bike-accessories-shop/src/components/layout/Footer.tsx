@@ -140,6 +140,34 @@ export function Footer() {
           </p>
         </div>
       </div>
+
+      <div className="flex flex-col items-center justify-center border-t border-gray-800 bg-[#0a0a0a] py-6 text-gray-400">
+        <p>
+          Designed &amp; Developed with ❤️ by{" "}
+          <a
+            href="https://yesbe.tech"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-[#f4e4c1] transition-colors hover:text-white"
+          >
+            YesBe
+          </a>
+        </p>
+        <div className="mt-2 flex items-center gap-3 text-sm">
+          <a
+            href="https://yesbe.tech"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-white"
+          >
+            Portfolio
+          </a>
+          <span className="text-gray-600">|</span>
+          <a href="mailto:hello@yesbe.tech" className="transition-colors hover:text-white">
+            Email
+          </a>
+        </div>
+      </div>
     </footer>
   );
 }
