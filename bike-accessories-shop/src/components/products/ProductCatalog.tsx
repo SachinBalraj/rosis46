@@ -46,12 +46,30 @@ export function ProductCatalog({
   const deferredQuery = useDeferredValue(query);
   const [activeSubCategory, setActiveSubCategory] = useState("ALL");
 
-  const helmetBrands = [
-    "ALL",
-    ...(parentCategories.find(
-      (item) => item.label.toUpperCase() === "HELMETS"
-    )?.items ?? []),
-  ];
+  const subCategoryOptions: Record<
+    string,
+    (typeof parentCategories)[number]["items"]
+  > = {};
+  const categoryWithSubOptions = new Set([
+    "HELMETS",
+    "GEARS",
+    "ESSENTIALS & LUGGAGE",
+    "RIDE CARE",
+    "ESSENTIALS",
+    "WHEEL ACCESSORIES",
+    "LIGHT & LIGHT ACCESSORIES",
+    "HANDLEBAR ACCESSORIES",
+    "LUGGAGE",
+    "PERFORMANCE PARTS",
+  ]);
+  for (const item of parentCategories) {
+    if (categoryWithSubOptions.has(item.label.toUpperCase())) {
+      subCategoryOptions[item.label.toUpperCase()] = [
+        "ALL",
+        ...item.items,
+      ];
+    }
+  }
 
   const selectCategory = (label: string) => {
     update(() => {
@@ -196,22 +214,22 @@ export function ProductCatalog({
           ))}
         </div>
 
-        {category.toUpperCase() === "HELMETS" ? (
+        {subCategoryOptions[category.toUpperCase()] ? (
           <div className="border-t border-gray-100 mt-4 flex flex-wrap gap-2 pt-4">
-            {helmetBrands.map((brand) => (
+            {subCategoryOptions[category.toUpperCase()].map((subCategory) => (
               <button
-                key={brand}
+                key={subCategory}
                 type="button"
-                onClick={() => update(() => setActiveSubCategory(brand))}
-                aria-pressed={activeSubCategory === brand}
+                onClick={() => update(() => setActiveSubCategory(subCategory))}
+                aria-pressed={activeSubCategory === subCategory}
                 className={cn(
                   "px-3 py-1.5 text-xs font-semibold tracking-widest uppercase border transition-colors duration-200",
-                  activeSubCategory === brand
+                  activeSubCategory === subCategory
                     ? "border-gray-900 bg-gray-900 text-white"
                     : "border-gray-300 bg-transparent text-gray-600 hover:border-gray-900"
                 )}
               >
-                {brand}
+                {subCategory}
               </button>
             ))}
           </div>
