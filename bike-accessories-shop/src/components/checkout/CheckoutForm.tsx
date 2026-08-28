@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,6 +22,7 @@ import { iconMap } from "@/lib/icons";
 import { checkoutSchema } from "@/lib/validation";
 import { storePhones } from "@/lib/data";
 import { useCart } from "@/store/cart";
+import { AnimatedFormWrapper } from "@/components/ui/AnimatedFormWrapper";
 
 type CheckoutFormValues = z.output<typeof checkoutSchema>;
 
@@ -90,6 +91,7 @@ export function CheckoutForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -104,6 +106,24 @@ export function CheckoutForm() {
       orderNotes: "",
     },
   });
+
+  const watchedFullName = useWatch({ control, name: "fullName" });
+  const watchedEmail = useWatch({ control, name: "email" });
+  const watchedPhone = useWatch({ control, name: "phone" });
+  const watchedAddress = useWatch({ control, name: "address" });
+  const watchedCity = useWatch({ control, name: "city" });
+  const watchedState = useWatch({ control, name: "state" });
+  const watchedPostalCode = useWatch({ control, name: "postalCode" });
+  const filledFields = [
+    watchedFullName,
+    watchedEmail,
+    watchedPhone,
+    watchedAddress,
+    watchedCity,
+    watchedState,
+    watchedPostalCode,
+  ].filter((value) => value && value.trim().length > 0).length;
+  const formProgress = (filledFields / 7) * 100;
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce(
@@ -297,6 +317,7 @@ export function CheckoutForm() {
             Delivery details
           </legend>
 
+          <AnimatedFormWrapper progress={formProgress}>
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <label htmlFor="checkout-name" className={labelClass}>
@@ -459,6 +480,7 @@ export function CheckoutForm() {
               ) : null}
             </div>
           </div>
+          </AnimatedFormWrapper>
         </fieldset>
 
         <aside

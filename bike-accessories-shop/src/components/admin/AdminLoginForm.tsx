@@ -4,12 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, LockKeyhole, ShieldCheck, TriangleAlert } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { AnimatedFormWrapper } from "@/components/ui/AnimatedFormWrapper";
 
 const adminLoginSchema = z.object({
   username: z.string().trim().min(1, "Enter your admin username"),
@@ -36,11 +37,19 @@ export function AdminLoginForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<AdminLoginValues>({
     resolver: zodResolver(adminLoginSchema),
     defaultValues: { username: "", password: "" },
   });
+
+  const watchedUsername = useWatch({ control, name: "username" });
+  const watchedPassword = useWatch({ control, name: "password" });
+  const filledFields = [watchedUsername, watchedPassword].filter(
+    (value) => value && value.trim().length > 0
+  ).length;
+  const formProgress = (filledFields / 2) * 100;
 
   const onSubmit = async (values: AdminLoginValues) => {
     setAuthError(null);
@@ -121,6 +130,7 @@ export function AdminLoginForm() {
               noValidate
               className="mt-8 space-y-5"
             >
+              <AnimatedFormWrapper progress={formProgress}>
               <div>
                 <label htmlFor="admin-username" className={labelClass}>
                   Username
@@ -174,6 +184,7 @@ export function AdminLoginForm() {
                   </p>
                 ) : null}
               </div>
+              </AnimatedFormWrapper>
 
               <button
                 type="submit"

@@ -49,16 +49,18 @@ export default async function Home() {
         aria-label="Introduction"
         className="border-b border-line bg-white"
       >
-        <figure className="relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw] block w-[100vw] max-w-none overflow-hidden bg-night">
-          <Image
-            src="/images/rossisbanner1.png"
-            alt="Rossis Biker Spot banner"
-            width={1920}
-            height={800}
-            priority
-            className="block h-auto w-full object-cover"
-          />
-        </figure>
+        <div className="mx-auto max-w-[1400px] px-4 md:px-6">
+          <figure className="overflow-hidden bg-night">
+            <Image
+              src="/images/rossisbannerfinal1.png"
+              alt="Rossis Biker Spot banner"
+              width={1920}
+              height={800}
+              priority
+              className="block h-auto w-full object-cover"
+            />
+          </figure>
+        </div>
 
         <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="flex flex-col gap-4">
@@ -137,12 +139,12 @@ export default async function Home() {
             Need gear fitted or a part sourced? Call the store during opening
             hours.
           </p>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex w-fit flex-col gap-4 rounded-xl border border-gray-800 bg-gray-900/40 p-6">
             {storePhones.map((phone) => (
               <a
                 key={phone.href}
                 href={phone.href}
-                className="inline-flex items-center gap-2 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:text-brand-deep"
+                className="flex flex-row items-center gap-3 text-sm font-semibold tracking-widest text-red-600 uppercase transition-colors hover:text-red-500"
               >
                 <Phone aria-hidden="true" className="h-4 w-4" />
                 {phone.display}

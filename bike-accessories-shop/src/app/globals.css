@@ -97,20 +97,25 @@
   }
 
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    display: none;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--background);
+    background: transparent;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #c9c9c9;
+    background: transparent;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--brand);
+    background: transparent;
+  }
+
+  html,
+  body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 }
 

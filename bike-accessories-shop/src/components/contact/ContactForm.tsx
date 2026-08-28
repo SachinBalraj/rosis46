@@ -1,15 +1,19 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Send } from "lucide-react";
+import { AnimatedFormWrapper } from "@/components/ui/AnimatedFormWrapper";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "Please enter your name"),
   email: z.string().trim().email("Please enter a valid email address"),
-  subject: z.string().trim().min(4, "Please add a short subject"),
+  contactNumber: z
+    .string()
+    .trim()
+    .regex(/^\+?[\d\s-]{10,15}$/, "Please enter a valid contact number"),
   message: z.string().trim().min(10, "Your message should be at least 10 characters"),
 });
 
@@ -20,11 +24,24 @@ export function ContactForm() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
-    defaultValues: { name: "", email: "", subject: "", message: "" },
+    defaultValues: { name: "", email: "", contactNumber: "", message: "" },
   });
+
+  const watchedName = useWatch({ control, name: "name" });
+  const watchedEmail = useWatch({ control, name: "email" });
+  const watchedContactNumber = useWatch({ control, name: "contactNumber" });
+  const watchedMessage = useWatch({ control, name: "message" });
+  const filledFields = [
+    watchedName,
+    watchedEmail,
+    watchedContactNumber,
+    watchedMessage,
+  ].filter((value) => value && value.trim().length > 0).length;
+  const formProgress = (filledFields / 4) * 100;
 
   const onSubmit = (values: ContactFormValues) => {
     toast.success(
@@ -45,7 +62,8 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
-      <div className="grid gap-5 sm:grid-cols-2">
+      <AnimatedFormWrapper progress={formProgress}>
+        <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>
             Name
@@ -87,20 +105,21 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="subject" className={labelClass}>
-          Subject
+        <label htmlFor="contactNumber" className={labelClass}>
+          Contact Number
         </label>
         <input
-          id="subject"
-          type="text"
-          placeholder="Order help, sizing advice, partnerships…"
-          aria-invalid={errors.subject ? "true" : "false"}
-          className={fieldClass(Boolean(errors.subject))}
-          {...register("subject")}
+          id="contactNumber"
+          type="tel"
+          autoComplete="tel"
+          placeholder="+91 00000 00000"
+          aria-invalid={errors.contactNumber ? "true" : "false"}
+          className={fieldClass(Boolean(errors.contactNumber))}
+          {...register("contactNumber")}
         />
-        {errors.subject ? (
+        {errors.contactNumber ? (
           <p role="alert" className="mt-1.5 text-sm text-rose-500">
-            {errors.subject.message}
+            {errors.contactNumber.message}
           </p>
         ) : null}
       </div>
@@ -123,6 +142,7 @@ export function ContactForm() {
           </p>
         ) : null}
       </div>
+      </AnimatedFormWrapper>
 
       <button
         type="submit"

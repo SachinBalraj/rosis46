@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -11,22 +12,22 @@ type MobileMenuProps = {
 };
 
 const mainMenuItems = [
-  { label: "Home", hasSubmenu: false },
-  { label: "Helmets", hasSubmenu: true },
-  { label: "Gears", hasSubmenu: true },
-  { label: "Essentials & Luggage", hasSubmenu: true },
-  { label: "Ride Care", hasSubmenu: true },
-  { label: "New Arrivals", hasSubmenu: false },
+  { label: "Home", href: "/", hasSubmenu: false },
+  { label: "Helmets", href: "/products?category=sports-helmets", hasSubmenu: true },
+  { label: "GEARS", href: "/products?category=riding-gloves", hasSubmenu: true },
+  { label: "Essentials & Luggage", href: "/products", hasSubmenu: true },
+  { label: "Ride Care", href: "/products?category=chain-care", hasSubmenu: true },
+  { label: "NEW ARRIVALS", href: "/products", hasSubmenu: false, isLast: true },
 ];
 
 const categoryMenuItems = [
-  "Essentials",
-  "Wheel Accessories",
-  "Light & Light Accessories",
-  "Handlebar Accessories",
-  "Protection Parts",
-  "Luggage",
-  "Performance Parts",
+  { label: "ESSENTIALS", href: "/products", hasSubmenu: true },
+  { label: "WHEEL ACCESSORIES", href: "/products", hasSubmenu: true },
+  { label: "LIGHT & LIGHT ACCESSORIES", href: "/products?category=led-lights", hasSubmenu: true },
+  { label: "HANDLEBAR ACCESSORIES", href: "/products?category=bike-grips", hasSubmenu: true },
+  { label: "PROTECTION PARTS", href: "/products?category=spare-parts", hasSubmenu: true },
+  { label: "LUGGAGE", href: "/products", hasSubmenu: true },
+  { label: "PERFORMANCE PARTS", href: "/products?category=exhaust-accessories", hasSubmenu: true, isLast: true },
 ];
 
 export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
@@ -65,79 +66,88 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
       <div
         id="mobile-menu"
         className={cn(
-          "fixed inset-y-0 left-0 z-[100] flex w-80 flex-col bg-white shadow-xl transition-transform duration-300 ease-in-out",
+          "fixed top-0 left-0 z-[9999] flex h-[100dvh] w-80 flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out",
           open ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex items-center justify-between border-b border-line p-4">
-          <Image
-            src="/images/rossislogo.png"
-            alt="Rossis Biker Spot"
-            width={100}
-            height={32}
-            className="h-12 w-auto object-contain"
-          />
+        <div className="flex items-center justify-between border-b border-gray-100 p-4">
+          <Link href="/" onClick={() => onOpenChange(false)}>
+            <Image
+              src="/images/rossislogo.png"
+              alt="Rossis"
+              width={100}
+              height={40}
+              className="h-10 w-auto object-contain"
+            />
+          </Link>
           <button
             type="button"
             onClick={() => onOpenChange(false)}
             aria-label="Close menu"
-            className="flex h-10 w-10 items-center justify-center text-foreground transition-colors hover:text-brand"
+            className="rounded-md bg-gray-100 p-2"
           >
-            <X aria-hidden="true" className="h-5 w-5" />
+            <X aria-hidden="true" className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="flex flex-1 flex-col overflow-y-auto p-4">
-          <p className="mb-3 text-xs font-semibold tracking-widest text-gray-400 uppercase">
+        <div className="flex-1 overflow-y-auto bg-white px-4 pb-8">
+          <p className="mt-6 mb-2 text-xs font-bold tracking-widest text-gray-400 uppercase">
             Main Menu
           </p>
-          <ul className="flex flex-col">
+          <ul>
             {mainMenuItems.map((item) => (
               <li key={item.label}>
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between border-b border-line px-2 py-3.5 text-sm font-medium text-foreground transition-colors hover:text-brand"
+                <Link
+                  href={item.href}
+                  onClick={() => onOpenChange(false)}
+                  className={cn(
+                    "flex items-center justify-between border-b border-gray-100 px-0 py-4 text-[15px] font-bold text-gray-900",
+                    item.isLast && "border-b-0"
+                  )}
                 >
                   {item.label}
                   {item.hasSubmenu && (
-                    <ChevronDown aria-hidden="true" className="h-4 w-4 text-gray-400" />
+                    <ChevronDown
+                      aria-hidden="true"
+                      className="h-4 w-4 text-gray-400"
+                    />
                   )}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
 
-          <p className="mb-3 mt-8 text-xs font-semibold tracking-widest text-gray-400 uppercase">
+          <p className="mt-8 mb-2 text-xs font-bold tracking-widest text-gray-400 uppercase">
             Category Menu
           </p>
-          <ul className="flex flex-col">
+          <ul>
             {categoryMenuItems.map((item) => (
-              <li key={item}>
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between border-b border-line px-2 py-3.5 text-sm font-medium text-foreground transition-colors hover:text-brand"
+              <li key={item.label}>
+                <Link
+                  href={item.href}
+                  onClick={() => onOpenChange(false)}
+                  className={cn(
+                    "flex items-center justify-between border-b border-gray-100 px-0 py-4 text-[15px] font-bold text-gray-900",
+                    item.isLast && "border-b-0"
+                  )}
                 >
-                  {item}
-                  <ChevronDown aria-hidden="true" className="h-4 w-4 text-gray-400" />
-                </button>
+                  {item.label}
+                  {item.hasSubmenu && (
+                    <ChevronDown
+                      aria-hidden="true"
+                      className="h-4 w-4 text-gray-400"
+                    />
+                  )}
+                </Link>
               </li>
             ))}
           </ul>
-        </div>
-
-        <div className="border-t border-line p-4">
-          <p className="text-xs text-gray-500">
-            Rossis Biker Spot &copy; 2026. All rights reserved.
-          </p>
-          <p className="text-xs text-gray-500">
-            Powered by YesBe Technologies
-          </p>
         </div>
       </div>
 
       {open && (
         <div
-          className="fixed inset-0 z-[90] bg-black/50"
+          className="fixed inset-0 z-[9998] bg-black/50"
           onClick={() => onOpenChange(false)}
           aria-hidden="true"
         />

@@ -279,28 +279,32 @@ export default function AboutPage() {
               ready for the road ahead.
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <Button href="/products" size="lg">
+              <Button
+                href="/products"
+                className="flex h-14 items-center justify-center px-8 text-sm font-bold tracking-widest uppercase"
+              >
                 Shop the collection
               </Button>
               <Button
                 href="/contact"
-                size="lg"
-                className="border border-white bg-transparent text-white hover:bg-white hover:text-black"
+                className="flex h-14 items-center justify-center border border-white bg-transparent px-8 text-sm font-bold tracking-widest text-white uppercase hover:bg-white hover:text-black"
               >
                 Visit our store
               </Button>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-4">
-              {storePhones.map((phone) => (
-                <a
-                  key={phone.href}
-                  href={phone.href}
-                  className="inline-flex items-center gap-2 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:text-white"
-                >
-                  <Phone aria-hidden="true" className="h-4 w-4" />
-                  {phone.display}
-                </a>
-              ))}
+            <div className="mt-6">
+              <div className="flex w-fit flex-col gap-4 rounded-xl border border-gray-800 bg-gray-900/40 p-6">
+                {storePhones.map((phone) => (
+                  <a
+                    key={phone.href}
+                    href={phone.href}
+                    className="inline-flex items-center gap-2 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:text-white"
+                  >
+                    <Phone aria-hidden="true" className="h-4 w-4" />
+                    {phone.display}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>

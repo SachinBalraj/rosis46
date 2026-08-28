@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export function Navbar() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const itemCount = useCart((state) =>
     state.items.reduce((sum, item) => sum + item.quantity, 0)
   );
@@ -19,7 +19,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex h-10 w-10 items-center justify-center">
-          <MobileMenu open={menuOpen} onOpenChange={setMenuOpen} />
+          <MobileMenu open={isDrawerOpen} onOpenChange={setIsDrawerOpen} />
         </div>
 
         <Link
@@ -37,9 +37,9 @@ export function Navbar() {
           />
         </Link>
 
-        <div className="flex h-10 w-10 items-center justify-center">
+        <div className="mr-4 flex h-10 w-10 items-center justify-center">
           <Link
-            href="/cart"
+            href={pathname === "/cart" ? "/" : "/cart"}
             aria-label={`Cart with ${itemCount} item${itemCount === 1 ? "" : "s"}`}
             className="relative flex h-10 w-10 items-center justify-center border border-line text-foreground transition-all hover:border-brand hover:text-brand"
           >
@@ -49,6 +49,33 @@ export function Navbar() {
             </span>
           </Link>
         </div>
+      </div>
+
+      <div className="flex w-full justify-start space-x-8 border-b border-gray-200 bg-white py-3 pl-4 md:pl-6">
+        <Link
+          href="/"
+          className="text-gray-800 font-bold tracking-wider uppercase transition-colors duration-300 hover:text-red-600 text-xs"
+        >
+          Home
+        </Link>
+        <Link
+          href="/about"
+          className="text-gray-800 font-bold tracking-wider uppercase transition-colors duration-300 hover:text-red-600 text-xs"
+        >
+          About
+        </Link>
+        <Link
+          href="/products"
+          className="text-gray-800 font-bold tracking-wider uppercase transition-colors duration-300 hover:text-red-600 text-xs"
+        >
+          Products
+        </Link>
+        <Link
+          href="/contact"
+          className="text-gray-800 font-bold tracking-wider uppercase transition-colors duration-300 hover:text-red-600 text-xs"
+        >
+          Contact
+        </Link>
       </div>
     </header>
   );

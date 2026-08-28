@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { AnimatedFormWrapper } from "@/components/ui/AnimatedFormWrapper";
 
 const signInSchema = z.object({
   email: z.string().trim().email("Enter a valid email address"),
@@ -39,6 +40,33 @@ export function AccountForms() {
     resolver: zodResolver(registerSchema),
     defaultValues: { name: "", email: "", phone: "", password: "" },
   });
+
+  const registerName = useWatch({ control: registerForm.control, name: "name" });
+  const registerEmail = useWatch({ control: registerForm.control, name: "email" });
+  const registerPhone = useWatch({ control: registerForm.control, name: "phone" });
+  const registerPassword = useWatch({
+    control: registerForm.control,
+    name: "password",
+  });
+
+  const registerFilled = [
+    registerName,
+    registerEmail,
+    registerPhone,
+    registerPassword,
+  ].filter((value) => value && value.trim().length > 0).length;
+  const registerProgress = (registerFilled / 4) * 100;
+
+  const signInEmail = useWatch({ control: signInForm.control, name: "email" });
+  const signInPassword = useWatch({
+    control: signInForm.control,
+    name: "password",
+  });
+
+  const signInFilled = [signInEmail, signInPassword].filter(
+    (value) => value && value.trim().length > 0
+  ).length;
+  const signInProgress = (signInFilled / 2) * 100;
 
   const onSignIn = async (values: SignInValues) => {
     const result = await signIn("credentials", {
@@ -138,6 +166,7 @@ export function AccountForms() {
           noValidate
           className="space-y-5"
         >
+          <AnimatedFormWrapper progress={registerProgress}>
           <div>
             <label htmlFor="account-name" className={labelClass}>
               Full name
@@ -215,6 +244,7 @@ export function AccountForms() {
               </p>
             ) : null}
           </div>
+          </AnimatedFormWrapper>
           <button
             type="submit"
             disabled={registerForm.formState.isSubmitting}
@@ -236,6 +266,7 @@ export function AccountForms() {
           noValidate
           className="space-y-5"
         >
+          <AnimatedFormWrapper progress={signInProgress}>
           <div>
             <label htmlFor="signin-email" className={labelClass}>
               Email
@@ -274,6 +305,7 @@ export function AccountForms() {
               </p>
             ) : null}
           </div>
+          </AnimatedFormWrapper>
           <button
             type="submit"
             disabled={signInForm.formState.isSubmitting}
