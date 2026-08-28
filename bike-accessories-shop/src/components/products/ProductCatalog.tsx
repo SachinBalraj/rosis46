@@ -1,6 +1,11 @@
 "use client";
 
-import { useDeferredValue, useMemo, useState, useTransition } from "react";
+import {
+  useDeferredValue,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { Search, SlidersHorizontal, PackageSearch, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProductGrid } from "./ProductGrid";
@@ -39,6 +44,21 @@ export function ProductCatalog({
   const [sort, setSort] = useState<SortOption>("featured");
   const [isPending, startTransition] = useTransition();
   const deferredQuery = useDeferredValue(query);
+  const [activeSubCategory, setActiveSubCategory] = useState("ALL");
+
+  const helmetBrands = [
+    "ALL",
+    ...(parentCategories.find(
+      (item) => item.label.toUpperCase() === "HELMETS"
+    )?.items ?? []),
+  ];
+
+  const selectCategory = (label: string) => {
+    update(() => {
+      setCategory(label);
+      setActiveSubCategory("ALL");
+    });
+  };
 
   const update = (updater: () => void) => {
     startTransition(updater);
@@ -58,7 +78,11 @@ export function ProductCatalog({
         product.name.toLowerCase().includes(search) ||
         product.categoryLabel.toLowerCase().includes(search) ||
         product.description.toLowerCase().includes(search);
-      return matchesCategory && matchesQuery;
+      const matchesSubCategory =
+        activeSubCategory === "ALL" ||
+        product.name.toLowerCase().includes(activeSubCategory.toLowerCase()) ||
+        product.description.toLowerCase().includes(activeSubCategory.toLowerCase());
+      return matchesCategory && matchesQuery && matchesSubCategory;
     });
 
     const sorted = [...result];
@@ -76,7 +100,7 @@ export function ProductCatalog({
         sorted.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
     }
     return sorted;
-  }, [products, category, deferredQuery, sort]);
+  }, [products, category, deferredQuery, sort, activeSubCategory]);
 
   const hasFilters = query.trim() !== "" || category !== "all";
 
@@ -84,6 +108,7 @@ export function ProductCatalog({
     startTransition(() => {
       setQuery("");
       setCategory("all");
+      setActiveSubCategory("ALL");
       setSort("featured");
     });
   };
@@ -142,7 +167,7 @@ export function ProductCatalog({
         >
           <button
             type="button"
-            onClick={() => update(() => setCategory("all"))}
+            onClick={() => selectCategory("all")}
             aria-pressed={category === "all"}
             className={cn(
               "border px-4 py-2 text-sm font-semibold tracking-widest uppercase transition-colors",
@@ -157,7 +182,7 @@ export function ProductCatalog({
             <button
               key={item.label}
               type="button"
-              onClick={() => update(() => setCategory(item.label))}
+              onClick={() => selectCategory(item.label)}
               aria-pressed={category === item.label}
               className={cn(
                 "border px-4 py-2 text-sm font-semibold tracking-widest uppercase transition-colors",
@@ -170,6 +195,27 @@ export function ProductCatalog({
             </button>
           ))}
         </div>
+
+        {category.toUpperCase() === "HELMETS" ? (
+          <div className="border-t border-gray-100 mt-4 flex flex-wrap gap-2 pt-4">
+            {helmetBrands.map((brand) => (
+              <button
+                key={brand}
+                type="button"
+                onClick={() => update(() => setActiveSubCategory(brand))}
+                aria-pressed={activeSubCategory === brand}
+                className={cn(
+                  "px-3 py-1.5 text-xs font-semibold tracking-widest uppercase border transition-colors duration-200",
+                  activeSubCategory === brand
+                    ? "border-gray-900 bg-gray-900 text-white"
+                    : "border-gray-300 bg-transparent text-gray-600 hover:border-gray-900"
+                )}
+              >
+                {brand}
+              </button>
+            ))}
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-10" aria-live="polite" aria-busy={isPending}>

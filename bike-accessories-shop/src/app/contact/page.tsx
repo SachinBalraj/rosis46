@@ -18,8 +18,8 @@ export default function ContactPage() {
         aria-labelledby="contact-hero"
         className="border-b border-line bg-white"
       >
-        <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div className="flex flex-col justify-center gap-6 py-14 lg:py-24 lg:pr-16">
+        <div className="mx-auto grid w-full max-w-7xl items-start gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div className="flex flex-col justify-start gap-6 pt-2 py-14 lg:py-24 lg:pr-16">
             <p className="eyebrow">Get in touch</p>
             <h1
               id="contact-hero"
@@ -59,7 +59,7 @@ export default function ContactPage() {
         className="border-b border-line bg-white"
       >
         <div className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+          <div className="flex flex-col gap-8 md:flex-row items-stretch">
             <div>
               <SectionHeading
                 eyebrow="Visit the store"
@@ -119,12 +119,12 @@ export default function ContactPage() {
 
             <div
               aria-label="Map showing the Rossis Biker Spot store location"
-              className="relative min-h-72 overflow-hidden border border-line bg-night"
+              className="relative min-h-72 flex-1 w-full overflow-hidden border border-line bg-night"
             >
               <iframe
                 title="Rossis Biker Spot location on Google Maps"
                 src={mapsEmbedUrl}
-                className="absolute inset-0 h-full w-full border-0"
+                className="h-full w-full min-h-[350px] border-0"
                 loading="lazy"
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
