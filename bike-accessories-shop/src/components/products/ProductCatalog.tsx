@@ -5,7 +5,8 @@ import { Search, SlidersHorizontal, PackageSearch, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProductGrid } from "./ProductGrid";
 import { ProductGridSkeleton } from "./ProductGridSkeleton";
-import { categories, type Product } from "@/lib/data";
+import { type Product } from "@/lib/data";
+import { parentCategories } from "@/lib/navigation";
 
 type SortOption = "featured" | "price-asc" | "price-desc" | "rating";
 
@@ -28,7 +29,13 @@ export function ProductCatalog({
   initialQuery = "",
 }: ProductCatalogProps) {
   const [query, setQuery] = useState(initialQuery);
-  const [category, setCategory] = useState(initialCategory);
+  const [category, setCategory] = useState(() => {
+    if (initialCategory === "all" || initialCategory === "") return "all";
+    const parent = parentCategories.find((item) =>
+      item.filters.includes(initialCategory as Product["category"])
+    );
+    return parent ? parent.label : initialCategory;
+  });
   const [sort, setSort] = useState<SortOption>("featured");
   const [isPending, startTransition] = useTransition();
   const deferredQuery = useDeferredValue(query);
@@ -40,8 +47,12 @@ export function ProductCatalog({
   const filtered = useMemo(() => {
     const search = deferredQuery.trim().toLowerCase();
     const result = products.filter((product) => {
+      const parent = parentCategories.find((item) => item.label === category);
       const matchesCategory =
-        category === "all" || product.category === category;
+        category === "all" ||
+        (parent
+          ? parent.filters.includes(product.category)
+          : product.category === category);
       const matchesQuery =
         !search ||
         product.name.toLowerCase().includes(search) ||
@@ -127,7 +138,7 @@ export function ProductCatalog({
         <div
           role="group"
           aria-label="Filter by category"
-          className="flex flex-wrap gap-2"
+          className="flex flex-wrap gap-3"
         >
           <button
             type="button"
@@ -136,22 +147,22 @@ export function ProductCatalog({
             className={cn(
               "border px-4 py-2 text-sm font-semibold tracking-widest uppercase transition-colors",
               category === "all"
-                ? "border-brand bg-brand text-white"
+                ? "border-brand text-brand"
                 : "border-line text-smoke hover:border-brand hover:text-brand"
             )}
           >
             All
           </button>
-          {categories.map((item) => (
+          {parentCategories.map((item) => (
             <button
-              key={item.slug}
+              key={item.label}
               type="button"
-              onClick={() => update(() => setCategory(item.slug))}
-              aria-pressed={category === item.slug}
+              onClick={() => update(() => setCategory(item.label))}
+              aria-pressed={category === item.label}
               className={cn(
                 "border px-4 py-2 text-sm font-semibold tracking-widest uppercase transition-colors",
-                category === item.slug
-                  ? "border-brand bg-brand text-white"
+                category === item.label
+                  ? "border-brand text-brand"
                   : "border-line text-smoke hover:border-brand hover:text-brand"
               )}
             >

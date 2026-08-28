@@ -1,0 +1,178 @@
+import type { CategorySlug } from "@/lib/data";
+
+export type ParentCategory = {
+  label: string;
+  filters: CategorySlug[];
+  items: string[];
+};
+
+export const parentCategories: ParentCategory[] = [
+  {
+    label: "Helmets",
+    filters: ["sports-helmets"],
+    items: [
+      "AXOR",
+      "LS2",
+      "SMK",
+      "VEGA",
+      "NHK",
+      "BILMOLA",
+      "KYT",
+      "AXXIS",
+      "AIROH",
+      "OTHER HELMETS",
+      "STUDDS",
+      "ANSWER HELMETS",
+      "KORDA",
+      "HELMET ACCESSORIES",
+      "STEELBIRD",
+      "ZEUS",
+    ],
+  },
+  {
+    label: "GEARS",
+    filters: ["riding-gloves"],
+    items: [
+      "BOOTS",
+      "GLOVES",
+      "JACKETS",
+      "PANTS",
+      "KNEEGUARDS",
+      "RAIN WEARS",
+      "OTHER RIDING GEARS",
+    ],
+  },
+  {
+    label: "Essentials & Luggage",
+    filters: ["bike-grips", "mobile-holders"],
+    items: [
+      "BLUETOOTH AND COMMUNICATION",
+      "TANK BAGS",
+      "SADDLE BAGS AND TAIL BAGS",
+      "CUSHION SEATS",
+      "CAMERA AND ACCESSORIES",
+      "HYDRATION BAGS",
+      "BIKE COVER",
+      "GOGGLES AND APPARELS",
+    ],
+  },
+  {
+    label: "Ride Care",
+    filters: ["chain-care"],
+    items: [
+      "Maintenance",
+      "CRASHGUARDS",
+      "TOPRACKS",
+      "TOP BOXES",
+      "TOP PANNIER",
+      "RADIATOR GUARDS",
+      "HANDLEBAR",
+      "SIDE STAND BASE",
+      "MOBILE HOLDERS",
+      "MIRRORS",
+      "GRIPS",
+      "INDICATORS",
+      "VISORS & VISOR CLAMPS",
+      "AIR FILTERS",
+    ],
+  },
+  {
+    label: "ESSENTIALS",
+    filters: ["custom-decals", "mobile-holders"],
+    items: [
+      "BACK REST",
+      "VISORS & VISOR CLAMPS",
+      "NO PLATE HOLDER",
+      "GPS TRACKER & GPS MOUNT",
+      "TANK & FUEL COVERS",
+      "TAIL TIDY",
+      "HORNS",
+      "FOOT REST",
+      "TOYS",
+      "SMALL ITEMS",
+    ],
+  },
+  {
+    label: "WHEEL ACCESSORIES",
+    filters: [],
+    items: ["TYRE HUGGER", "MUDGUARD", "MAINTENANCE"],
+  },
+  {
+    label: "LIGHT & LIGHT ACCESSORIES",
+    filters: ["led-lights"],
+    items: [
+      "AUXILLIARY LIGHTS",
+      "DOOM LIGHTS",
+      "TAIL LIGHT",
+      "FANCY LIGHTS",
+      "FOG LIGHTS",
+      "INDICATORS",
+      "GPS TRACKER & GPS MOUNT",
+      "FOG & FORK LIGHT CLAMP",
+      "SWITCHES",
+      "HAZZARD",
+    ],
+  },
+  {
+    label: "HANDLEBAR ACCESSORIES",
+    filters: ["bike-grips", "mirrors"],
+    items: [
+      "HANDGUARDS",
+      "LEVER AND LEVER PROTECTORS",
+      "HANDLEBAR AND FORK RISERS",
+      "MOBILE HOLDERS",
+      "HANDLEBAR",
+      "GRIPS",
+      "MIRRORS",
+      "QUICK THROTTLE",
+      "MID BAR ACCESSORIES",
+    ],
+  },
+  {
+    label: "PROTECTION PARTS",
+    filters: ["spare-parts"],
+    items: [
+      "CRASHGUARDS",
+      "TOPRACKS",
+      "SADDLE STAY",
+      "RADIATOR GUARDS",
+      "ENGINE & SUMP GUARD",
+      "SIDE STAND BASE",
+      "UNDERBELLY & FIBER KIT",
+      "DISPLAY SCREEN PROTECTORS",
+      "FULL KIT & COMBO KIT",
+      "CHAIN SPROCKET",
+      "GRAB RAIL",
+      "OIL & CHAIN GUARDS",
+      "FRAME AND FORK SLIDER",
+      "HEADLIGHT GRILL",
+    ],
+  },
+  {
+    label: "LUGGAGE",
+    filters: [],
+    items: [
+      "SIDE PANNIER",
+      "BACKPACKS & THIGH BAGS",
+      "TOP PANNIER",
+      "ROPES",
+      "SADDLE BAGS AND TAIL BAGS",
+      "TOP BOXES",
+    ],
+  },
+  {
+    label: "PERFORMANCE PARTS",
+    filters: ["exhaust-accessories", "spare-parts"],
+    items: [
+      "EXHAUST & EXHAUST ACCESSORIES",
+      "JERRY CAN",
+      "AIR FILTERS",
+      "BRAKE PAD AND BRAKE HOSE",
+      "BEND PIPES",
+      "SPARK PLUGS",
+    ],
+  },
+];
+
+export const mainMenuCategories = parentCategories.slice(0, 4);
+export const categoryMenuCategories = parentCategories.slice(4);

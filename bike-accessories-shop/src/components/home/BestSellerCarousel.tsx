@@ -28,7 +28,7 @@ export function BestSellerCarousel() {
   }, [current, next]);
 
   return (
-    <div className="mt-4 overflow-hidden border border-line bg-night">
+    <div className="mx-auto mt-4 w-full max-w-3xl overflow-hidden border border-line bg-night">
       <div className="relative h-[300px] w-full md:h-[500px]">
         {slides.map((slide, i) => (
           <Image

@@ -35,7 +35,7 @@ export default function ContactPage() {
 
           <figure className="relative flex aspect-[5/4] items-center justify-center overflow-hidden bg-night">
             <Image
-              src="/images/rosiscontact.png"
+              src="/images/rossiscontactimagee.jpg"
               alt="Rossis Biker Spot contact and store information"
               width={1007}
               height={1562}

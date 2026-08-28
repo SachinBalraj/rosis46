@@ -2,35 +2,126 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, ChevronDown } from "lucide-react";
-import { useEffect } from "react";
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import {
+  categoryMenuCategories,
+  mainMenuCategories,
+} from "@/lib/navigation";
 
 type MobileMenuProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-const mainMenuItems = [
-  { label: "Home", href: "/", hasSubmenu: false },
-  { label: "Helmets", href: "/products?category=sports-helmets", hasSubmenu: true },
-  { label: "GEARS", href: "/products?category=riding-gloves", hasSubmenu: true },
-  { label: "Essentials & Luggage", href: "/products", hasSubmenu: true },
-  { label: "Ride Care", href: "/products?category=chain-care", hasSubmenu: true },
-  { label: "NEW ARRIVALS", href: "/products", hasSubmenu: false, isLast: true },
+type MenuItem = {
+  label: string;
+  href: string;
+};
+
+type MenuEntry = {
+  label: string;
+  href?: string;
+  items?: MenuItem[];
+};
+
+type MenuListProps = {
+  entries: MenuEntry[];
+  openSections: string[];
+  onToggle: (label: string) => void;
+  onNavigate: () => void;
+};
+
+const slugify = (label: string) =>
+  label
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const buildItems = (labels: string[]) =>
+  [...new Set(labels)].map((label) => ({
+    label,
+    href: `/products/${slugify(label)}`,
+  }));
+
+const mainMenuEntries: MenuEntry[] = [
+  { label: "Home", href: "/" },
+  ...mainMenuCategories.map((category) => ({
+    label: category.label,
+    items: buildItems(category.items),
+  })),
+  { label: "NEW ARRIVALS", href: "/products" },
 ];
 
-const categoryMenuItems = [
-  { label: "ESSENTIALS", href: "/products", hasSubmenu: true },
-  { label: "WHEEL ACCESSORIES", href: "/products", hasSubmenu: true },
-  { label: "LIGHT & LIGHT ACCESSORIES", href: "/products?category=led-lights", hasSubmenu: true },
-  { label: "HANDLEBAR ACCESSORIES", href: "/products?category=bike-grips", hasSubmenu: true },
-  { label: "PROTECTION PARTS", href: "/products?category=spare-parts", hasSubmenu: true },
-  { label: "LUGGAGE", href: "/products", hasSubmenu: true },
-  { label: "PERFORMANCE PARTS", href: "/products?category=exhaust-accessories", hasSubmenu: true, isLast: true },
-];
+const categoryMenuEntries: MenuEntry[] = categoryMenuCategories.map(
+  (category) => ({
+    label: category.label,
+    items: buildItems(category.items),
+  })
+);
+
+function MenuList({ entries, openSections, onToggle, onNavigate }: MenuListProps) {
+  return (
+    <ul>
+      {entries.map((entry) =>
+        entry.href ? (
+          <li key={entry.label}>
+            <Link
+              href={entry.href}
+              onClick={onNavigate}
+              className="flex items-center justify-between border-b border-gray-100 px-0 py-4 text-[15px] font-bold text-gray-900"
+            >
+              {entry.label}
+            </Link>
+          </li>
+        ) : (
+          <li key={entry.label}>
+            <button
+              type="button"
+              onClick={() => onToggle(entry.label)}
+              aria-expanded={openSections.includes(entry.label)}
+              className="flex w-full items-center justify-between border-b border-gray-100 px-0 py-4 text-left text-[15px] font-bold text-gray-900"
+            >
+              {entry.label}
+              <ChevronDown
+                aria-hidden="true"
+                className={cn(
+                  "h-4 w-4 text-gray-400 transition-transform duration-300",
+                  openSections.includes(entry.label) && "rotate-180"
+                )}
+              />
+            </button>
+            {openSections.includes(entry.label) && entry.items ? (
+              <ul className="border-b border-gray-100">
+                {entry.items.map((sub) => (
+                  <li key={sub.href}>
+                    <Link
+                      href={sub.href}
+                      onClick={onNavigate}
+                      className="flex items-center gap-2 py-3 pr-2 pl-2 text-sm font-semibold text-gray-700 uppercase transition-colors hover:text-brand"
+                    >
+                      <ChevronRight
+                        aria-hidden="true"
+                        className="h-3.5 w-3.5 shrink-0 text-gray-300"
+                      />
+                      {sub.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </li>
+        )
+      )}
+    </ul>
+  );
+}
 
 export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
+  const [openSections, setOpenSections] = useState<string[]>([]);
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onOpenChange(false);
@@ -45,6 +136,15 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  const toggleSection = (label: string) =>
+    setOpenSections((prev) =>
+      prev.includes(label)
+        ? prev.filter((item) => item !== label)
+        : [...prev, label]
+    );
+
+  const closeMenu = () => onOpenChange(false);
 
   return (
     <>
@@ -71,7 +171,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
         )}
       >
         <div className="flex items-center justify-between border-b border-gray-100 p-4">
-          <Link href="/" onClick={() => onOpenChange(false)}>
+          <Link href="/" onClick={closeMenu}>
             <Image
               src="/images/rossislogo.png"
               alt="Rossis"
@@ -82,7 +182,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
           </Link>
           <button
             type="button"
-            onClick={() => onOpenChange(false)}
+            onClick={closeMenu}
             aria-label="Close menu"
             className="rounded-md bg-gray-100 p-2"
           >
@@ -94,61 +194,29 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
           <p className="mt-6 mb-2 text-xs font-bold tracking-widest text-gray-400 uppercase">
             Main Menu
           </p>
-          <ul>
-            {mainMenuItems.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  onClick={() => onOpenChange(false)}
-                  className={cn(
-                    "flex items-center justify-between border-b border-gray-100 px-0 py-4 text-[15px] font-bold text-gray-900",
-                    item.isLast && "border-b-0"
-                  )}
-                >
-                  {item.label}
-                  {item.hasSubmenu && (
-                    <ChevronDown
-                      aria-hidden="true"
-                      className="h-4 w-4 text-gray-400"
-                    />
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <MenuList
+            entries={mainMenuEntries}
+            openSections={openSections}
+            onToggle={toggleSection}
+            onNavigate={closeMenu}
+          />
 
           <p className="mt-8 mb-2 text-xs font-bold tracking-widest text-gray-400 uppercase">
             Category Menu
           </p>
-          <ul>
-            {categoryMenuItems.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  onClick={() => onOpenChange(false)}
-                  className={cn(
-                    "flex items-center justify-between border-b border-gray-100 px-0 py-4 text-[15px] font-bold text-gray-900",
-                    item.isLast && "border-b-0"
-                  )}
-                >
-                  {item.label}
-                  {item.hasSubmenu && (
-                    <ChevronDown
-                      aria-hidden="true"
-                      className="h-4 w-4 text-gray-400"
-                    />
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <MenuList
+            entries={categoryMenuEntries}
+            openSections={openSections}
+            onToggle={toggleSection}
+            onNavigate={closeMenu}
+          />
         </div>
       </div>
 
       {open && (
         <div
           className="fixed inset-0 z-[9998] bg-black/50"
-          onClick={() => onOpenChange(false)}
+          onClick={closeMenu}
           aria-hidden="true"
         />
       )}
