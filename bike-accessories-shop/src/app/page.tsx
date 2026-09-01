@@ -5,7 +5,6 @@ import { ArrowRight, ArrowUpRight, MapPin, Phone, Quote, Star, Wrench } from "lu
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductGrid } from "@/components/products/ProductGrid";
-import { NewsletterForm } from "@/components/home/NewsletterForm";
 import { BestSellerCarousel } from "@/components/home/BestSellerCarousel";
 import { iconMap } from "@/lib/icons";
 import { getActiveProducts, toCatalogProduct } from "@/lib/db";
@@ -38,8 +37,7 @@ const installationServices = [
   "Exhaust accessories and spare part replacement",
 ];
 
-export default async function Home() {
-  const featuredProducts = (await getActiveProducts({ featured: true })).map(
+export default async function Home() {  const featuredProducts = (await getActiveProducts({ featured: true })).map(
     toCatalogProduct
   );
 
@@ -403,30 +401,6 @@ export default async function Home() {
               </li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      <section
-        aria-labelledby="newsletter-heading"
-        className="border-t border-line-dark bg-night text-white"
-      >
-        <div className="bg-grid-dark relative overflow-hidden">
-          <div className="relative mx-auto w-full max-w-7xl px-4 py-24 text-center sm:px-6 lg:px-8">
-            <p className="eyebrow">Stay in the loop</p>
-            <h2
-              id="newsletter-heading"
-              className="display-heading mx-auto mt-5 max-w-3xl text-4xl sm:text-5xl lg:text-6xl"
-            >
-              New arrivals, ride tips & store offers
-            </h2>
-            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-smoke">
-              Be the first to know about fresh gear and custom builds at
-              Rossis Biker Spot.
-            </p>
-            <div className="mt-10">
-              <NewsletterForm />
-            </div>
-          </div>
         </div>
       </section>
     </>

@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BikeScrollbar } from "@/components/layout/BikeScrollbar";
+import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to main content
         </a>
         <Navbar />
+        <AnnouncementBar />
         <main id="main-content" className="flex flex-1 flex-col overflow-x-hidden">
           {children}
         </main>
