@@ -57,8 +57,14 @@ export const adminProductSchema = z
       )
       .optional(),
     categoryId: z.string().min(1, "Choose a category"),
-    featured: z.boolean().default(false),
-    active: z.boolean().default(true),
+    featured: z
+      .union([z.boolean(), z.string()])
+      .transform((value) => value === true || value === "true")
+      .default(false),
+    active: z
+      .union([z.boolean(), z.string()])
+      .transform((value) => value === true || value === "true")
+      .default(true),
   })
   .refine(
     (data) => data.salePrice === undefined || data.salePrice < data.price,

@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, PackagePlus, X } from "lucide-react";
+import { ImagePlus, Loader2, PackagePlus, X } from "lucide-react";
 import { toast } from "sonner";
 import {
   adminProductSchema,
@@ -42,6 +43,9 @@ export function AddProductModal({
   initialCategoryId,
   categories,
 }: AddProductModalProps) {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -65,12 +69,36 @@ export function AddProductModal({
 
   const selectedCategory = categories.find((c) => c.id === initialCategoryId);
 
+  const clearImage = () => {
+    setSelectedFile(null);
+    setImagePreview("");
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setSelectedFile(file);
+    if (imagePreview) URL.revokeObjectURL(imagePreview);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const onSubmit = async (values: AdminProductFormOutput) => {
     try {
+      const formData = new FormData();
+      formData.set("name", values.name);
+      formData.set("description", values.description);
+      formData.set("price", String(values.price));
+      formData.set("salePrice", values.salePrice ? String(values.salePrice) : "");
+      formData.set("stock", String(values.stock));
+      formData.set("categoryId", values.categoryId);
+      formData.set("featured", String(values.featured));
+      formData.set("active", String(values.active));
+      formData.set("imageUrl", values.imageUrl ?? "");
+      if (selectedFile) formData.set("image", selectedFile);
+
       const response = await fetch("/api/admin/products", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: formData,
       });
 
       const data = (await response.json()) as { error?: string };
@@ -81,6 +109,7 @@ export function AddProductModal({
       }
 
       toast.success(`Product added to ${subCategory}.`);
+      clearImage();
       reset();
       onAdded();
       onClose();
@@ -205,24 +234,47 @@ export function AddProductModal({
 
           <div>
             <label htmlFor="modal-product-image" className={labelClass}>
-              Image URL
+              Product image
             </label>
             <input
               id="modal-product-image"
-              type="url"
-              placeholder="https://…/helmet.png"
-              aria-invalid={errors.imageUrl ? "true" : "false"}
-              className={inputClass(Boolean(errors.imageUrl))}
-              {...register("imageUrl")}
+              type="file"
+              accept="image/png, image/jpeg, image/webp, image/gif, image/svg+xml"
+              onChange={handleImageChange}
+              className="sr-only"
             />
-            {errors.imageUrl ? (
-              <p role="alert" className="mt-1.5 text-sm text-rose-500">
-                {errors.imageUrl.message}
-              </p>
+            {imagePreview ? (
+              <div className="flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={imagePreview}
+                  alt="Product preview"
+                  className="h-32 w-32 rounded-md border border-gray-200 object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={clearImage}
+                  className="text-xs font-semibold text-red-600 uppercase transition-colors hover:text-red-700"
+                >
+                  Remove
+                </button>
+              </div>
             ) : (
-              <p className="mt-1.5 text-xs text-smoke">
-                Optional — leave blank to use a placeholder.
-              </p>
+              <label
+                htmlFor="modal-product-image"
+                className={cn(
+                  inputClass(false),
+                  "flex cursor-pointer flex-col items-center justify-center border-dashed border-2 py-8 text-center transition-colors hover:border-brand hover:bg-gray-50"
+                )}
+              >
+                <ImagePlus aria-hidden="true" className="h-8 w-8 text-smoke" />
+                <span className="mt-2 text-sm font-medium text-foreground">
+                  Click to upload an image
+                </span>
+                <span className="mt-1 text-xs text-smoke">
+                  PNG, JPEG or WebP — leave empty to use a placeholder
+                </span>
+              </label>
             )}
           </div>
 

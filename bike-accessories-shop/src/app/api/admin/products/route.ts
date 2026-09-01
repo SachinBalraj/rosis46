@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { writeFile, mkdir } from "fs/promises";
+import path from "path";
+import { randomUUID } from "crypto";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin-auth";
 import {
@@ -6,6 +9,14 @@ import {
   prismaErrorCode,
 } from "@/lib/admin-validation";
 import { toSlug, rupeesToPaise } from "@/lib/utils";
+
+const IMAGE_MIME: Record<string, string> = {
+  "image/png": ".png",
+  "image/jpeg": ".jpg",
+  "image/webp": ".webp",
+  "image/gif": ".gif",
+  "image/svg+xml": ".svg",
+};
 
 export async function GET() {
   const auth = await requireAdmin();
@@ -26,14 +37,64 @@ export async function POST(request: NextRequest) {
   const auth = await requireAdmin();
   if (!auth.ok) return auth.response;
 
+  const contentType = request.headers.get("content-type") ?? "";
+
   let parsed;
-  try {
-    parsed = adminProductSchema.safeParse(await request.json());
-  } catch {
-    return NextResponse.json(
-      { error: "Invalid request body" },
-      { status: 400 }
-    );
+  if (contentType.toLowerCase().includes("multipart/form-data")) {
+    const formData = await request.formData();
+
+    const file = formData.get("image");
+    const imageUrl = formData.get("imageUrl");
+
+    const data: Record<string, FormDataEntryValue | undefined> = {
+      name: formData.get("name") ?? undefined,
+      description: formData.get("description") ?? undefined,
+      price: formData.get("price") ?? undefined,
+      salePrice: formData.get("salePrice") ?? undefined,
+      stock: formData.get("stock") ?? undefined,
+      categoryId: formData.get("categoryId") ?? undefined,
+      featured: formData.get("featured") ?? undefined,
+      active: formData.get("active") ?? undefined,
+      imageUrl: imageUrl ?? undefined,
+    };
+
+    parsed = adminProductSchema.safeParse(data);
+
+    if (parsed.success && file instanceof File && file.size > 0) {
+      const extension = IMAGE_MIME[file.type];
+      if (!extension) {
+        return NextResponse.json(
+          {
+            error:
+              "Unsupported image type. Use PNG, JPEG, WebP, GIF or SVG.",
+          },
+          { status: 400 }
+        );
+      }
+
+      try {
+        const filename = `${randomUUID()}${extension}`;
+        const dir = path.join(process.cwd(), "public", "images", "products");
+        await mkdir(dir, { recursive: true });
+        const buffer = Buffer.from(await file.arrayBuffer());
+        await writeFile(path.join(dir, filename), buffer);
+        parsed.data.imageUrl = `/images/products/${filename}`;
+      } catch {
+        return NextResponse.json(
+          { error: "Could not save the uploaded image. Please try again." },
+          { status: 500 }
+        );
+      }
+    }
+  } else {
+    try {
+      parsed = adminProductSchema.safeParse(await request.json());
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid request body" },
+        { status: 400 }
+      );
+    }
   }
 
   if (!parsed.success) {
