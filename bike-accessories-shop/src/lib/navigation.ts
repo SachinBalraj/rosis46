@@ -176,3 +176,10 @@ export const parentCategories: ParentCategory[] = [
 
 export const mainMenuCategories = parentCategories.slice(0, 4);
 export const categoryMenuCategories = parentCategories.slice(4);
+
+export const subCategoryMap: Record<string, string[]> = Object.fromEntries(
+  parentCategories.map((category) => [
+    category.label.toUpperCase(),
+    ["ALL", ...category.items],
+  ])
+);

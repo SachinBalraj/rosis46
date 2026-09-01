@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { AddProductForm } from "@/components/admin/AddProductForm";
+import { InventoryDashboard } from "@/components/admin/InventoryDashboard";
 
 export const metadata: Metadata = {
-  title: "Add product | Admin console",
-  description: "Add a product to Rossis Biker Spot.",
+  title: "Inventory dashboard | Admin console",
+  description: "Manage products by category for Rossis Biker Spot.",
 };
 
 export default async function AdminDashboardPage() {
@@ -12,5 +12,5 @@ export default async function AdminDashboardPage() {
     select: { id: true, name: true },
   });
 
-  return <AddProductForm categories={categories} />;
+  return <InventoryDashboard categories={categories} />;
 }

@@ -141,8 +141,8 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center border-t border-gray-800 bg-[#0a0a0a] py-6 text-gray-400">
-        <p>
+      <div className="flex flex-col items-center justify-center border-t border-gray-800 bg-[#0a0a0a] py-4 text-gray-400">
+        <p className="text-sm">
           Designed &amp; Developed with ❤️ by{" "}
           <a
             href="https://yesbe.tech"
@@ -153,7 +153,7 @@ export function Footer() {
             YesBe
           </a>
         </p>
-        <div className="mt-2 flex items-center gap-3 text-sm">
+        <div className="mt-2 flex items-center gap-3 text-xs">
           <a
             href="https://yesbe.tech"
             target="_blank"

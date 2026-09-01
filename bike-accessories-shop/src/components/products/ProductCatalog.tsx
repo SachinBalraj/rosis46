@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { ProductGrid } from "./ProductGrid";
 import { ProductGridSkeleton } from "./ProductGridSkeleton";
 import { type Product } from "@/lib/data";
-import { parentCategories } from "@/lib/navigation";
+import { parentCategories, subCategoryMap } from "@/lib/navigation";
 
 type SortOption = "featured" | "price-asc" | "price-desc" | "rating";
 
@@ -45,31 +45,6 @@ export function ProductCatalog({
   const [isPending, startTransition] = useTransition();
   const deferredQuery = useDeferredValue(query);
   const [activeSubCategory, setActiveSubCategory] = useState("ALL");
-
-  const subCategoryOptions: Record<
-    string,
-    (typeof parentCategories)[number]["items"]
-  > = {};
-  const categoryWithSubOptions = new Set([
-    "HELMETS",
-    "GEARS",
-    "ESSENTIALS & LUGGAGE",
-    "RIDE CARE",
-    "ESSENTIALS",
-    "WHEEL ACCESSORIES",
-    "LIGHT & LIGHT ACCESSORIES",
-    "HANDLEBAR ACCESSORIES",
-    "LUGGAGE",
-    "PERFORMANCE PARTS",
-  ]);
-  for (const item of parentCategories) {
-    if (categoryWithSubOptions.has(item.label.toUpperCase())) {
-      subCategoryOptions[item.label.toUpperCase()] = [
-        "ALL",
-        ...item.items,
-      ];
-    }
-  }
 
   const selectCategory = (label: string) => {
     update(() => {
@@ -214,9 +189,9 @@ export function ProductCatalog({
           ))}
         </div>
 
-        {subCategoryOptions[category.toUpperCase()] ? (
+        {subCategoryMap[category.toUpperCase()] ? (
           <div className="border-t border-gray-100 mt-4 flex flex-wrap gap-2 pt-4">
-            {subCategoryOptions[category.toUpperCase()].map((subCategory) => (
+            {subCategoryMap[category.toUpperCase()].map((subCategory) => (
               <button
                 key={subCategory}
                 type="button"
