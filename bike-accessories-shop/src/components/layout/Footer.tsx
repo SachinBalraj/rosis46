@@ -9,7 +9,7 @@ export function Footer() {
   return (
     <footer className="border-t border-line-dark bg-night text-white">
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-4 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-4">
           <div className="col-span-2 lg:col-span-2">
             <Link
               href="/"
@@ -81,25 +81,6 @@ export function Footer() {
             </ul>
           </nav>
 
-          <nav aria-label="More categories">
-            <h3 className="font-display text-sm font-semibold tracking-widest uppercase">
-              More
-            </h3>
-            <ul className="mt-4 flex flex-col gap-3">
-              {categories.slice(5).map((category) => (
-                <li key={category.slug}>
-                  <Link
-                    href={`/products?category=${category.slug}`}
-                    className="link-underline flex w-fit items-center gap-1 text-sm text-[#D6C5B3] transition-colors hover:text-white"
-                  >
-                    {category.label}
-                    <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
           <nav aria-label="Company">
             <h3 className="font-display text-sm font-semibold tracking-widest uppercase">
               Company
@@ -135,37 +116,27 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-line-dark pt-8 text-sm text-smoke sm:flex-row">
           <p>© {year} Rossis Biker Spot. All rights reserved.</p>
-          <p className="uppercase tracking-widest">
-            Built for riders, ready for every road.
-          </p>
         </div>
-      </div>
 
-      <div className="flex flex-col items-center justify-center border-t border-gray-800 bg-[#0a0a0a] py-4 text-gray-400">
-        <p className="text-sm">
-          Designed &amp; Developed with ❤️ by{" "}
-          <a
-            href="https://yesbe.tech"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-[#f4e4c1] transition-colors hover:text-white"
-          >
-            YesBe
-          </a>
-        </p>
-        <div className="mt-2 flex items-center gap-3 text-xs">
-          <a
-            href="https://yesbe.tech"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-white"
-          >
-            Portfolio
-          </a>
-          <span className="text-gray-600">|</span>
-          <a href="mailto:hello@yesbe.tech" className="transition-colors hover:text-white">
-            Email
-          </a>
+        <div className="flex flex-col items-center justify-center gap-2 text-sm text-gray-400 mt-8">
+          <p>
+            Designed &amp; Developed with ❤️ by{" "}
+            <span className="font-bold text-[#fefeca]">YesBe</span>
+          </p>
+          <div className="flex items-center gap-3">
+            <a
+              href="https://yesbe.tech"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-white"
+            >
+              Portfolio
+            </a>
+            <span className="text-gray-600">|</span>
+            <a href="mailto:hello@yesbe.tech" className="transition-colors hover:text-white">
+              Email
+            </a>
+          </div>
         </div>
       </div>
     </footer>

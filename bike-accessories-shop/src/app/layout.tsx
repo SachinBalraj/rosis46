@@ -31,6 +31,9 @@ export const metadata: Metadata = {
   },
   description:
     "Premium riding gear, sports helmets, accessories, spare parts, custom bike decals and on-site installation at Rossis Biker Spot, Salem.",
+  icons: {
+    icon: "/images/rossislogo.png",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
