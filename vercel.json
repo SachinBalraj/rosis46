@@ -1,6 +1,0 @@
-{
-  "framework": "nextjs",
-  "installCommand": "cd bike-accessories-shop && npm install",
-  "buildCommand": "cd bike-accessories-shop && npm run build",
-  "outputDirectory": "bike-accessories-shop/.next"
-}
