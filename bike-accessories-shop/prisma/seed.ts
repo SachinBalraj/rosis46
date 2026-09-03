@@ -1,17 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
 
-const connectionString = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
-
-if (!connectionString) {
-  throw new Error(
-    "Missing DATABASE_URL or DIRECT_URL. Add it to .env before seeding."
-  );
-}
-
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
 type SeedCategory = {
   name: string;
@@ -42,10 +32,10 @@ async function main() {
   await prisma.category.deleteMany();
   await prisma.user.deleteMany();
 
-  const createdCategories = await prisma.category.createMany({
-    data: categories,
-  });
-  console.log(`Created ${createdCategories.count} categories`);
+  for (const category of categories) {
+    await prisma.category.create({ data: category });
+  }
+  console.log(`Created ${categories.length} categories`);
 
   console.log(
     "Products are created through the admin panel only — the storefront catalogue starts empty."

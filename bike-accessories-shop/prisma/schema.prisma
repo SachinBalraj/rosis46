@@ -4,7 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -35,7 +36,7 @@ enum PaymentEventStatus {
 }
 
 model User {
-  id           String   @id @default(cuid())
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   email        String   @unique
   phone        String?
@@ -48,7 +49,7 @@ model User {
 }
 
 model Category {
-  id        String    @id @default(cuid())
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   slug      String    @unique
   image     String?
@@ -59,7 +60,7 @@ model Category {
 }
 
 model Product {
-  id               String    @id @default(cuid())
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
   name             String
   slug             String    @unique
   description      String
@@ -67,7 +68,7 @@ model Product {
   salePriceInPaise Int?
   stock            Int       @default(0)
   imageUrl         String?
-  categoryId       String
+  categoryId       String    @db.ObjectId
   featured         Boolean   @default(false)
   active           Boolean   @default(true)
   createdAt        DateTime  @default(now())
@@ -78,21 +79,21 @@ model Product {
 }
 
 model Order {
-  id               String        @id @default(cuid())
-  userId           String?
-  customerName     String
-  customerEmail    String
-  customerPhone    String
-  customerAddress  String
-  subtotalInPaise  Int
-  shippingInPaise  Int
-  totalInPaise     Int
-  status           OrderStatus   @default(PENDING)
-  paymentStatus    PaymentStatus @default(PENDING)
-  razorpayOrderId  String?       @unique
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String?       @db.ObjectId
+  customerName      String
+  customerEmail     String
+  customerPhone     String
+  customerAddress   String
+  subtotalInPaise   Int
+  shippingInPaise   Int
+  totalInPaise      Int
+  status            OrderStatus   @default(PENDING)
+  paymentStatus     PaymentStatus @default(PENDING)
+  razorpayOrderId   String?       @unique
   razorpayPaymentId String?
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 
   user          User?          @relation(fields: [userId], references: [id])
   items         OrderItem[]
@@ -100,9 +101,9 @@ model Order {
 }
 
 model OrderItem {
-  id               String @id @default(cuid())
-  orderId          String
-  productId        String
+  id               String @id @default(auto()) @map("_id") @db.ObjectId
+  orderId          String @db.ObjectId
+  productId        String @db.ObjectId
   quantity         Int
   unitPriceInPaise Int
 
@@ -113,13 +114,13 @@ model OrderItem {
 }
 
 model PaymentEvent {
-  id               String              @id @default(cuid())
-  providerEventId  String              @unique
-  provider         String              @default("razorpay")
-  orderId          String?
-  status           PaymentEventStatus  @default(RECEIVED)
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  providerEventId  String             @unique
+  provider         String             @default("razorpay")
+  orderId          String?            @db.ObjectId
+  status           PaymentEventStatus @default(RECEIVED)
   payload          Json?
-  createdAt        DateTime            @default(now())
+  createdAt        DateTime           @default(now())
 
   order Order? @relation(fields: [orderId], references: [id])
 }
