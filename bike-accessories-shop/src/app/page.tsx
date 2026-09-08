@@ -37,9 +37,15 @@ const installationServices = [
   "Exhaust accessories and spare part replacement",
 ];
 
-export default async function Home() {  const featuredProducts = (await getActiveProducts({ featured: true })).map(
-    toCatalogProduct
-  );
+export default async function Home() {
+  let featuredProducts: ReturnType<typeof toCatalogProduct>[] = [];
+  try {
+    featuredProducts = (await getActiveProducts({ featured: true })).map(
+      toCatalogProduct
+    );
+  } catch (error) {
+    console.error("Failed to load featured products:", error);
+  }
 
   return (
     <>
