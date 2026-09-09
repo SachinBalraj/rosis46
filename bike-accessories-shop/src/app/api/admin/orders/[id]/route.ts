@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { updateOrderStatus } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-auth";
 import { updateOrderStatusSchema } from "@/lib/admin-validation";
 
@@ -29,23 +29,15 @@ export async function PATCH(
     );
   }
 
-  const existing = await prisma.order.findUnique({
-    where: { id },
-    select: { id: true },
-  });
-  if (!existing) {
-    return NextResponse.json(
-      { error: "Order not found." },
-      { status: 404 }
-    );
-  }
-
   try {
-    const order = await prisma.order.update({
-      where: { id },
-      data: { status: parsed.data.status },
-      select: { id: true, status: true },
-    });
+    const order = await updateOrderStatus(id, parsed.data.status);
+
+    if (!order) {
+      return NextResponse.json(
+        { error: "Order not found." },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({ order });
   } catch (error) {

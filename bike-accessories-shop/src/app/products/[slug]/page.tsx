@@ -180,7 +180,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
       <section
         aria-labelledby="product-title"
-        className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
+        className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10"
       >
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div
@@ -222,7 +222,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </p>
               <h1
                 id="product-title"
-                className="display-heading mt-3 text-4xl text-foreground sm:text-5xl"
+                className="display-heading text-rainbow mt-3 text-4xl text-foreground sm:text-5xl"
               >
                 {product.name}
               </h1>
@@ -333,13 +333,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
       {related.length > 0 ? (
         <section
           aria-labelledby="related-heading"
-          className="border-t border-line bg-carbon-soft py-16"
+          className="border-t border-line bg-carbon-soft py-8"
         >
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-8 flex items-end justify-between gap-6">
               <h2
                 id="related-heading"
-                className="display-heading text-3xl text-foreground sm:text-4xl"
+                className="display-heading text-rainbow text-3xl text-foreground sm:text-4xl"
               >
                 You might also like
               </h2>

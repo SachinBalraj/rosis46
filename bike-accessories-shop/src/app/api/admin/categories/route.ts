@@ -1,19 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import {
+  listAdminCategories,
+  createCategory,
+  isDuplicateKeyError,
+} from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-auth";
-import { adminCategorySchema, prismaErrorCode } from "@/lib/admin-validation";
+import { adminCategorySchema } from "@/lib/admin-validation";
 import { toSlug } from "@/lib/utils";
 
 export async function GET() {
   const auth = await requireAdmin();
   if (!auth.ok) return auth.response;
 
-  const categories = await prisma.category.findMany({
-    include: {
-      _count: { select: { products: true } },
-    },
-    orderBy: { name: "asc" },
-  });
+  const categories = await listAdminCategories();
 
   return NextResponse.json({ categories });
 }
@@ -49,19 +48,15 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const category = await prisma.category.create({
-      data: {
-        name: data.name,
-        slug,
-        image: data.image ?? null,
-      },
-      include: { _count: { select: { products: true } } },
+    const category = await createCategory({
+      name: data.name,
+      slug,
+      image: data.image ?? null,
     });
 
     return NextResponse.json({ category }, { status: 201 });
   } catch (error) {
-    const code = prismaErrorCode(error);
-    if (code === "P2002") {
+    if (isDuplicateKeyError(error)) {
       return NextResponse.json(
         { error: "A category with this slug already exists." },
         { status: 409 }

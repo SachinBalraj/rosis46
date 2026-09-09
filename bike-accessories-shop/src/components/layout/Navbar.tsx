@@ -7,6 +7,14 @@ import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/store/cart";
 import { MobileMenu } from "./MobileMenu";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/products", label: "Products" },
+  { href: "/contact", label: "Contact" },
+];
 
 export function Navbar() {
   const pathname = usePathname();
@@ -17,9 +25,11 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex h-10 w-10 items-center justify-center">
-          <MobileMenu open={isDrawerOpen} onOpenChange={setIsDrawerOpen} />
+      <div className="mx-auto flex h-16 w-full items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <div className="relative flex shrink-0 items-center">
+          <div className="flex h-10 items-center justify-center">
+            <MobileMenu open={isDrawerOpen} onOpenChange={setIsDrawerOpen} />
+          </div>
         </div>
 
         <Link
@@ -37,7 +47,7 @@ export function Navbar() {
           />
         </Link>
 
-        <div className="mr-4 flex h-10 w-10 items-center justify-center">
+        <div className="mr-4 flex h-10 w-10 shrink-0 items-center justify-center">
           <Link
             href={pathname === "/cart" ? "/" : "/cart"}
             aria-label={`Cart with ${itemCount} item${itemCount === 1 ? "" : "s"}`}
@@ -51,32 +61,25 @@ export function Navbar() {
         </div>
       </div>
 
-      <div className="flex w-full justify-start space-x-8 border-b border-gray-200 bg-white py-3 pl-4 md:pl-6">
-        <Link
-          href="/"
-          className="text-gray-800 font-bold tracking-wider uppercase transition-colors duration-300 hover:text-red-600 text-xs"
-        >
-          Home
-        </Link>
-        <Link
-          href="/about"
-          className="text-gray-800 font-bold tracking-wider uppercase transition-colors duration-300 hover:text-red-600 text-xs"
-        >
-          About
-        </Link>
-        <Link
-          href="/products"
-          className="text-gray-800 font-bold tracking-wider uppercase transition-colors duration-300 hover:text-red-600 text-xs"
-        >
-          Products
-        </Link>
-        <Link
-          href="/contact"
-          className="text-gray-800 font-bold tracking-wider uppercase transition-colors duration-300 hover:text-red-600 text-xs"
-        >
-          Contact
-        </Link>
-      </div>
+      <nav
+        id="primary-navigation"
+        aria-label="Main navigation"
+        className={cn(
+          "flex w-full flex-wrap items-center gap-7 bg-white px-4 py-3 md:absolute md:top-full md:left-4 md:z-50 md:w-44 md:flex-col md:items-stretch md:gap-0 md:border md:border-line md:border-t md:border-r md:border-b md:border-l-[3px] md:border-l-brand md:px-0 md:py-0 md:shadow-lg lg:left-8",
+          isDrawerOpen ? "md:flex" : "md:hidden"
+        )}
+      >
+        {navLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            onClick={() => setIsDrawerOpen(false)}
+            className="text-base font-bold tracking-wider text-[#1f2933] uppercase whitespace-nowrap transition-colors duration-300 hover:text-brand md:px-4 md:py-2 md:text-xs md:hover:text-red-600"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, MapPin, Phone, Quote, Star, Wrench } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bike, MapPin, Phone, Quote, Star, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductGrid } from "@/components/products/ProductGrid";
@@ -27,8 +27,6 @@ const marqueeItems = [
   "Open daily till 9 PM",
 ];
 
-const marqueeColors = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500", "bg-orange-500"];
-
 const installationServices = [
   "Helmet fitting and visor swaps",
   "Grip and lever installation",
@@ -53,7 +51,7 @@ export default async function Home() {
         aria-label="Introduction"
         className="border-b border-line bg-white"
       >
-        <div className="mx-auto max-w-[1400px] px-4 md:px-6">
+        <div className="w-full px-0">
           <figure className="overflow-hidden bg-night">
             <Image
               src="/images/rossisbannerfinals.png"
@@ -71,9 +69,9 @@ export default async function Home() {
             <BestSellerCarousel />
           </div>
 
-          <div className="relative flex flex-col justify-center gap-8 py-14 lg:py-24 lg:pl-16">
-            <p className="eyebrow">Salem&apos;s Rider HQ</p>
-            <h1 className="display-heading max-w-xl text-5xl text-foreground sm:text-6xl lg:text-7xl">
+          <div className="relative flex flex-col justify-center gap-8 pt-6 pb-8 lg:py-12 lg:pl-16">
+            <p className="eyebrow rainbow-heading">Salem&apos;s Rider HQ</p>
+            <h1 className="display-heading text-solid-black max-w-xl text-5xl sm:text-6xl lg:text-7xl">
               Gear up.
               <br />
               Ride bold.
@@ -91,18 +89,13 @@ export default async function Home() {
               <Button href="/products" size="lg" variant="brand-outline">
                 Shop accessories
               </Button>
-              <Button
-                href="/contact"
-                size="lg"
-                variant="secondary"
-                className="bg-white"
-              >
+              <Button href="/contact" size="lg" variant="brand-outline">
                 <MapPin aria-hidden="true" className="h-4 w-4" />
                 Visit our store
               </Button>
             </div>
 
-            <dl className="mt-2 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-8">
+            <dl className="mt-2 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-6">
               {[
                 { value: "Gear", label: "Helmets & riding gear" },
                 { value: "Spares", label: "Genuine spare parts" },
@@ -124,14 +117,14 @@ export default async function Home() {
       </section>
 
       <section aria-hidden="true" className="overflow-hidden bg-night">
-        <div className="flex w-max animate-marquee items-center gap-12 py-4">
+        <div className="flex w-max animate-marquee items-center gap-8 py-4">
           {[...marqueeItems, ...marqueeItems].map((item, index) => (
             <span
               key={`${item}-${index}`}
-              className="flex items-center gap-12 whitespace-nowrap font-display text-sm font-semibold tracking-[0.3em] text-white uppercase"
+              className="flex items-center gap-8 whitespace-nowrap font-display text-sm font-semibold tracking-[0.3em] text-white uppercase"
             >
               {item}
-              <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${marqueeColors[index % marqueeColors.length]}`} />
+              <Bike aria-hidden="true" className="h-3.5 w-3.5 stroke-brand" />
             </span>
           ))}
         </div>
@@ -160,7 +153,7 @@ export default async function Home() {
 
       <section
         aria-label="Brand statement"
-        className="relative flex min-h-[420px] items-center justify-center overflow-hidden border-y border-line-dark bg-night text-white lg:h-[540px]"
+        className="relative flex items-center justify-center overflow-hidden border-y border-line-dark bg-night py-10 text-white sm:py-12 lg:py-14"
       >
         <div
           aria-hidden="true"
@@ -170,11 +163,11 @@ export default async function Home() {
           aria-hidden="true"
           className="absolute inset-0 bg-black/65 sm:bg-black/70"
         />
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold tracking-[0.35em] text-brand uppercase">
+        <div className="relative mx-auto w-full max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <p className="text-xs font-semibold tracking-[0.35em] rainbow-heading uppercase">
             Rossis Biker Spot
           </p>
-          <h2 className="display-heading mx-auto mt-5 max-w-3xl text-5xl text-white sm:text-6xl lg:text-7xl">
+          <h2 className="display-heading text-white mx-auto mt-5 max-w-3xl text-5xl sm:text-6xl lg:text-7xl">
             Built for riders. Ready for every road.
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/80">
@@ -188,10 +181,11 @@ export default async function Home() {
         aria-labelledby="categories-heading"
         className="bg-white"
       >
-        <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading
               eyebrow="What we stock"
+              eyebrowClassName="rainbow-heading"
               title="Everything your bike needs"
               description="From your first helmet to custom decals and genuine spares—fit and installed for you in Salem."
             />
@@ -201,23 +195,40 @@ export default async function Home() {
             </Button>
           </div>
 
-          <ul className="mt-12 grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-3 xl:grid-cols-6">
-            {homeCategories.map((category) => {
+          <ul className="mt-6 grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-3 xl:grid-cols-6">
+            {homeCategories.map((category, index) => {
               const Icon = iconMap[category.icon];
+              const dark = index === 1 || index === 2 || index === 5;
               return (
-                <li key={category.slug} className="bg-white">
+                <li key={category.slug} className={dark ? "bg-black" : "bg-white"}>
                   <Link
                     href={category.href}
-                    className="group flex h-full flex-col gap-4 bg-white p-6 transition-colors duration-300 hover:bg-night"
+                    className={`group flex h-full flex-col gap-4 p-6 transition-colors duration-300 ${
+                      dark ? "bg-black hover:bg-charcoal" : "bg-white hover:bg-night"
+                    }`}
                   >
-                    <span className="flex h-12 w-12 items-center justify-center border border-line text-brand transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-white">
+                    <span
+                      className={`flex h-12 w-12 items-center justify-center border transition-colors ${
+                        dark
+                          ? "border-white/25 text-white group-hover:border-brand group-hover:bg-brand group-hover:text-white"
+                          : "border-line text-brand group-hover:border-brand group-hover:bg-brand group-hover:text-white"
+                      }`}
+                    >
                       <Icon aria-hidden="true" className="h-6 w-6" />
                     </span>
                     <span className="flex flex-1 flex-col justify-center">
-                      <span className="block font-display text-lg font-semibold tracking-wide text-foreground uppercase transition-colors group-hover:text-white">
+                      <span
+                        className={`block font-display text-lg font-semibold tracking-wide uppercase transition-colors ${
+                          dark ? "text-white" : "text-foreground group-hover:text-white"
+                        }`}
+                      >
                         {category.label}
                       </span>
-                      <span className="mt-1 block text-sm text-smoke transition-colors group-hover:text-white/70">
+                      <span
+                        className={`mt-1 block text-sm transition-colors ${
+                          dark ? "text-white/70 group-hover:text-white" : "text-smoke group-hover:text-white/70"
+                        }`}
+                      >
                         {category.blurb}
                       </span>
                     </span>
@@ -238,12 +249,12 @@ export default async function Home() {
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgb(225_6_0/0.2),transparent_55%)]"
         />
-        <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-28">
+        <div className="relative mx-auto grid w-full max-w-7xl items-center gap-8 px-4 py-10 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-12">
           <div className="flex flex-col gap-6">
-            <p className="eyebrow">On-site installation</p>
+            <p className="eyebrow rainbow-heading">On-site installation</p>
             <h2
               id="installation-heading"
-              className="display-heading max-w-xl text-4xl text-white sm:text-5xl lg:text-6xl"
+              className="display-heading text-solid-black max-w-xl text-4xl sm:text-5xl lg:text-6xl"
             >
               Bring your bike. Leave upgraded.
             </h2>
@@ -262,15 +273,21 @@ export default async function Home() {
                 </li>
               ))}
             </ul>
-            <div className="mt-2 flex flex-wrap items-center gap-4">
-              <Button href="/contact" size="lg">
+            <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-4">
+              <Button
+                href="/contact"
+                size="lg"
+                variant="brand-outline"
+                className="h-12 w-[230px] gap-2 px-7 tracking-[1.2px] whitespace-nowrap no-underline bg-white border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white"
+              >
                 Plan your visit
                 <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Button>
               <Button
                 href="/products"
                 size="lg"
-                className="border border-white bg-transparent text-white hover:bg-white hover:text-black"
+                variant="brand-outline"
+                className="h-12 w-[230px] gap-2 px-7 tracking-[1.2px] whitespace-nowrap no-underline bg-white border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white"
               >
                 Shop the gear
               </Button>
@@ -304,7 +321,7 @@ export default async function Home() {
           aria-labelledby="featured-heading"
           className="bg-white"
         >
-          <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+<div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <div className="flex flex-wrap items-end justify-between gap-6">
               <SectionHeading
                 eyebrow="Rider favorites"
@@ -316,7 +333,7 @@ export default async function Home() {
                 <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Button>
             </div>
-            <div className="mt-12">
+            <div className="mt-6">
               <ProductGrid products={featuredProducts} />
             </div>
           </div>
@@ -327,26 +344,48 @@ export default async function Home() {
         aria-labelledby="benefits-heading"
         className="border-t border-line bg-carbon-soft"
       >
-        <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Why Rossis Biker Spot"
+            eyebrowClassName="rainbow-heading"
             title="Built for riders. Ready for every road."
+            rainbowTitle={false}
+            titleClassName="text-solid-black"
             align="center"
             description="A local destination for motorcycle enthusiasts in Salem—gear, spares and hands-on service."
           />
-          <ul className="mt-12 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-            {benefits.map((benefit) => {
+          <ul className="mt-6 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+            {benefits.map((benefit, index) => {
               const Icon = iconMap[benefit.icon];
+              const isDark = index === 0 || index === 3;
               return (
-                <li key={benefit.title} className="bg-white">
-                  <div className="flex h-full flex-col p-6 transition-colors duration-300 hover:bg-night hover:text-white">
-                    <span className="flex h-12 w-12 items-center justify-center border border-line text-brand">
+                <li key={benefit.title} className={isDark ? "bg-black" : "bg-white"}>
+                  <div
+                    className={`flex h-full flex-col p-6 transition-colors duration-300 ${
+                      isDark ? "bg-black text-white hover:bg-charcoal" : "bg-white"
+                    }`}
+                  >
+                    <span
+                      className={`flex h-12 w-12 items-center justify-center border ${
+                        isDark
+                          ? "border-white/25 text-white"
+                          : "border-line text-brand"
+                      }`}
+                    >
                       <Icon aria-hidden="true" className="h-6 w-6" />
                     </span>
-                    <h3 className="mt-5 font-display text-base font-semibold tracking-wide uppercase">
+                    <h3
+                      className={`mt-5 font-display text-base font-semibold tracking-wide uppercase ${
+                        isDark ? "text-white" : "text-foreground"
+                      }`}
+                    >
                       {benefit.title}
                     </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-smoke">
+                    <p
+                      className={`mt-2 text-sm leading-relaxed ${
+                        isDark ? "text-white/70" : "text-smoke"
+                      }`}
+                    >
                       {benefit.description}
                     </p>
                   </div>
@@ -361,14 +400,15 @@ export default async function Home() {
         aria-labelledby="testimonials-heading"
         className="border-t border-line bg-white"
       >
-        <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Rider reviews"
+            eyebrowClassName="rainbow-heading"
             title="Trusted by riders across Salem"
             align="center"
             description="Real words from riders who gear up and get upgraded at our store."
           />
-          <ul className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <ul className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
             {testimonials.map((testimonial) => (
               <li
                 key={testimonial.name}

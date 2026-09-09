@@ -25,15 +25,15 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         aria-labelledby="products-hero"
         className="border-b border-line bg-white"
       >
-        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
           <p className="eyebrow">The catalogue</p>
           <h1
             id="products-hero"
-            className="display-heading mt-6 max-w-3xl text-5xl text-foreground sm:text-6xl"
+            className="display-heading text-solid-black mt-2.5 max-w-3xl text-5xl sm:text-6xl"
           >
             Gear up at Rossis
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-smoke">
+          <p className="mt-2.5 max-w-2xl text-lg leading-relaxed text-smoke">
             Sports helmets, riding gear, grips, LED lights, custom decals,
             spare parts and more—with on-site installation available at our
             Salem store.

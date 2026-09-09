@@ -121,16 +121,19 @@ export const updateOrderStatusSchema = z.object({
 
 export type UpdateOrderStatusInput = z.infer<typeof updateOrderStatusSchema>;
 
-export function prismaErrorCode(
-  error: unknown
-): string | null {
-  if (
-    error &&
-    typeof error === "object" &&
-    "code" in error &&
-    typeof (error as { code: unknown }).code === "string"
-  ) {
-    return (error as { code: string }).code;
-  }
-  return null;
-}
+export const CONTACT_MESSAGE_STATUS_VALUES = [
+  "NEW",
+  "READ",
+  "REPLIED",
+  "ARCHIVED",
+] as const;
+
+export const updateContactMessageStatusSchema = z.object({
+  status: z.enum(CONTACT_MESSAGE_STATUS_VALUES, {
+    error: "Choose a valid message status",
+  }),
+});
+
+export type UpdateContactMessageStatusInput = z.infer<
+  typeof updateContactMessageStatusSchema
+>;

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { hash } from "bcryptjs";
-import { prisma } from "@/lib/prisma";
+import { findUserByEmail, createUser, isDuplicateKeyError } from "@/lib/db";
+import { getClientIp, rateLimit } from "@/lib/rate-limit";
 
 const registerSchema = z.object({
   name: z.string().trim().min(2, "Enter your full name").max(100),
@@ -26,6 +27,15 @@ function jsonError(message: string, status: number) {
 }
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit({
+    key: `register:${getClientIp(request)}`,
+    limit: 10,
+    windowMs: 15 * 60 * 1000,
+  });
+  if (!limited.ok) {
+    return jsonError(limited.message, 429);
+  }
+
   let parsed;
   try {
     parsed = registerSchema.safeParse(await request.json());
@@ -42,29 +52,24 @@ export async function POST(request: NextRequest) {
 
   const { name, email, phone, password } = parsed.data;
 
-  const existing = await prisma.user.findUnique({
-    where: { email },
-    select: { id: true },
-  });
+  const existing = await findUserByEmail(email);
   if (existing) {
-    return jsonError("An account with this email already exists.", 409);
+    return jsonError(
+      "Could not create your account. Verify your details or try again.",
+      409
+    );
   }
 
   const passwordHash = await hash(password, 12);
 
   try {
-    await prisma.user.create({
-      data: { name, email, phone, passwordHash },
-      select: { id: true },
-    });
+    await createUser({ name, email, phone, passwordHash });
   } catch (error) {
-    if (
-      error &&
-      typeof error === "object" &&
-      "code" in error &&
-      error.code === "P2002"
-    ) {
-      return jsonError("An account with this email already exists.", 409);
+    if (isDuplicateKeyError(error)) {
+      return jsonError(
+        "Could not create your account. Verify your details or try again.",
+        409
+      );
     }
     console.error("Failed to create user:", error);
     return jsonError("Could not create your account. Please try again.", 500);

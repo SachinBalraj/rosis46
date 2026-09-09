@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { findOrderByRazorpayOrderId, markOrderPaid } from "@/lib/db";
+import { getClientIp, rateLimit } from "@/lib/rate-limit";
 import { verifyPaymentRequestSchema } from "@/lib/validation";
 import { verifyPaymentSignature } from "@/lib/payments";
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit({
+    key: `verify:${getClientIp(request)}`,
+    limit: 30,
+    windowMs: 10 * 60 * 1000,
+  });
+  if (!limited.ok) {
+    return NextResponse.json({ error: limited.message }, { status: 429 });
+  }
+
   let parsed;
   try {
     parsed = verifyPaymentRequestSchema.safeParse(await request.json());
@@ -23,9 +33,7 @@ export async function POST(request: NextRequest) {
 
   const { razorpayOrderId, razorpayPaymentId, signature } = parsed.data;
 
-  const order = await prisma.order.findUnique({
-    where: { razorpayOrderId },
-  });
+  const order = await findOrderByRazorpayOrderId(razorpayOrderId);
 
   if (!order) {
     return NextResponse.json({ error: "Order not found" }, { status: 404 });
@@ -55,16 +63,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const updated = await prisma.order.updateMany({
-    where: { id: order.id, paymentStatus: "PENDING" },
-    data: {
-      paymentStatus: "PAID",
-      status: "CONFIRMED",
-      razorpayPaymentId,
-    },
-  });
+  const updated = await markOrderPaid(order.id, razorpayPaymentId);
 
-  if (updated.count === 0) {
+  if (updated === 0) {
     return NextResponse.json({
       verified: true,
       orderId: order.id,

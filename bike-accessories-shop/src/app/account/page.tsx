@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { CheckCircle2, Package, Truck, UserRound, Zap } from "lucide-react";
 import { authOptions } from "@/auth";
-import { prisma } from "@/lib/prisma";
+import { listOrdersForUser } from "@/lib/db";
 import { AccountForms } from "@/components/account/AccountForms";
 import { AccountDashboard } from "@/components/account/AccountDashboard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -43,18 +43,7 @@ export default async function AccountPage() {
   const user = session?.user;
 
   const orders = user
-    ? await prisma.order.findMany({
-        where: { userId: user.id },
-        orderBy: { createdAt: "desc" },
-        select: {
-          id: true,
-          createdAt: true,
-          totalInPaise: true,
-          status: true,
-          paymentStatus: true,
-          items: { select: { quantity: true } },
-        },
-      })
+    ? await listOrdersForUser(user.id)
     : [];
 
   return (
@@ -63,15 +52,15 @@ export default async function AccountPage() {
         aria-labelledby="account-hero"
         className="border-b border-line bg-white"
       >
-        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <p className="eyebrow">Your account</p>
           <h1
             id="account-hero"
-            className="display-heading mt-6 max-w-3xl text-5xl text-foreground sm:text-6xl"
+            className="display-heading text-rainbow mt-2.5 max-w-3xl text-5xl text-foreground sm:text-6xl"
           >
             Your rides, your gear
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-smoke">
+          <p className="mt-2.5 max-w-2xl text-lg leading-relaxed text-smoke">
             {user
               ? "Track your orders, review payments and keep your gear moving."
               : "Track orders, save your fit profile and check out in one tap. Create an account or sign in to get started."}
@@ -102,16 +91,16 @@ export default async function AccountPage() {
       ) : (
         <section
           aria-labelledby="account-section"
-          className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
+          className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
         >
-          <div className="grid gap-12 lg:grid-cols-2">
+          <div className="grid gap-8 lg:grid-cols-2">
             <div>
               <SectionHeading
                 eyebrow="Membership"
                 title="What an account gets you"
                 description=""
               />
-              <ul className="mt-8 flex flex-col gap-px border border-line bg-line">
+              <ul className="mt-6 flex flex-col gap-px border border-line bg-line">
                 {accountBenefits.map((benefit) => (
                   <li key={benefit.title} className="bg-white">
                     <div className="flex items-start gap-4 p-5">

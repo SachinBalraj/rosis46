@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Clock, MapPin, Phone, ChevronRight } from "lucide-react";
+import { Clock, MapPin, Phone } from "lucide-react";
 import { categories, storePhones } from "@/lib/data";
 
 export function Footer() {
@@ -8,8 +8,8 @@ export function Footer() {
 
   return (
     <footer className="border-t border-line-dark bg-night text-white">
-      <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-4">
+      <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
           <div className="col-span-2 lg:col-span-2">
             <Link
               href="/"
@@ -26,12 +26,12 @@ export function Footer() {
               </span>
               Rossis Biker Spot
             </Link>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-[#D6C5B3]">
+            <p className="mt-3 max-w-sm text-[13px] leading-relaxed text-[#D6C5B3]">
               Built for riders. Ready for every road. Sports helmets, riding
               gear, spare parts, custom decals and on-site installation at our
               store in Salem.
             </p>
-            <ul className="mt-6 flex flex-col gap-3 text-sm text-[#D6C5B3]">
+            <ul className="mt-4 flex flex-col gap-2.5 text-[13px] text-[#D6C5B3]">
               <li className="flex items-start gap-2">
                 <MapPin aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
                 Opposite KPN Petrol Bunk, Buddhar Street /
@@ -44,7 +44,7 @@ export function Footer() {
               <li>
                 <a
                   href={storePhones[0].href}
-                  className="flex items-center gap-2 text-sm text-[#D6C5B3] transition-colors hover:text-white"
+                  className="flex items-center gap-2 text-[13px] text-[#D6C5B3] transition-colors hover:text-white"
                 >
                   <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
                   {storePhones[0].display}
@@ -53,7 +53,7 @@ export function Footer() {
               <li>
                 <a
                   href={storePhones[1].href}
-                  className="flex items-center gap-2 text-sm text-[#D6C5B3] transition-colors hover:text-white"
+                  className="flex items-center gap-2 text-[13px] text-[#D6C5B3] transition-colors hover:text-white"
                 >
                   <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
                   {storePhones[1].display}
@@ -66,15 +66,14 @@ export function Footer() {
             <h3 className="font-display text-sm font-semibold tracking-widest uppercase">
               Shop
             </h3>
-            <ul className="mt-4 flex flex-col gap-3">
+            <ul className="mt-3 flex flex-col gap-2">
               {categories.slice(0, 5).map((category) => (
                 <li key={category.slug}>
                   <Link
                     href={`/products?category=${category.slug}`}
-                    className="link-underline flex w-fit items-center gap-1 text-sm text-[#D6C5B3] transition-colors hover:text-white"
+                    className="link-underline flex w-fit items-center gap-1 text-[13px] text-[#D6C5B3] transition-colors hover:text-white"
                   >
                     {category.label}
-                    <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
                   </Link>
                 </li>
               ))}
@@ -85,58 +84,41 @@ export function Footer() {
             <h3 className="font-display text-sm font-semibold tracking-widest uppercase">
               Company
             </h3>
-            <ul className="mt-4 flex flex-col gap-3">
+            <ul className="mt-3 flex flex-col gap-2">
               <li>
-                <Link href="/about" className="link-underline text-sm text-[#D6C5B3] transition-colors hover:text-white">
+                <Link href="/about" className="link-underline text-[13px] leading-snug text-[#D6C5B3] transition-colors hover:text-white">
                   About us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="link-underline text-sm text-[#D6C5B3] transition-colors hover:text-white">
-                  Contact & directions
+                <Link href="/contact" className="link-underline text-[13px] leading-snug text-[#D6C5B3] transition-colors hover:text-white">
+                  Contact &amp; directions
                 </Link>
               </li>
               <li>
-                <Link href="/contact#faq" className="link-underline text-sm text-[#D6C5B3] transition-colors hover:text-white">
+                <Link href="/contact#faq" className="link-underline text-[13px] leading-snug text-[#D6C5B3] transition-colors hover:text-white">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/account" className="link-underline text-sm text-[#D6C5B3] transition-colors hover:text-white">
+                <Link href="/account" className="link-underline text-[13px] leading-snug text-[#D6C5B3] transition-colors hover:text-white">
                   Your account
                 </Link>
               </li>
             </ul>
-            <p className="mt-6 text-sm leading-relaxed text-[#D6C5B3]">
+            <p className="mt-3 text-[13px] leading-relaxed text-[#D6C5B3]">
               On-site installation available — bring your bike in and leave
               upgraded.
             </p>
           </nav>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-line-dark pt-8 text-sm text-smoke sm:flex-row">
+        <div className="mt-10 flex flex-col items-center gap-2 border-t border-line-dark pt-6 text-xs text-smoke">
           <p>© {year} Rossis Biker Spot. All rights reserved.</p>
-        </div>
-
-        <div className="flex flex-col items-center justify-center gap-2 text-sm text-gray-400 mt-8">
           <p>
             Designed &amp; Developed with ❤️ by{" "}
             <span className="font-bold text-[#fefeca]">YesBe</span>
           </p>
-          <div className="flex items-center gap-3">
-            <a
-              href="https://yesbe.tech"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-white"
-            >
-              Portfolio
-            </a>
-            <span className="text-gray-600">|</span>
-            <a href="mailto:hello@yesbe.tech" className="transition-colors hover:text-white">
-              Email
-            </a>
-          </div>
         </div>
       </div>
     </footer>

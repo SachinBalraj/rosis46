@@ -80,7 +80,7 @@ export function AdminLoginForm() {
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgb(225_6_0/0.25),transparent_55%)]"
       />
-      <div className="relative mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <div className="relative mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto w-full max-w-md">
           <div className="border border-line-dark bg-white p-8 sm:p-10">
             <div className="flex flex-col items-center text-center">
@@ -93,7 +93,7 @@ export function AdminLoginForm() {
               </p>
               <h1
                 id="admin-login-title"
-                className="display-heading mt-5 text-3xl uppercase text-foreground sm:text-4xl"
+                className="display-heading text-rainbow mt-5 text-3xl uppercase text-foreground sm:text-4xl"
               >
                 Rossis Biker Spot admin
               </h1>

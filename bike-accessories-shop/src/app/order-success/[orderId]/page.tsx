@@ -9,7 +9,9 @@ import {
   PackageCheck,
   Truck,
 } from "lucide-react";
-import { prisma } from "@/lib/prisma";
+import { getOrderWithItems } from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth";
 import { formatPaise } from "@/lib/utils";
 import { storePhones } from "@/lib/data";
 
@@ -20,6 +22,26 @@ export const metadata: Metadata = {
   description: "Your Rossis Biker Spot order is confirmed.",
 };
 
+const GUEST_VIEW_WINDOW_MS = 30 * 60 * 1000;
+
+function canViewRecentOrder(
+  order: {
+    userId: string | null;
+    createdAt: Date;
+  },
+  session: {
+    user: { id?: string; role?: string } | null;
+  } | null
+): boolean {
+  if (session?.user?.role === "ADMIN") {
+    return true;
+  }
+  if (session?.user?.id && order.userId === session.user.id) {
+    return true;
+  }
+  return order.createdAt.getTime() > Date.now() - GUEST_VIEW_WINDOW_MS;
+}
+
 type OrderSuccessPageProps = {
   params: Promise<{ orderId: string }>;
 };
@@ -29,25 +51,22 @@ export default async function OrderSuccessPage({
 }: OrderSuccessPageProps) {
   const { orderId } = await params;
 
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: {
-      items: {
-        include: {
-          product: { select: { id: true, name: true, imageUrl: true } },
-        },
-      },
-    },
-  });
+  const session = await getServerSession(authOptions);
+
+  const order = await getOrderWithItems(orderId);
 
   if (!order) {
+    notFound();
+  }
+
+  if (!canViewRecentOrder(order, session)) {
     notFound();
   }
 
   const paid = order.paymentStatus === "PAID";
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <main className="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center text-center">
         <span
           className={
@@ -59,7 +78,7 @@ export default async function OrderSuccessPage({
           <CheckCircle2 aria-hidden="true" className="h-10 w-10" />
         </span>
         <p className="eyebrow mt-8">Rossis Biker Spot</p>
-        <h1 className="display-heading mt-4 text-4xl text-foreground sm:text-5xl">
+        <h1 className="display-heading text-rainbow mt-4 text-4xl text-foreground sm:text-5xl">
           {paid ? "Order confirmed!" : "Payment not completed"}
         </h1>
         <p className="mt-3 max-w-md text-smoke">

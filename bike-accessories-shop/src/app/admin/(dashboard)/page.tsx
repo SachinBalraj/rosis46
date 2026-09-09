@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { prisma } from "@/lib/prisma";
+import { getCategoryNames } from "@/lib/db";
 import { InventoryDashboard } from "@/components/admin/InventoryDashboard";
 
 export const metadata: Metadata = {
@@ -8,9 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminDashboardPage() {
-  const categories = await prisma.category.findMany({
-    select: { id: true, name: true },
-  });
+  const categories = await getCategoryNames();
 
   return <InventoryDashboard categories={categories} />;
 }

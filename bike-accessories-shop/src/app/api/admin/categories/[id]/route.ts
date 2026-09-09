@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import {
+  getCategoryById,
+  updateCategoryById,
+  deleteCategoryById,
+  countProductsInCategory,
+  isValidObjectId,
+  isDuplicateKeyError,
+} from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-auth";
-import { adminCategorySchema, prismaErrorCode } from "@/lib/admin-validation";
+import { adminCategorySchema } from "@/lib/admin-validation";
 import { toSlug } from "@/lib/utils";
 
 export async function PATCH(
@@ -12,6 +19,13 @@ export async function PATCH(
   if (!auth.ok) return auth.response;
 
   const { id } = await params;
+
+  if (!isValidObjectId(id)) {
+    return NextResponse.json(
+      { error: "Category not found." },
+      { status: 404 }
+    );
+  }
 
   let parsed;
   try {
@@ -39,10 +53,7 @@ export async function PATCH(
     );
   }
 
-  const existing = await prisma.category.findUnique({
-    where: { id },
-    select: { id: true },
-  });
+  const existing = await getCategoryById(id);
   if (!existing) {
     return NextResponse.json(
       { error: "Category not found." },
@@ -51,20 +62,15 @@ export async function PATCH(
   }
 
   try {
-    const category = await prisma.category.update({
-      where: { id },
-      data: {
-        name: data.name,
-        slug,
-        image: data.image ?? null,
-      },
-      include: { _count: { select: { products: true } } },
+    const category = await updateCategoryById(id, {
+      name: data.name,
+      slug,
+      image: data.image ?? null,
     });
 
     return NextResponse.json({ category });
   } catch (error) {
-    const code = prismaErrorCode(error);
-    if (code === "P2002") {
+    if (isDuplicateKeyError(error)) {
       return NextResponse.json(
         { error: "A category with this slug already exists." },
         { status: 409 }
@@ -87,13 +93,14 @@ export async function DELETE(
 
   const { id } = await params;
 
-  const existing = await prisma.category.findUnique({
-    where: { id },
-    select: {
-      id: true,
-      _count: { select: { products: true } },
-    },
-  });
+  if (!isValidObjectId(id)) {
+    return NextResponse.json(
+      { error: "Category not found." },
+      { status: 404 }
+    );
+  }
+
+  const existing = await getCategoryById(id);
   if (!existing) {
     return NextResponse.json(
       { error: "Category not found." },
@@ -101,7 +108,8 @@ export async function DELETE(
     );
   }
 
-  if (existing._count.products > 0) {
+  const productsCount = await countProductsInCategory(id);
+  if (productsCount > 0) {
     return NextResponse.json(
       {
         error:
@@ -112,7 +120,7 @@ export async function DELETE(
   }
 
   try {
-    await prisma.category.delete({ where: { id } });
+    await deleteCategoryById(id);
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error(`Failed to delete category ${id}:`, error);

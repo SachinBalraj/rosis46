@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/admin-auth";
 import {
-  adminProductSchema,
-  prismaErrorCode,
-} from "@/lib/admin-validation";
+  updateProductById,
+  getProductById,
+  deleteProductById,
+  countOrderItemsForProduct,
+  categoryExists,
+  isValidObjectId,
+  isDuplicateKeyError,
+} from "@/lib/db";
+import { requireAdmin } from "@/lib/admin-auth";
+import { adminProductSchema } from "@/lib/admin-validation";
 import { toSlug, rupeesToPaise } from "@/lib/utils";
 
 export async function PATCH(
@@ -15,6 +20,13 @@ export async function PATCH(
   if (!auth.ok) return auth.response;
 
   const { id } = await params;
+
+  if (!isValidObjectId(id)) {
+    return NextResponse.json(
+      { error: "Product not found." },
+      { status: 404 }
+    );
+  }
 
   let parsed;
   try {
@@ -42,10 +54,7 @@ export async function PATCH(
     );
   }
 
-  const existing = await prisma.product.findUnique({
-    where: { id },
-    select: { id: true },
-  });
+  const existing = await getProductById(id);
   if (!existing) {
     return NextResponse.json(
       { error: "Product not found." },
@@ -54,37 +63,34 @@ export async function PATCH(
   }
 
   try {
-    const product = await prisma.product.update({
-      where: { id },
-      data: {
-        name: data.name,
-        slug,
-        description: data.description,
-        priceInPaise: rupeesToPaise(data.price),
-        salePriceInPaise:
-          data.salePrice !== undefined ? rupeesToPaise(data.salePrice) : null,
-        stock: data.stock,
-        imageUrl: data.imageUrl ?? null,
-        categoryId: data.categoryId,
-        featured: data.featured,
-        active: data.active,
-      },
-      include: { category: { select: { id: true, name: true, slug: true } } },
+    const category = await categoryExists(data.categoryId);
+    if (!category) {
+      return NextResponse.json(
+        { error: "The selected category doesn't exist." },
+        { status: 400 }
+      );
+    }
+
+    const product = await updateProductById(id, {
+      name: data.name,
+      slug,
+      description: data.description,
+      priceInPaise: rupeesToPaise(data.price),
+      salePriceInPaise:
+        data.salePrice !== undefined ? rupeesToPaise(data.salePrice) : null,
+      stock: data.stock,
+      imageUrl: data.imageUrl ?? null,
+      categoryId: data.categoryId,
+      featured: data.featured,
+      active: data.active,
     });
 
     return NextResponse.json({ product });
   } catch (error) {
-    const code = prismaErrorCode(error);
-    if (code === "P2002") {
+    if (isDuplicateKeyError(error)) {
       return NextResponse.json(
         { error: "A product with this slug already exists." },
         { status: 409 }
-      );
-    }
-    if (code === "P2003") {
-      return NextResponse.json(
-        { error: "The selected category doesn't exist." },
-        { status: 400 }
       );
     }
     console.error(`Failed to update product ${id}:`, error);
@@ -104,13 +110,14 @@ export async function DELETE(
 
   const { id } = await params;
 
-  const existing = await prisma.product.findUnique({
-    where: { id },
-    select: {
-      id: true,
-      _count: { select: { orderItems: true } },
-    },
-  });
+  if (!isValidObjectId(id)) {
+    return NextResponse.json(
+      { error: "Product not found." },
+      { status: 404 }
+    );
+  }
+
+  const existing = await getProductById(id);
   if (!existing) {
     return NextResponse.json(
       { error: "Product not found." },
@@ -118,7 +125,8 @@ export async function DELETE(
     );
   }
 
-  if (existing._count.orderItems > 0) {
+  const orderItemsCount = await countOrderItemsForProduct(id);
+  if (orderItemsCount > 0) {
     return NextResponse.json(
       {
         error:
@@ -129,7 +137,7 @@ export async function DELETE(
   }
 
   try {
-    await prisma.product.delete({ where: { id } });
+    await deleteProductById(id);
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error(`Failed to delete product ${id}:`, error);

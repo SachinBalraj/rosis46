@@ -267,11 +267,11 @@ export function CheckoutForm() {
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-24 text-center sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-12 text-center sm:px-6 lg:px-8">
         <span className="flex h-20 w-20 items-center justify-center border border-line bg-white text-brand">
           <ShoppingCart aria-hidden="true" className="h-10 w-10" />
         </span>
-        <h1 className="display-heading mt-8 text-4xl text-foreground">
+        <h1 className="display-heading text-rainbow mt-8 text-4xl text-foreground">
           Your cart is empty
         </h1>
         <p className="mt-3 max-w-md text-smoke">
@@ -303,7 +303,7 @@ export function CheckoutForm() {
       </Link>
 
       <p className="eyebrow mt-6">Secure checkout</p>
-      <h1 className="display-heading mt-3 text-4xl text-foreground sm:text-5xl">
+      <h1 className="display-heading text-rainbow mt-3 text-4xl text-foreground sm:text-5xl">
         Checkout
       </h1>
       <p className="mt-2 text-sm text-smoke">

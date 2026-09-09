@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import {
+  ArrowRight,
   BadgeCheck,
   Clock,
   MapPin,
@@ -62,11 +63,11 @@ export default function AboutPage() {
         className="border-b border-line bg-white"
       >
         <div className="mx-auto grid w-full max-w-7xl items-stretch gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div className="flex flex-col justify-center gap-6 py-14 lg:py-24 lg:pr-16">
-            <p className="eyebrow">About Rossis Biker Spot</p>
+          <div className="flex flex-col justify-center gap-6 py-8 lg:py-12 lg:pr-16">
+            <p className="eyebrow rainbow-heading">About Rossis Biker Spot</p>
             <h1
               id="about-hero"
-              className="display-heading max-w-xl text-5xl text-foreground sm:text-6xl lg:text-7xl"
+              className="display-heading text-solid-black max-w-xl text-5xl sm:text-6xl lg:text-7xl"
             >
               Salem&apos;s local destination for riders
             </h1>
@@ -98,22 +99,21 @@ export default function AboutPage() {
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 ring-1 ring-brand/50 ring-inset"
             />
-            <span
-              aria-hidden="true"
-              className="absolute right-0 bottom-0 h-1.5 w-1/3 bg-brand"
-            />
           </figure>
         </div>
       </section>
 
       <section
         aria-labelledby="story-heading"
-        className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28"
+        className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10"
       >
-        <div className="grid items-start gap-12 lg:grid-cols-2">
+        <div className="grid items-start gap-8 lg:grid-cols-2">
           <SectionHeading
             eyebrow="Our story"
+            eyebrowClassName="rainbow-heading"
             title="Built for riders. Ready for every road."
+            rainbowTitle={false}
+            titleClassName="text-solid-black"
             description=""
           />
           <div className="flex flex-col gap-5 leading-relaxed text-smoke">
@@ -142,31 +142,53 @@ export default function AboutPage() {
 
       <section
         aria-labelledby="pillars-heading"
-        className="border-y border-line bg-carbon-soft py-20"
+        className="border-y border-line bg-carbon-soft py-8"
       >
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="What we stand for"
+            eyebrowClassName="rainbow-heading"
             title="Why riders trust us"
             align="center"
             description="Four promises we keep on every visit, every fitting and every install."
           />
-          <ul className="mt-12 grid grid-cols-1 gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
-            {pillars.map((pillar) => (
-              <li key={pillar.title} className="bg-white">
-                <div className="flex h-full flex-col p-7 transition-colors duration-300 hover:bg-night hover:text-white">
-                  <span className="flex h-12 w-12 items-center justify-center border border-line text-brand">
-                    <pillar.icon aria-hidden="true" className="h-6 w-6" />
-                  </span>
-                  <h3 className="mt-5 font-display text-lg font-semibold tracking-wide uppercase">
-                    {pillar.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-smoke">
-                    {pillar.description}
-                  </p>
-                </div>
-              </li>
-            ))}
+          <ul className="mt-6 grid grid-cols-1 gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
+            {pillars.map((pillar, index) => {
+              const isDark = index === 0 || index === 2;
+              return (
+                <li key={pillar.title} className={isDark ? "bg-black" : "bg-white"}>
+                  <div
+                    className={`flex h-full flex-col p-7 transition-colors duration-300 ${
+                      isDark ? "bg-black text-white hover:bg-charcoal" : "bg-white"
+                    }`}
+                  >
+                    <span
+                      className={`flex h-12 w-12 items-center justify-center border ${
+                        isDark
+                          ? "border-white/25 text-white"
+                          : "border-line text-brand"
+                      }`}
+                    >
+                      <pillar.icon aria-hidden="true" className="h-6 w-6" />
+                    </span>
+                    <h3
+                      className={`mt-5 font-display text-lg font-semibold tracking-wide uppercase ${
+                        isDark ? "text-white" : "text-foreground"
+                      }`}
+                    >
+                      {pillar.title}
+                    </h3>
+                    <p
+                      className={`mt-2 text-sm leading-relaxed ${
+                        isDark ? "text-white/70" : "text-smoke"
+                      }`}
+                    >
+                      {pillar.description}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </section>
@@ -174,16 +196,19 @@ export default function AboutPage() {
       <section
         aria-labelledby="installation-heading"
         id="installation"
-        className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28"
+        className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10"
       >
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="grid items-center gap-8 lg:grid-cols-2">
           <div>
             <SectionHeading
               eyebrow="On-site installation"
+              eyebrowClassName="rainbow-heading"
               title="Bring your bike. Leave upgraded."
+              rainbowTitle={false}
+              titleClassName="text-solid-black"
               description="We fit, wire and apply everything ourselves—so you ride out confident, not curious."
             />
-            <ul className="mt-8 flex flex-col gap-3">
+            <ul className="mt-6 flex flex-col gap-3">
               {installationServices.map((service) => (
                 <li
                   key={service}
@@ -199,8 +224,14 @@ export default function AboutPage() {
                 </li>
               ))}
             </ul>
-            <Button href="/contact" size="lg" variant="brand-outline" className="mt-8">
+            <Button
+              href="/contact"
+              size="lg"
+              variant="brand-outline"
+              className="h-12 w-[230px] gap-2 px-7 tracking-[1.2px] whitespace-nowrap no-underline bg-white border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white"
+            >
               Plan your visit
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Button>
           </div>
           <div className="relative overflow-hidden border border-line-dark bg-night p-10 text-white">
@@ -210,7 +241,7 @@ export default function AboutPage() {
             <p className="mt-2 pl-8 font-display text-lg font-semibold tracking-wide text-brand uppercase">
               Until 9:00 PM
             </p>
-            <ul className="mt-8 flex flex-col gap-4 text-sm leading-relaxed text-smoke">
+            <ul className="mt-6 flex flex-col gap-4 text-sm leading-relaxed text-smoke">
               <li className="flex items-start gap-3">
                 <MapPin aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
                 <span>
@@ -229,16 +260,17 @@ export default function AboutPage() {
 
       <section
         aria-labelledby="team-heading"
-        className="border-t border-line bg-carbon-soft py-20"
+        className="border-t border-line bg-carbon-soft py-8"
       >
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="The team"
+            eyebrowClassName="rainbow-heading"
             title="The people behind the spot"
             align="center"
             description="Riders and mechanics who'd rather be at the workbench than anywhere else."
           />
-          <ul className="mt-12 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-6 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {team.map((member) => (
               <li key={member.name} className="bg-white">
                 <div className="flex h-full flex-col p-6 transition-colors hover:bg-night hover:text-white">
@@ -266,11 +298,11 @@ export default function AboutPage() {
         className="border-t border-line-dark bg-night text-white"
       >
         <div className="bg-grid-dark relative overflow-hidden">
-          <div className="relative mx-auto w-full max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
+          <div className="relative mx-auto w-full max-w-7xl px-4 py-8 text-center sm:px-6 lg:px-8">
             <p className="eyebrow">Ready to gear up?</p>
             <h2
               id="about-cta"
-              className="display-heading mx-auto mt-5 max-w-3xl text-4xl text-white sm:text-5xl lg:text-6xl"
+              className="display-heading text-white mx-auto mt-5 max-w-3xl text-4xl sm:text-5xl lg:text-6xl"
             >
               Built for riders. Ready for every road.
             </h2>
@@ -278,16 +310,18 @@ export default function AboutPage() {
               Ride in today and leave with better gear—fitted, installed and
               ready for the road ahead.
             </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-[14px] max-[480px]:flex-col max-[480px]:items-start">
               <Button
                 href="/products"
-                className="flex h-14 items-center justify-center px-8 text-sm font-bold tracking-widest uppercase"
+                variant="ghost"
+                className="h-12 w-[210px] gap-2 border border-white bg-transparent px-5 tracking-[1px] whitespace-nowrap text-[13px] font-semibold text-white uppercase no-underline rounded-none hover:bg-white hover:text-black"
               >
                 Shop the collection
               </Button>
               <Button
                 href="/contact"
-                className="flex h-14 items-center justify-center border border-white bg-transparent px-8 text-sm font-bold tracking-widest text-white uppercase hover:bg-white hover:text-black"
+                variant="ghost"
+                className="h-12 w-[210px] gap-2 border border-white bg-transparent px-5 tracking-[1px] whitespace-nowrap text-[13px] font-semibold text-white uppercase no-underline rounded-none hover:bg-white hover:text-black"
               >
                 Visit our store
               </Button>

@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import {
+  getProductById,
+  toggleProductActive,
+  isValidObjectId,
+} from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-auth";
 
 export async function PATCH(
@@ -11,10 +15,14 @@ export async function PATCH(
 
   const { id } = await params;
 
-  const existing = await prisma.product.findUnique({
-    where: { id },
-    select: { id: true, active: true },
-  });
+  if (!isValidObjectId(id)) {
+    return NextResponse.json(
+      { error: "Product not found." },
+      { status: 404 }
+    );
+  }
+
+  const existing = await getProductById(id);
   if (!existing) {
     return NextResponse.json(
       { error: "Product not found." },
@@ -23,11 +31,7 @@ export async function PATCH(
   }
 
   try {
-    const product = await prisma.product.update({
-      where: { id },
-      data: { active: !existing.active },
-      select: { id: true, active: true },
-    });
+    const product = await toggleProductActive(id, !existing.active);
     return NextResponse.json({ product });
   } catch (error) {
     console.error(`Failed to toggle product ${id}:`, error);

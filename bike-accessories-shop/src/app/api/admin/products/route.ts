@@ -2,12 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
-import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/admin-auth";
 import {
-  adminProductSchema,
-  prismaErrorCode,
-} from "@/lib/admin-validation";
+  listAdminProducts,
+  createProduct,
+  categoryExists,
+  isDuplicateKeyError,
+} from "@/lib/db";
+import { requireAdmin } from "@/lib/admin-auth";
+import { adminProductSchema } from "@/lib/admin-validation";
 import { toSlug, rupeesToPaise } from "@/lib/utils";
 
 const IMAGE_MIME: Record<string, string> = {
@@ -15,20 +17,37 @@ const IMAGE_MIME: Record<string, string> = {
   "image/jpeg": ".jpg",
   "image/webp": ".webp",
   "image/gif": ".gif",
-  "image/svg+xml": ".svg",
 };
+
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+
+const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+
+function bufferMatchesImage(buffer: Buffer, mime: string): boolean {
+  if (mime === "image/png") {
+    return buffer.subarray(0, PNG_MAGIC.length).equals(PNG_MAGIC);
+  }
+  if (mime === "image/jpeg") {
+    return buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff;
+  }
+  if (mime === "image/webp") {
+    return (
+      buffer.subarray(0, 4).toString("ascii") === "RIFF" &&
+      buffer.subarray(8, 12).toString("ascii") === "WEBP"
+    );
+  }
+  if (mime === "image/gif") {
+    const head = buffer.subarray(0, 6).toString("ascii");
+    return head === "GIF87a" || head === "GIF89a";
+  }
+  return false;
+}
 
 export async function GET() {
   const auth = await requireAdmin();
   if (!auth.ok) return auth.response;
 
-  const products = await prisma.product.findMany({
-    include: {
-      category: { select: { id: true, name: true, slug: true } },
-      _count: { select: { orderItems: true } },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  const products = await listAdminProducts();
 
   return NextResponse.json({ products });
 }
@@ -64,11 +83,14 @@ export async function POST(request: NextRequest) {
       const extension = IMAGE_MIME[file.type];
       if (!extension) {
         return NextResponse.json(
-          {
-            error:
-              "Unsupported image type. Use PNG, JPEG, WebP, GIF or SVG.",
-          },
+          { error: "Unsupported image type. Use PNG, JPEG, WebP or GIF." },
           { status: 400 }
+        );
+      }
+      if (file.size > MAX_IMAGE_BYTES) {
+        return NextResponse.json(
+          { error: "Image must be 5 MB or smaller." },
+          { status: 413 }
         );
       }
 
@@ -77,6 +99,12 @@ export async function POST(request: NextRequest) {
         const dir = path.join(process.cwd(), "public", "images", "products");
         await mkdir(dir, { recursive: true });
         const buffer = Buffer.from(await file.arrayBuffer());
+        if (!bufferMatchesImage(buffer, file.type)) {
+          return NextResponse.json(
+            { error: "The uploaded file does not match its image type." },
+            { status: 400 }
+          );
+        }
         await writeFile(path.join(dir, filename), buffer);
         parsed.data.imageUrl = `/images/products/${filename}`;
       } catch {
@@ -114,36 +142,34 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const product = await prisma.product.create({
-      data: {
-        name: data.name,
-        slug,
-        description: data.description,
-        priceInPaise: rupeesToPaise(data.price),
-        salePriceInPaise:
-          data.salePrice !== undefined ? rupeesToPaise(data.salePrice) : null,
-        stock: data.stock,
-        imageUrl: data.imageUrl ?? null,
-        categoryId: data.categoryId,
-        featured: data.featured,
-        active: data.active,
-      },
-      include: { category: { select: { id: true, name: true, slug: true } } },
+    const category = await categoryExists(data.categoryId);
+    if (!category) {
+      return NextResponse.json(
+        { error: "The selected category doesn't exist." },
+        { status: 400 }
+      );
+    }
+
+    const product = await createProduct({
+      name: data.name,
+      slug,
+      description: data.description,
+      priceInPaise: rupeesToPaise(data.price),
+      salePriceInPaise:
+        data.salePrice !== undefined ? rupeesToPaise(data.salePrice) : null,
+      stock: data.stock,
+      imageUrl: data.imageUrl ?? null,
+      categoryId: data.categoryId,
+      featured: data.featured,
+      active: data.active,
     });
 
     return NextResponse.json({ product }, { status: 201 });
   } catch (error) {
-    const code = prismaErrorCode(error);
-    if (code === "P2002") {
+    if (isDuplicateKeyError(error)) {
       return NextResponse.json(
         { error: "A product with this slug already exists." },
         { status: 409 }
-      );
-    }
-    if (code === "P2003") {
-      return NextResponse.json(
-        { error: "The selected category doesn't exist." },
-        { status: 400 }
       );
     }
     console.error("Failed to create product:", error);

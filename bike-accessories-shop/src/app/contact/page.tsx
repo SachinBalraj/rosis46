@@ -19,11 +19,11 @@ export default function ContactPage() {
         className="border-b border-line bg-white"
       >
         <div className="mx-auto grid w-full max-w-7xl items-start gap-0 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div className="flex flex-col justify-start gap-6 pt-2 py-14 lg:py-24 lg:pr-16">
+          <div className="flex flex-col justify-start gap-6 pt-2 py-8 lg:py-12 lg:pr-16">
             <p className="eyebrow">Get in touch</p>
             <h1
               id="contact-hero"
-              className="display-heading max-w-xl text-5xl text-foreground sm:text-6xl"
+              className="display-heading text-solid-black max-w-xl text-5xl sm:text-6xl"
             >
               Ride in. We&apos;re here till 9 PM.
             </h1>
@@ -46,10 +46,6 @@ export default function ContactPage() {
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 ring-1 ring-brand/50 ring-inset"
             />
-            <span
-              aria-hidden="true"
-              className="absolute right-0 bottom-0 h-1.5 w-1/3 bg-brand"
-            />
           </figure>
         </div>
       </section>
@@ -58,7 +54,7 @@ export default function ContactPage() {
         aria-labelledby="store-heading"
         className="border-b border-line bg-white"
       >
-        <div className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-8 md:flex-row items-stretch">
             <div>
               <SectionHeading
@@ -136,16 +132,16 @@ export default function ContactPage() {
 
       <section
         aria-labelledby="contact-form-heading"
-        className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
       >
-        <div className="grid gap-12 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-2">
           <div>
             <SectionHeading
               eyebrow="Send a message"
               title="How can we help?"
               description="Fill in the form with your bike or product question and we'll get back to you."
             />
-            <div className="mt-8 border border-line bg-white p-6 sm:p-8">
+            <div className="mt-6 border border-line bg-white p-6 sm:p-8">
               <ContactForm />
             </div>
           </div>
@@ -225,7 +221,7 @@ export default function ContactPage() {
       <section
         aria-labelledby="faq-heading"
         id="faq"
-        className="border-t border-line bg-carbon-soft py-20"
+        className="border-t border-line bg-carbon-soft py-8"
       >
         <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
@@ -234,7 +230,7 @@ export default function ContactPage() {
             align="center"
             description="Quick answers to the questions riders ask us most. Can't find yours? Send us a message above."
           />
-          <div className="mt-10 flex flex-col gap-3">
+          <div className="mt-6 flex flex-col gap-3">
             {faqs.map((faq) => (
               <details
                 key={faq.question}

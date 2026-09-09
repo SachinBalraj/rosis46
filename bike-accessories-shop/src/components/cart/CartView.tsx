@@ -27,11 +27,11 @@ export function CartView() {
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-24 text-center sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-12 text-center sm:px-6 lg:px-8">
         <span className="flex h-20 w-20 items-center justify-center border border-line bg-white text-brand">
           <ShoppingCart aria-hidden="true" className="h-10 w-10" />
         </span>
-        <h1 className="display-heading mt-8 text-4xl text-foreground">
+        <h1 className="display-heading text-rainbow mt-8 text-4xl text-foreground">
           Your cart is empty
         </h1>
         <p className="mt-3 max-w-md text-smoke">
@@ -54,7 +54,7 @@ export function CartView() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="eyebrow">Your selection</p>
-          <h1 className="display-heading mt-3 text-4xl text-foreground sm:text-5xl">
+          <h1 className="display-heading text-rainbow mt-3 text-4xl text-foreground sm:text-5xl">
             Your cart
           </h1>
           <p className="mt-2 text-sm text-smoke">

@@ -3,8 +3,10 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { countNewContactMessages } from "@/lib/db";
 import { getAdminSession } from "@/lib/admin-auth";
 import { AdminSignOutButton } from "@/components/admin/AdminSignOutButton";
+import { AdminNav } from "@/components/admin/AdminNav";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +22,8 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     redirect("/admin/login");
   }
 
+  const unreadCount = await countNewContactMessages();
+
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -28,7 +32,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
             Admin console
           </p>
-          <h1 className="display-heading mt-4 text-4xl uppercase text-foreground">
+          <h1 className="display-heading text-rainbow mt-4 text-4xl uppercase text-foreground">
             Rossis Biker Spot admin
           </h1>
         </div>
@@ -43,6 +47,8 @@ export default async function AdminLayout({ children }: { children: ReactNode })
           <AdminSignOutButton />
         </div>
       </div>
+
+      <AdminNav unreadCount={unreadCount} />
 
       <div className="mt-8 min-w-0">{children}</div>
     </div>

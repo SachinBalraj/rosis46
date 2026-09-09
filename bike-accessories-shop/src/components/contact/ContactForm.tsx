@@ -43,11 +43,28 @@ export function ContactForm() {
   ].filter((value) => value && value.trim().length > 0).length;
   const formProgress = (filledFields / 4) * 100;
 
-  const onSubmit = (values: ContactFormValues) => {
-    toast.success(
-      `Thanks, ${values.name.split(" ")[0] || "rider"}! Your message has been received.`
-    );
-    reset();
+  const onSubmit = async (values: ContactFormValues) => {
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.error ?? "Could not send your message. Please try again.");
+      }
+      toast.success(
+        `Thanks, ${values.name.split(" ")[0] || "rider"}! Your message has been received.`
+      );
+      reset();
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Could not send your message. Please try again."
+      );
+    }
   };
 
   const fieldClass = (hasError: boolean) =>

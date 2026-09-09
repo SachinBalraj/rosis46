@@ -88,7 +88,7 @@ export function AddProductForm({ categories }: AddProductFormProps) {
 
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <h1 className="display-heading text-4xl text-foreground uppercase">
+      <h1 className="display-heading text-rainbow text-4xl text-foreground uppercase">
         Add product
       </h1>
       <p className="mt-2 text-sm text-smoke">

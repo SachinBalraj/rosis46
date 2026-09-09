@@ -1,12 +1,15 @@
 # RideReady — Bike Accessories Shop
 
 A Next.js 16 (App Router) e-commerce storefront for cycling gear with a
-PostgreSQL/Prisma backend and Razorpay Standard Checkout for payments.
+MongoDB Atlas backend (native `mongodb` driver) and Razorpay Standard
+Checkout for payments.
 
 ## Stack
 
 - **Next.js 16** (App Router, Turbopack), React 19, TypeScript, Tailwind CSS 4
-- **Prisma 7** + PostgreSQL (via `@prisma/adapter-pg` driver adapter)
+- **MongoDB Atlas** via the official **`mongodb` driver** (collections `User`,
+  `Category`, `Product`, `Order`, `OrderItem`, `PaymentEvent`,
+  `ContactMessage`)
 - **NextAuth.js (Auth.js) v4** credentials auth — email/password, bcrypt
 - **Zustand** cart with `localStorage` persistence
 - **React Hook Form + Zod** form validation
@@ -26,17 +29,14 @@ PostgreSQL/Prisma backend and Razorpay Standard Checkout for payments.
    cp .env.example .env
    ```
 
-3. Start PostgreSQL and set `DATABASE_URL` / `DIRECT_URL` in `.env` (a local
-   Postgres, or a free Supabase/Neon instance). For local development you can
-   use the bundled PGlite server — run it with `npm run db:server` (the
-   `-m 10` flag is required; the default of 1 connection causes Prisma
-   `P1017 ConnectionClosed` errors under concurrent requests).
+3. Create a **database in MongoDB Atlas** and add the connection string plus
+   database name to `.env` (or `.env.local` — it overrides `.env` in dev):
+   `MONGODB_URI`, `MONGODB_DB_NAME`.
 
-4. Apply the schema and seed the catalogue:
+4. Ensure the required indexes exist (idempotent — safe to re-run):
 
    ```bash
-   npm run db:migrate
-   npm run db:seed
+   npm run db:indexes
    ```
 
 5. Run the dev server:
@@ -47,11 +47,23 @@ PostgreSQL/Prisma backend and Razorpay Standard Checkout for payments.
 
    Open http://localhost:3000.
 
+> The application reuses the collection names and field shapes from the
+> original Prisma schema (e.g. `User`, `Product`, `Category`), so data seeded
+> under Prisma remains valid — no data migration was needed.
+
+## Database scripts
+
+| Script | Purpose |
+| --- | --- |
+| `npm run db:indexes` | Creates the unique/supporting indexes (idempotent). |
+| `npm run db:admin <email>` | Promotes the given user to `ADMIN`. |
+| `npm run db:align` | Deletes orders/payments/products and re-creates the storefront categories (destructive). |
+
 ## Accounts & authentication
 
 Accounts use NextAuth.js credentials with email + password. Passwords are
-hashed with **bcrypt** (12 rounds) and stored in the `User` table — they are
-never returned by any API or written to the session.
+hashed with **bcrypt** and stored in the `User` collection — they are never
+returned by any API or written to the session.
 
 ### Environment
 
@@ -120,7 +132,9 @@ appropriate.
    `salePriceInPaise ?? priceInPaise`) and **stock** are re-read server-side.
    Browser prices and totals are never trusted.
 3. The order and its `OrderItem`s are created with `PENDING` payment status,
-   and stock is reserved (decremented) in the same DB transaction.
+   and stock is reserved atomically (a conditional decrement that only applies
+   when enough stock is available). If Razorpay order creation then fails, the
+   reservation is rolled back.
 4. A Razorpay order is created in **paise** (INR) using the SDK. The API
    returns only the Razorpay order ID, the public key ID, and safe checkout
    data — never the key secret.
@@ -133,8 +147,8 @@ appropriate.
    still `PENDING`). The customer lands on `/order-success/[orderId]`.
 7. `POST /api/payments/webhook` verifies `x-razorpay-signature` against the
    raw request body. Webhook handling is idempotent: every payment is recorded
-   once in the `PaymentEvent` table (`providerEventId` is unique), so duplicate
-   or replayed webhooks are no-ops.
+   once in the `PaymentEvent` collection (`providerEventId` is unique), so
+   duplicate or replayed webhooks are no-ops.
 
 If a payment is cancelled or fails, the customer is taken to
 `/payment-failed` with a clear reason, and the Pay button is disabled while a
@@ -157,11 +171,9 @@ real money is moved.
    The webhook secret can be any string locally; it just has to match the one
    you configure for webhooks.
 
-2. **Seed the database** (checkout only accepts products that exist in the DB):
-
-   ```bash
-   npm run db:seed
-   ```
+2. **Ensure products exist** (checkout only accepts products that exist in the
+   DB). Add products via `/admin`, or reset the catalogue to the storefront
+   categories with `npm run db:align` (destructive) and add products after.
 
 3. **Start the app:**
 
@@ -208,12 +220,14 @@ real money is moved.
 - `RAZORPAY_KEY_SECRET` and `RAZORPAY_WEBHOOK_SECRET` are read only in
   server-only modules (`src/lib/payments.ts`, which imports `server-only`) and
   never exposed to the client. Only the public key ID is sent to the browser.
+- `MONGODB_URI` is read only in `src/lib/mongodb.ts` and the database scripts —
+  it is never exposed to the client.
 - Prices, totals and stock are always recomputed from the database; the client
   only sends product IDs and quantities.
-- Stock is reserved transactionally at order creation to prevent overselling.
-  If order creation or the Razorpay call fails, the reservation is rolled back.
-- Order state transitions to `PAID` are guarded with `WHERE paymentStatus =
-  'PENDING'`, so a payment can only be recorded once.
+- Stock is reserved atomically at order creation to prevent overselling. If
+  order creation or the Razorpay call fails, the reservation is rolled back.
+- Order state transitions to `PAID` are guarded (only `PENDING` orders can be
+  marked paid), so a payment can only be recorded once.
 
 ### Production notes
 

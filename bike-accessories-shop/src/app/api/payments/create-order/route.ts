@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { prisma } from "@/lib/prisma";
+import {
+  listProductsByIds,
+  findRecentDuplicateOrder,
+  reserveStock,
+  restoreStock,
+  createOrderAndItems,
+  deleteOrderWithItems,
+  setOrderRazorpayOrderId,
+} from "@/lib/db";
 import { authOptions } from "@/auth";
 import { createOrderRequestSchema } from "@/lib/validation";
+import { getClientIp, rateLimit } from "@/lib/rate-limit";
 import {
   createRazorpayOrder,
   getRazorpayKeyId,
@@ -10,20 +19,31 @@ import {
 
 const FREE_SHIPPING_THRESHOLD_PAISE = 99900;
 const SHIPPING_FEE_PAISE = 7900;
+const DUPLICATE_WINDOW_MS = 15 * 60 * 1000;
 
 function shippingInPaise(subtotalInPaise: number) {
   return subtotalInPaise >= FREE_SHIPPING_THRESHOLD_PAISE ? 0 : SHIPPING_FEE_PAISE;
 }
 
-class InsufficientStockError extends Error {
-  constructor(productId: string) {
-    super(`Insufficient stock for product ${productId}`);
-  }
+function cartSignature(items: { id: string; quantity: number }[]): string {
+  return [...items]
+    .map((line) => `${line.id}:${line.quantity}`)
+    .sort()
+    .join("|");
 }
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ?? null;
+
+  const limited = rateLimit({
+    key: `create-order:${getClientIp(request)}`,
+    limit: 20,
+    windowMs: 10 * 60 * 1000,
+  });
+  if (!limited.ok) {
+    return NextResponse.json({ error: limited.message }, { status: 429 });
+  }
 
   let parsed;
   try {
@@ -45,9 +65,9 @@ export async function POST(request: NextRequest) {
   const { customer, items } = parsed.data;
 
   const productIds = [...new Set(items.map((line) => line.id))];
-  const products = await prisma.product.findMany({
-    where: { id: { in: productIds }, active: true },
-  });
+  const products = (await listProductsByIds(productIds)).filter(
+    (product) => product.active
+  );
   const productById = new Map(products.map((product) => [product.id, product]));
 
   for (const line of items) {
@@ -81,52 +101,78 @@ export async function POST(request: NextRequest) {
   const shippingInPaiseValue = shippingInPaise(subtotalInPaise);
   const totalInPaise = subtotalInPaise + shippingInPaiseValue;
 
-  let order;
-  try {
-    order = await prisma.$transaction(async (tx) => {
-      for (const line of lines) {
-        const updated = await tx.product.updateMany({
-          where: {
-            id: line.product.id,
-            active: true,
-            stock: { gte: line.quantity },
-          },
-          data: { stock: { decrement: line.quantity } },
-        });
-        if (updated.count !== 1) {
-          throw new InsufficientStockError(line.product.id);
-        }
-      }
+  const requestedSignature = cartSignature(items);
 
-      return tx.order.create({
-        data: {
-          userId,
-          customerName: customer.fullName,
-          customerEmail: customer.email,
-          customerPhone: customer.phone,
-          customerAddress: `${customer.address}, ${customer.city}, ${customer.state} ${customer.postalCode}`,
-          subtotalInPaise,
-          shippingInPaise: shippingInPaiseValue,
-          totalInPaise,
-          status: "PENDING",
-          paymentStatus: "PENDING",
-          items: {
-            create: lines.map((line) => ({
-              productId: line.product.id,
-              quantity: line.quantity,
-              unitPriceInPaise: line.unitPriceInPaise,
-            })),
-          },
-        },
-      });
+  const duplicateOrder = await findRecentDuplicateOrder(
+    customer.email,
+    new Date(Date.now() - DUPLICATE_WINDOW_MS)
+  );
+
+  if (
+    duplicateOrder &&
+    duplicateOrder.razorpayOrderId &&
+    cartSignature(
+      duplicateOrder.items.map((item) => ({
+        id: item.productId,
+        quantity: item.quantity,
+      }))
+    ) === requestedSignature
+  ) {
+    return NextResponse.json({
+      orderId: duplicateOrder.id,
+      razorpayOrderId: duplicateOrder.razorpayOrderId,
+      keyId: getRazorpayKeyId(),
+      amount: duplicateOrder.totalInPaise,
+      currency: "INR",
+      customer: {
+        name: customer.fullName,
+        email: customer.email,
+        contact: customer.phone,
+      },
     });
-  } catch (error) {
-    if (error instanceof InsufficientStockError) {
+  }
+
+  let orderId: string;
+  const stockLines = lines.map((line) => ({
+    productId: line.product.id,
+    quantity: line.quantity,
+  }));
+  try {
+    const reservation = await reserveStock(
+      lines.map((line) => ({
+        productId: line.product.id,
+        quantity: line.quantity,
+        unitPriceInPaise: line.unitPriceInPaise,
+      }))
+    );
+    if (!reservation.ok) {
       return NextResponse.json(
         { error: "Not enough stock available for one of your items." },
         { status: 409 }
       );
     }
+
+    try {
+      orderId = await createOrderAndItems({
+        userId,
+        customerName: customer.fullName,
+        customerEmail: customer.email,
+        customerPhone: customer.phone,
+        customerAddress: `${customer.address}, ${customer.city}, ${customer.state} ${customer.postalCode}`,
+        subtotalInPaise,
+        shippingInPaise: shippingInPaiseValue,
+        totalInPaise,
+        items: lines.map((line) => ({
+          productId: line.product.id,
+          quantity: line.quantity,
+          unitPriceInPaise: line.unitPriceInPaise,
+        })),
+      });
+    } catch (error) {
+      await restoreStock(stockLines);
+      throw error;
+    }
+  } catch (error) {
     console.error("Failed to create order:", error);
     return NextResponse.json(
       { error: "Failed to create order" },
@@ -138,21 +184,14 @@ export async function POST(request: NextRequest) {
   try {
     razorpayOrder = await createRazorpayOrder({
       amountInPaise: totalInPaise,
-      receipt: order.id,
-      notes: { orderId: order.id, customerEmail: customer.email },
+      receipt: orderId,
+      notes: { orderId, customerEmail: customer.email },
     });
   } catch (error) {
     console.error("Failed to create Razorpay order:", error);
     try {
-      await prisma.$transaction([
-        ...lines.map((line) =>
-          prisma.product.update({
-            where: { id: line.product.id },
-            data: { stock: { increment: line.quantity } },
-          })
-        ),
-        prisma.order.delete({ where: { id: order.id } }),
-      ]);
+      await restoreStock(stockLines);
+      await deleteOrderWithItems(orderId);
     } catch (cleanupError) {
       console.error("Failed to roll back reserved stock:", cleanupError);
     }
@@ -163,16 +202,13 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    await prisma.order.update({
-      where: { id: order.id },
-      data: { razorpayOrderId: razorpayOrder.id },
-    });
+    await setOrderRazorpayOrderId(orderId, razorpayOrder.id);
   } catch (error) {
     console.error("Failed to persist razorpay order id:", error);
   }
 
   return NextResponse.json({
-    orderId: order.id,
+    orderId,
     razorpayOrderId: razorpayOrder.id,
     keyId: getRazorpayKeyId(),
     amount: Number(razorpayOrder.amount),

@@ -100,7 +100,7 @@ export function AccountDashboard({
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="eyebrow">History</p>
-            <h2 className="display-heading mt-3 text-3xl text-foreground sm:text-4xl">
+            <h2 className="display-heading text-rainbow mt-3 text-3xl text-foreground sm:text-4xl">
               Order history
             </h2>
             <p className="mt-1 text-sm text-smoke">

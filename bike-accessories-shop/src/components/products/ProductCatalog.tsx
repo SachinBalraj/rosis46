@@ -242,7 +242,7 @@ export function ProductCatalog({
             <span className="flex h-16 w-16 items-center justify-center border border-line bg-white text-brand">
               <PackageSearch aria-hidden="true" className="h-8 w-8" />
             </span>
-            <h2 className="mt-6 font-display text-xl font-bold tracking-wide text-foreground uppercase">
+            <h2 className="text-rainbow mt-6 font-display text-xl font-bold tracking-wide text-foreground uppercase">
               No products available yet
             </h2>
             <p className="mt-2 max-w-sm text-sm text-smoke">

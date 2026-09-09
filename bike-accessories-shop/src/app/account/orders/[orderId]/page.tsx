@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { prisma } from "@/lib/prisma";
+import { getOrderWithItems } from "@/lib/db";
 import { formatPaise } from "@/lib/utils";
 import {
   OrderStatusBadge,
@@ -39,16 +39,7 @@ export default async function OrderDetailPage({
     redirect("/account");
   }
 
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: {
-      items: {
-        include: {
-          product: { select: { name: true } },
-        },
-      },
-    },
-  });
+  const order = await getOrderWithItems(orderId);
 
   const isAdmin = session.user.role === "ADMIN";
   if (!order || (order.userId !== session.user.id && !isAdmin)) {
@@ -56,7 +47,7 @@ export default async function OrderDetailPage({
   }
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <Link
         href={isAdmin ? "/admin" : "/account"}
         className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
@@ -68,7 +59,7 @@ export default async function OrderDetailPage({
       <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="eyebrow">Order record</p>
-          <h1 className="display-heading mt-4 text-4xl text-foreground sm:text-5xl">
+          <h1 className="display-heading text-rainbow mt-4 text-4xl text-foreground sm:text-5xl">
             Order details
           </h1>
           <p className="mt-3 flex items-center gap-2 text-sm text-smoke">

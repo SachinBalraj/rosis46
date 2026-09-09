@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import {
+  findPaymentEvent,
+  insertPaymentEvent,
+  findOrderByRazorpayOrderId,
+  markOrderPaid,
+  setPaymentEventStatus,
+} from "@/lib/db";
+import { getClientIp, rateLimit } from "@/lib/rate-limit";
 import { verifyWebhookSignature } from "@/lib/payments";
 
 export const runtime = "nodejs";
@@ -12,6 +19,7 @@ type RazorpayWebhookPayload = {
         id?: string;
         order_id?: string;
         amount?: number;
+        currency?: string;
         status?: string;
         captured?: boolean;
       };
@@ -22,6 +30,15 @@ type RazorpayWebhookPayload = {
 export async function POST(request: NextRequest) {
   const rawBody = await request.text();
   const signature = request.headers.get("x-razorpay-signature");
+
+  const limited = rateLimit({
+    key: `webhook:${getClientIp(request)}`,
+    limit: 120,
+    windowMs: 60 * 1000,
+  });
+  if (!limited.ok) {
+    return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
+  }
 
   if (!signature || !verifyWebhookSignature(rawBody, signature)) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
@@ -41,58 +58,44 @@ export async function POST(request: NextRequest) {
 
   const paymentId = payment.id;
 
-  const existing = await prisma.paymentEvent.findUnique({
-    where: { providerEventId: paymentId },
-  });
-  if (existing) {
+  const existing = await findPaymentEvent(paymentId);
+  if (existing?.status === "PROCESSED") {
     return NextResponse.json({ ok: true, idempotent: true });
   }
 
   const order =
     typeof payment.order_id === "string" && payment.order_id !== ""
-      ? await prisma.order.findUnique({
-          where: { razorpayOrderId: payment.order_id },
-          select: { id: true, totalInPaise: true, paymentStatus: true },
-        })
+      ? await findOrderByRazorpayOrderId(payment.order_id)
       : null;
 
   try {
-    await prisma.$transaction(async (tx) => {
-      await tx.paymentEvent.create({
-        data: {
-          providerEventId: paymentId,
-          provider: "razorpay",
-          orderId: order?.id ?? null,
-          status: "RECEIVED",
-          payload,
-        },
+    if (!existing) {
+      const inserted = await insertPaymentEvent({
+        providerEventId: paymentId,
+        orderId: order?.id ?? null,
+        payload,
       });
-
-      const isCaptured =
-        payload.event === "payment.captured" && payment.status === "captured";
-
-      if (isCaptured && order) {
-        if (payment.amount === order.totalInPaise) {
-          await tx.order.updateMany({
-            where: { id: order.id, paymentStatus: "PENDING" },
-            data: {
-              paymentStatus: "PAID",
-              status: "CONFIRMED",
-              razorpayPaymentId: paymentId,
-            },
-          });
-        } else {
-          console.error(
-            `Webhook amount mismatch for order ${order.id}: expected ${order.totalInPaise}, got ${payment.amount}`
-          );
-        }
+      if (inserted === "duplicate") {
+        return NextResponse.json({ ok: true, idempotent: true });
       }
+    }
 
-      await tx.paymentEvent.update({
-        where: { providerEventId: paymentId },
-        data: { status: "PROCESSED" },
-      });
-    });
+    const isCaptured =
+      payload.event === "payment.captured" &&
+      payment.status === "captured" &&
+      payment.currency === "INR";
+
+    if (isCaptured && order) {
+      if (payment.amount === order.totalInPaise) {
+        await markOrderPaid(order.id, paymentId);
+      } else {
+        console.error(
+          `Webhook amount mismatch for order ${order.id}: expected ${order.totalInPaise}, got ${payment.amount}`
+        );
+      }
+    }
+
+    await setPaymentEventStatus(paymentId, "PROCESSED");
   } catch (error) {
     console.error("Failed to process Razorpay webhook:", error);
   }

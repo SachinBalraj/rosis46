@@ -52,3 +52,37 @@ export const verifyPaymentRequestSchema = z.object({
 });
 
 export type VerifyPaymentRequest = z.infer<typeof verifyPaymentRequestSchema>;
+
+const emptyStringToUndefined = (value: unknown) =>
+  value === "" || value === null || value === undefined ? undefined : value;
+
+export const contactMessageSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Please enter your name")
+    .max(100, "Keep your name under 100 characters"),
+  email: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .email("Please enter a valid email address")
+    .max(254, "Enter a shorter email address"),
+  contactNumber: z
+    .preprocess(
+      emptyStringToUndefined,
+      z
+        .string()
+        .trim()
+        .regex(/^\+?[0-9\s-]{7,20}$/, "Enter a valid contact number")
+        .optional()
+    )
+    .optional(),
+  message: z
+    .string()
+    .trim()
+    .min(5, "Your message should be at least 5 characters")
+    .max(2000, "Keep your message under 2000 characters"),
+});
+
+export type ContactMessageInput = z.infer<typeof contactMessageSchema>;

@@ -42,12 +42,12 @@ export default async function PaymentFailedPage({
   const copy = content[reason as keyof typeof content] ?? content.declined;
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-20 text-center sm:px-6 lg:px-8">
+    <main className="mx-auto w-full max-w-2xl px-4 py-8 text-center sm:px-6 lg:px-8">
       <span className="mx-auto flex h-20 w-20 items-center justify-center bg-rose-500/10 text-rose-500">
         <Ban aria-hidden="true" className="h-10 w-10" />
       </span>
       <p className="eyebrow mt-8">Rossis Biker Spot</p>
-      <h1 className="display-heading mt-4 text-4xl text-foreground sm:text-5xl">
+      <h1 className="display-heading text-rainbow mt-4 text-4xl text-foreground sm:text-5xl">
         {copy.title}
       </h1>
       <p className="mt-4 text-smoke">{copy.message}</p>

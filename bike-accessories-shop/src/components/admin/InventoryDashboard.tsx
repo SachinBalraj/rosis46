@@ -47,7 +47,7 @@ export function InventoryDashboard({ categories }: InventoryDashboardProps) {
 
   return (
     <div>
-      <h1 className="display-heading text-4xl text-foreground uppercase">
+      <h1 className="display-heading text-rainbow text-4xl text-foreground uppercase">
         Inventory dashboard
       </h1>
       <p className="mt-2 text-sm text-smoke">
