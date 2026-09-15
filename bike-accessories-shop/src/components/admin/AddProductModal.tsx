@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagePlus, Loader2, PackagePlus, X } from "lucide-react";
@@ -64,6 +64,26 @@ export function AddProductModal({
       active: true,
     },
   });
+
+  useEffect(() => {
+    reset({
+      name: "",
+      description: "",
+      price: undefined,
+      stock: 0,
+      imageUrl: "",
+      categoryId: initialCategoryId,
+      featured: false,
+      active: true,
+    });
+  }, [open, initialCategoryId, reset]);
+
+  useEffect(() => {
+    if (!open) {
+      setSelectedFile(null);
+      setImagePreview("");
+    }
+  }, [open]);
 
   if (!open) return null;
 

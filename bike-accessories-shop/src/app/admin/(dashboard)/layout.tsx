@@ -32,9 +32,6 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
             Admin console
           </p>
-          <h1 className="display-heading text-rainbow mt-4 text-4xl uppercase text-foreground">
-            Rossis Biker Spot admin
-          </h1>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <Link

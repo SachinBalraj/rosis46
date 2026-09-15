@@ -273,23 +273,24 @@ export default async function Home() {
                 </li>
               ))}
             </ul>
-            <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-4">
+            <div className="mt-2 flex w-full flex-col gap-4 sm:flex-row sm:items-center">
               <Button
                 href="/contact"
                 size="lg"
                 variant="brand-outline"
-                className="h-12 w-[230px] gap-2 px-7 tracking-[1.2px] whitespace-nowrap no-underline bg-white border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white"
+                className="flex h-14 w-full items-center justify-between gap-3 px-6 tracking-[1.2px] whitespace-nowrap no-underline bg-white border border-[#ff0000] text-[#ff0000] transition-colors duration-200 hover:bg-[#ff0000] hover:text-white sm:h-16 sm:w-[260px] sm:shrink-0"
               >
                 Plan your visit
-                <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0" />
               </Button>
               <Button
                 href="/products"
                 size="lg"
                 variant="brand-outline"
-                className="h-12 w-[230px] gap-2 px-7 tracking-[1.2px] whitespace-nowrap no-underline bg-white border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white"
+                className="flex h-14 w-full items-center justify-between gap-3 px-6 tracking-[1.2px] whitespace-nowrap no-underline bg-white border border-[#ff0000] text-[#ff0000] transition-colors duration-200 hover:bg-[#ff0000] hover:text-white sm:h-16 sm:w-[260px] sm:shrink-0"
               >
                 Shop the gear
+                <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0" />
               </Button>
             </div>
           </div>
