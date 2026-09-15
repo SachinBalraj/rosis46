@@ -60,6 +60,7 @@ function mapProduct(
       doc.categoryId instanceof ObjectId
         ? doc.categoryId.toHexString()
         : String(doc.categoryId),
+    subCategory: (doc.subCategory as string | null) ?? null,
     featured: Boolean(doc.featured),
     active: Boolean(doc.active),
     createdAt: (doc.createdAt as Date) ?? now(),
@@ -201,6 +202,7 @@ export function toCatalogProduct(
     name: product.name,
     category: categorySlug as Product["category"],
     categoryLabel: categoryName,
+    subCategory: product.subCategory ?? null,
     price,
     mrp,
     rating: null,
@@ -208,6 +210,7 @@ export function toCatalogProduct(
     description: product.description,
     accent: visual.accent,
     icon: visual.icon,
+    imageUrl: product.imageUrl ?? null,
     featured: product.featured,
     badge: hasSale ? "Sale" : undefined,
   };
@@ -442,6 +445,7 @@ export async function createProduct(data: {
   stock: number;
   imageUrl: string | null;
   categoryId: string;
+  subCategory?: string | null;
   featured: boolean;
   active: boolean;
 }) {
@@ -456,6 +460,7 @@ export async function createProduct(data: {
     stock: data.stock,
     imageUrl: data.imageUrl,
     categoryId: toObjectId(data.categoryId),
+    subCategory: data.subCategory ?? null,
     featured: data.featured,
     active: data.active,
     createdAt: timestamp,
@@ -490,6 +495,7 @@ export async function updateProductById(
     stock: number;
     imageUrl: string | null;
     categoryId: string;
+    subCategory?: string | null;
     featured: boolean;
     active: boolean;
   }
@@ -497,24 +503,25 @@ export async function updateProductById(
   const objectId = toObjectId(id);
   if (!objectId) return null;
   const db = await getDb();
-  await db.collection(COLLECTIONS.products).updateOne(
-    { _id: objectId },
-    {
-      $set: {
-        name: data.name,
-        slug: data.slug,
-        description: data.description,
-        priceInPaise: data.priceInPaise,
-        salePriceInPaise: data.salePriceInPaise,
-        stock: data.stock,
-        imageUrl: data.imageUrl,
-        categoryId: toObjectId(data.categoryId),
-        featured: data.featured,
-        active: data.active,
-        updatedAt: now(),
-      },
-    }
-  );
+  const set: Record<string, unknown> = {
+    name: data.name,
+    slug: data.slug,
+    description: data.description,
+    priceInPaise: data.priceInPaise,
+    salePriceInPaise: data.salePriceInPaise,
+    stock: data.stock,
+    imageUrl: data.imageUrl,
+    categoryId: toObjectId(data.categoryId),
+    featured: data.featured,
+    active: data.active,
+    updatedAt: now(),
+  };
+  if (data.subCategory !== undefined) {
+    set.subCategory = data.subCategory;
+  }
+  await db
+    .collection(COLLECTIONS.products)
+    .updateOne({ _id: objectId }, { $set: set });
   const doc = await db.collection(COLLECTIONS.products).findOne({ _id: objectId });
   if (!doc) return null;
   return attachCategoryEmbed(mapProduct(doc));

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { put } from "@vercel/blob";
 import { randomUUID } from "crypto";
 import {
   listAdminProducts,
@@ -72,6 +71,7 @@ export async function POST(request: NextRequest) {
       salePrice: formData.get("salePrice") ?? undefined,
       stock: formData.get("stock") ?? undefined,
       categoryId: formData.get("categoryId") ?? undefined,
+      subCategory: formData.get("subCategory") ?? undefined,
       featured: formData.get("featured") ?? undefined,
       active: formData.get("active") ?? undefined,
       imageUrl: imageUrl ?? undefined,
@@ -94,22 +94,24 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      try {
-        const filename = `${randomUUID()}${extension}`;
-        const dir = path.join(process.cwd(), "public", "images", "products");
-        await mkdir(dir, { recursive: true });
-        const buffer = Buffer.from(await file.arrayBuffer());
-        if (!bufferMatchesImage(buffer, file.type)) {
-          return NextResponse.json(
-            { error: "The uploaded file does not match its image type." },
-            { status: 400 }
-          );
-        }
-        await writeFile(path.join(dir, filename), buffer);
-        parsed.data.imageUrl = `/images/products/${filename}`;
-      } catch {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      if (!bufferMatchesImage(buffer, file.type)) {
         return NextResponse.json(
-          { error: "Could not save the uploaded image. Please try again." },
+          { error: "The uploaded file does not match its image type." },
+          { status: 400 }
+        );
+      }
+
+      try {
+        const blob = await put(`${randomUUID()}${extension}`, buffer, {
+          access: "public",
+          contentType: file.type,
+        });
+        parsed.data.imageUrl = blob.url;
+      } catch (error) {
+        console.error("Failed to upload product image to Blob storage:", error);
+        return NextResponse.json(
+          { error: "Failed to upload the product image. Please try again." },
           { status: 500 }
         );
       }
@@ -160,6 +162,7 @@ export async function POST(request: NextRequest) {
       stock: data.stock,
       imageUrl: data.imageUrl ?? null,
       categoryId: data.categoryId,
+      subCategory: data.subCategory,
       featured: data.featured,
       active: data.active,
     });

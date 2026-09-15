@@ -123,6 +123,7 @@ export type Product = {
   name: string;
   category: CategorySlug;
   categoryLabel: string;
+  subCategory?: string | null;
   price: number;
   mrp: number;
   rating: number | null;
@@ -131,6 +132,7 @@ export type Product = {
   description: string;
   accent: string;
   icon: string;
+  imageUrl?: string | null;
   featured?: boolean;
   installation?: boolean;
 };

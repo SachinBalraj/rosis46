@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { del } from "@vercel/blob";
 import {
   updateProductById,
   getProductById,
@@ -81,6 +82,7 @@ export async function PATCH(
       stock: data.stock,
       imageUrl: data.imageUrl ?? null,
       categoryId: data.categoryId,
+      subCategory: data.subCategory,
       featured: data.featured,
       active: data.active,
     });
@@ -137,6 +139,14 @@ export async function DELETE(
   }
 
   try {
+    if (
+      existing.imageUrl &&
+      existing.imageUrl.includes("public.blob.vercel-storage.com")
+    ) {
+      await del(existing.imageUrl).catch((error) => {
+        console.error("Failed to delete product image from Blob storage:", error);
+      });
+    }
     await deleteProductById(id);
     return NextResponse.json({ ok: true });
   } catch (error) {

@@ -57,6 +57,16 @@ export const adminProductSchema = z
       )
       .optional(),
     categoryId: z.string().min(1, "Choose a category"),
+    subCategory: z
+      .preprocess(
+        emptyToUndefined,
+        z
+          .string()
+          .trim()
+          .max(80, "Keep the sub-category under 80 characters")
+          .optional()
+      )
+      .optional(),
     featured: z
       .union([z.boolean(), z.string()])
       .transform((value) => value === true || value === "true")

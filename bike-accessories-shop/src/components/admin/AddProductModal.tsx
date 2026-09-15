@@ -91,6 +91,7 @@ export function AddProductModal({
       formData.set("salePrice", values.salePrice ? String(values.salePrice) : "");
       formData.set("stock", String(values.stock));
       formData.set("categoryId", values.categoryId);
+      formData.set("subCategory", subCategory);
       formData.set("featured", String(values.featured));
       formData.set("active", String(values.active));
       formData.set("imageUrl", values.imageUrl ?? "");
@@ -101,13 +102,19 @@ export function AddProductModal({
         body: formData,
       });
 
-      const data = (await response.json()) as { error?: string };
+      const data = (await response.json()) as {
+        error?: string;
+        warning?: string;
+      };
 
       if (!response.ok) {
         toast.error(data.error ?? "Could not add the product. Please try again.");
         return;
       }
 
+      if (data.warning) {
+        toast.warning(data.warning);
+      }
       toast.success(`Product added to ${subCategory}.`);
       clearImage();
       reset();

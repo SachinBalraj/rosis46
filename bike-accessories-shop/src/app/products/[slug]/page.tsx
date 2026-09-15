@@ -24,6 +24,7 @@ type ProductView = {
   badge: string | null;
   icon: string;
   accent: string;
+  imageUrl: string | null;
   installation?: boolean;
 };
 
@@ -46,6 +47,7 @@ function fromDatabase(product: NonNullable<Awaited<ReturnType<typeof getProductB
     badge: hasSale ? "Sale" : product.featured ? "Featured" : null,
     icon: visual.icon,
     accent: visual.accent,
+    imageUrl: product.imageUrl,
     installation: false,
   };
 }
@@ -67,6 +69,7 @@ function toCatalogShape(view: ProductView): Product {
     description: view.description,
     accent: view.accent,
     icon: view.icon,
+    imageUrl: view.imageUrl,
     featured: false,
   };
 }
@@ -201,13 +204,22 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 {product.badge}
               </span>
             ) : null}
-            <div className="flex h-44 w-44 items-center justify-center border border-line bg-white/70 text-brand backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-              <Icon
-                aria-hidden="true"
-                className="h-24 w-24 text-brand"
-                strokeWidth={1.5}
+            {product.imageUrl ? (
+              <img
+                src={product.imageUrl}
+                alt={`${product.name} product image`}
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-contain"
               />
-            </div>
+            ) : (
+              <div className="flex h-44 w-44 items-center justify-center border border-line bg-white/70 text-brand backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+                <Icon
+                  aria-hidden="true"
+                  className="h-24 w-24 text-brand"
+                  strokeWidth={1.5}
+                />
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-6">

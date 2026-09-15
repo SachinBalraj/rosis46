@@ -14,6 +14,7 @@ export type DbProduct = {
   stock: number;
   imageUrl: string | null;
   categoryId: string;
+  subCategory: string | null;
   featured: boolean;
   active: boolean;
   createdAt: Date;

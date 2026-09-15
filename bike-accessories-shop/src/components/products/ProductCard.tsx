@@ -60,13 +60,23 @@ export function ProductCard({ product }: { product: Product }) {
               {discount}% off
             </span>
           ) : null}
-          <div className="flex h-24 w-24 items-center justify-center border border-line bg-white/70 text-brand backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-            <Icon
-              aria-hidden="true"
-              className="h-12 w-12 text-brand"
-              strokeWidth={1.5}
+          {product.imageUrl ? (
+            <img
+              src={product.imageUrl}
+              alt={`${product.name} product image`}
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
-          </div>
+          ) : (
+            <div className="flex h-24 w-24 items-center justify-center border border-line bg-white/70 text-brand backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+              <Icon
+                aria-hidden="true"
+                className="h-12 w-12 text-brand"
+                strokeWidth={1.5}
+              />
+            </div>
+          )}
         </div>
       </Link>
 

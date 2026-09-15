@@ -73,8 +73,13 @@ export function ProductCatalog({
         product.description.toLowerCase().includes(search);
       const matchesSubCategory =
         activeSubCategory === "ALL" ||
+        (product.subCategory != null &&
+          product.subCategory.toLowerCase() ===
+            activeSubCategory.toLowerCase()) ||
         product.name.toLowerCase().includes(activeSubCategory.toLowerCase()) ||
-        product.description.toLowerCase().includes(activeSubCategory.toLowerCase());
+        product.description
+          .toLowerCase()
+          .includes(activeSubCategory.toLowerCase());
       return matchesCategory && matchesQuery && matchesSubCategory;
     });
 
