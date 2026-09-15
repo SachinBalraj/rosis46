@@ -3,66 +3,69 @@
 import { useEffect, useRef } from "react";
 import { Motorbike } from "lucide-react";
 
-const BIKE_HEIGHT = 24;
-const MOVE_FACTOR = 0.25;
+const BIKE_SIZE = 24;
+const EDGE_PADDING = 12;
 
 export function BikeScrollbar() {
-  const bikeRef = useRef<SVGSVGElement>(null);
+  const bikeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let bikeY = 0;
-    let ticking = false;
+    let currentY = 0;
+    let targetY = 0;
+    let rafId = 0;
 
-    const applyTransform = () => {
-      const currentScrollY = window.scrollY;
-      const delta = currentScrollY - lastScrollY;
+    const getMaxTravel = () =>
+      Math.max(0, window.innerHeight - BIKE_SIZE - EDGE_PADDING);
 
-      bikeY += delta * MOVE_FACTOR;
+    const updateTarget = () => {
+      const doc = document.documentElement;
+      const scrollable = doc.scrollHeight - window.innerHeight;
+      const progress =
+        scrollable > 0
+          ? Math.min(1, Math.max(0, window.scrollY / scrollable))
+          : 0;
+      targetY = progress * getMaxTravel();
+    };
 
-      const minY = 0;
-      const maxY = Math.max(0, window.innerHeight - BIKE_HEIGHT);
-      bikeY = Math.max(minY, Math.min(maxY, bikeY));
-
+    const tick = () => {
+      currentY += (targetY - currentY) * 0.18;
+      if (Math.abs(targetY - currentY) < 0.5) {
+        currentY = targetY;
+      }
       if (bikeRef.current) {
-        bikeRef.current.style.transform = `translate3d(0, ${bikeY}px, 0)`;
+        bikeRef.current.style.transform = `translate3d(0, ${currentY}px, 0)`;
       }
-
-      lastScrollY = currentScrollY;
-      ticking = false;
+      rafId = window.requestAnimationFrame(tick);
     };
 
-    const scheduleTransform = () => {
-      if (!ticking) {
-        ticking = true;
-        window.requestAnimationFrame(applyTransform);
-      }
-    };
+    const onScroll = () => updateTarget();
+    const onResize = () => updateTarget();
 
-    const onResize = () => {
-      lastScrollY = window.scrollY;
-      bikeY = Math.max(0, Math.min(bikeY, window.innerHeight - BIKE_HEIGHT));
-      if (bikeRef.current) {
-        bikeRef.current.style.transform = `translate3d(0, ${bikeY}px, 0)`;
-      }
-    };
+    updateTarget();
+    rafId = window.requestAnimationFrame(tick);
 
-    scheduleTransform();
-    window.addEventListener("scroll", scheduleTransform, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
+
     return () => {
-      window.removeEventListener("scroll", scheduleTransform);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      window.cancelAnimationFrame(rafId);
     };
   }, []);
 
   return (
     <div className="pointer-events-none fixed top-0 right-0 z-[100] h-screen w-8">
-      <Motorbike
+      <div
         ref={bikeRef}
-        aria-hidden="true"
-        className="absolute right-0 h-6 w-6 rotate-90 text-brand transition-transform duration-75"
-      />
+        className="absolute top-0 right-0 h-6 w-6"
+        style={{ willChange: "transform" }}
+      >
+        <Motorbike
+          aria-hidden="true"
+          className="h-6 w-6 rotate-90 text-brand"
+        />
+      </div>
     </div>
   );
 }
