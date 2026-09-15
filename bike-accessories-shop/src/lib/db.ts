@@ -1116,4 +1116,22 @@ export function isDuplicateKeyError(error: unknown): boolean {
   );
 }
 
+export async function isImageReferencedElsewhere(
+  imageUrl: string,
+  excludeProductId?: string
+): Promise<boolean> {
+  const objectId = excludeProductId ? toObjectId(excludeProductId) : null;
+  const db = await getDb();
+  const filter: Record<string, unknown> = { imageUrl };
+  if (objectId) {
+    filter._id = { $ne: objectId };
+  }
+  const count = await db.collection(COLLECTIONS.products).countDocuments(filter);
+  return count > 0;
+}
+
+export function isBlobImageUrl(imageUrl: string): boolean {
+  return imageUrl.includes("public.blob.vercel-storage.com");
+}
+
 export { toObjectId };

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { randomUUID } from "crypto";
+import { revalidatePath } from "next/cache";
 import {
   listAdminProducts,
   createProduct,
@@ -166,6 +167,9 @@ export async function POST(request: NextRequest) {
       featured: data.featured,
       active: data.active,
     });
+
+    revalidatePath("/");
+    revalidatePath("/products");
 
     return NextResponse.json({ product }, { status: 201 });
   } catch (error) {

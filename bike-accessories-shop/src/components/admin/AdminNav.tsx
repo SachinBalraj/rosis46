@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Inbox } from "lucide-react";
+import { LayoutGrid, Package, Inbox } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function AdminNav({ unreadCount }: { unreadCount: number }) {
@@ -10,6 +10,7 @@ export function AdminNav({ unreadCount }: { unreadCount: number }) {
 
   const links = [
     { href: "/admin", label: "Inventory", icon: LayoutGrid },
+    { href: "/admin/products", label: "Products", icon: Package },
     { href: "/admin/contact-messages", label: "Contact messages", icon: Inbox },
   ];
 
@@ -19,7 +20,8 @@ export function AdminNav({ unreadCount }: { unreadCount: number }) {
       className="mt-6 flex flex-wrap items-center gap-2 border-b border-line pb-3"
     >
       {links.map(({ href, label, icon: Icon }) => {
-        const active = pathname === href;
+        const active =
+          href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
         return (
           <Link
             key={href}
