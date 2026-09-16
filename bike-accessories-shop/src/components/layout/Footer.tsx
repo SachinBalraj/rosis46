@@ -9,8 +9,8 @@ export function Footer() {
   return (
     <footer className="border-t border-line-dark bg-night text-white">
       <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
-          <div className="col-span-2 lg:col-span-2">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
+          <div className="col-span-2">
             <Link
               href="/"
               className="flex items-center gap-2.5 font-display text-sm font-bold tracking-widest whitespace-nowrap uppercase sm:text-base lg:text-lg"
@@ -110,6 +110,34 @@ export function Footer() {
               On-site installation available — bring your bike in and leave
               upgraded.
             </p>
+          </nav>
+
+          <nav aria-label="Policies" className="col-span-2 lg:col-span-1">
+            <h3 className="font-display text-sm font-semibold tracking-widest uppercase">
+              Policies
+            </h3>
+            <ul className="mt-3 flex flex-col gap-2">
+              <li>
+                <Link href="/shipping-policy" className="link-underline text-[13px] leading-snug text-[#D6C5B3] transition-colors hover:text-white">
+                  Shipping Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/return-refund-policy" className="link-underline text-[13px] leading-snug text-[#D6C5B3] transition-colors hover:text-white">
+                  Return &amp; Refund Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy-policy" className="link-underline text-[13px] leading-snug text-[#D6C5B3] transition-colors hover:text-white">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms-and-conditions" className="link-underline text-[13px] leading-snug text-[#D6C5B3] transition-colors hover:text-white">
+                  Terms &amp; Conditions
+                </Link>
+              </li>
+            </ul>
           </nav>
         </div>
 
