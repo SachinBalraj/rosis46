@@ -12,13 +12,6 @@ type HamburgerDrawerProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/products", label: "Products" },
-  { href: "/contact", label: "Contact" },
-];
-
 export function HamburgerDrawer({
   open,
   onOpenChange,
@@ -98,22 +91,6 @@ export function HamburgerDrawer({
         </div>
 
         <div className="flex-1 overflow-x-hidden overflow-y-auto overscroll-contain">
-          <nav aria-label="Menu links">
-            <ul>
-              {navLinks.map((link) => (
-                <li key={link.href} className="border-b border-line/60">
-                  <Link
-                    href={link.href}
-                    onClick={close}
-                    className="flex items-center px-4 py-3 text-sm font-bold tracking-wider text-[#1f2933] uppercase transition-colors hover:text-brand"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
           <div className="border-b border-line/60 px-4 pt-4 pb-2">
             <p className="text-xs font-semibold tracking-[0.25em] text-smoke uppercase">
               Shop by category

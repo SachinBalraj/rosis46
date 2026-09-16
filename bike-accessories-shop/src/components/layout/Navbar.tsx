@@ -8,6 +8,13 @@ import { MobileMenu } from "./MobileMenu";
 import { HamburgerDrawer } from "./HamburgerDrawer";
 import { useState } from "react";
 
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/products", label: "Products" },
+  { href: "/contact", label: "Contact" },
+];
+
 export function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const itemCount = useCart((state) =>
@@ -51,6 +58,21 @@ export function Navbar() {
           </Link>
         </div>
       </div>
+
+      <nav
+        aria-label="Main navigation"
+        className="flex w-full flex-wrap items-center justify-center gap-x-7 gap-y-1 border-t border-line/60 bg-white px-4 py-2.5"
+      >
+        {navLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="text-sm font-bold tracking-wider text-[#1f2933] uppercase whitespace-nowrap transition-colors duration-300 hover:text-brand"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
 
       <HamburgerDrawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen} />
     </header>
