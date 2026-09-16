@@ -254,7 +254,7 @@ export default async function Home() {
             <p className="eyebrow rainbow-heading">On-site installation</p>
             <h2
               id="installation-heading"
-              className="display-heading text-solid-black max-w-xl text-4xl sm:text-5xl lg:text-6xl"
+              className="display-heading text-[#8a8a8a] max-w-xl text-4xl sm:text-5xl lg:text-6xl"
             >
               Bring your bike. Leave upgraded.
             </h2>
