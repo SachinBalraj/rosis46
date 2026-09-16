@@ -351,15 +351,17 @@ export function CheckoutForm({ directItem }: CheckoutFormProps) {
       noValidate
       className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8"
     >
-      <Link
-        href={direct ? `/products/${direct.slug}` : "/cart"}
-        className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
-      >
-        <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-        {direct ? "Back to product" : "Back to cart"}
-      </Link>
+      <div className="mt-6 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-6">
+        <Link
+          href={direct ? `/products/${direct.slug}` : "/cart"}
+          className="inline-flex items-center gap-2 whitespace-nowrap text-sm font-medium text-brand transition-colors hover:text-brand-deep"
+        >
+          <ArrowLeft aria-hidden="true" className="h-4 w-4 shrink-0" />
+          {direct ? "Back to product" : "Back to cart"}
+        </Link>
 
-      <p className="eyebrow mt-6">Secure checkout</p>
+        <p className="eyebrow whitespace-nowrap">Secure checkout</p>
+      </div>
       <h1 className="display-heading text-rainbow mt-3 text-4xl text-foreground sm:text-5xl">
         Checkout
       </h1>
