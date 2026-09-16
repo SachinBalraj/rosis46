@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { ChevronDown, ChevronRight, X } from "lucide-react";
 import { parentCategories } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
@@ -23,6 +24,12 @@ export function HamburgerDrawer({
   onOpenChange,
 }: HamburgerDrawerProps) {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const frameId = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(frameId);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -38,6 +45,10 @@ export function HamburgerDrawer({
     };
   }, [open, onOpenChange]);
 
+  if (!mounted || typeof document === "undefined") {
+    return null;
+  }
+
   const close = () => onOpenChange(false);
 
   const toggle = (label: string) => {
@@ -50,13 +61,13 @@ export function HamburgerDrawer({
   const subCategoryUrl = (label: string, sub: string) =>
     `/products?category=${encodeURIComponent(label)}&subcategory=${encodeURIComponent(sub)}`;
 
-  return (
+  return createPortal(
     <>
       <div
         aria-hidden={!open}
         onClick={close}
         className={cn(
-          "fixed inset-0 z-[60] bg-black/40 transition-opacity duration-300",
+          "fixed top-0 right-0 bottom-0 left-0 z-[60] h-full min-h-screen w-full bg-black/40 transition-opacity duration-300",
           open ? "opacity-100" : "pointer-events-none opacity-0"
         )}
       />
@@ -68,7 +79,7 @@ export function HamburgerDrawer({
         aria-label="Menu"
         aria-hidden={!open}
         className={cn(
-          "fixed inset-y-0 left-0 z-[60] flex h-full w-[85vw] max-w-xs flex-col overflow-hidden bg-white shadow-2xl transition-transform duration-300 ease-out",
+          "fixed top-0 bottom-0 left-0 z-[70] flex h-[100dvh] w-[min(360px,90vw)] max-w-[90vw] flex-col overflow-hidden bg-white shadow-2xl transition-transform duration-300 ease-out",
           open ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -86,7 +97,7 @@ export function HamburgerDrawer({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto overscroll-contain">
+        <div className="flex-1 overflow-x-hidden overflow-y-auto overscroll-contain">
           <nav aria-label="Menu links">
             <ul>
               {navLinks.map((link) => (
@@ -174,6 +185,7 @@ export function HamburgerDrawer({
           </ul>
         </div>
       </aside>
-    </>
+    </>,
+    document.body
   );
 }
