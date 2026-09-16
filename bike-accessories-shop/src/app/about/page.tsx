@@ -228,10 +228,13 @@ export default function AboutPage() {
               href="/contact"
               size="lg"
               variant="brand-outline"
-              className="h-12 w-[230px] gap-2 px-7 tracking-[1.2px] whitespace-nowrap no-underline bg-white border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white"
+              className="group flex h-12 w-full min-w-0 items-center justify-between gap-3 px-5 text-[13px] font-semibold tracking-[1px] whitespace-nowrap no-underline bg-white border border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white sm:w-[240px] sm:shrink-0"
             >
-              Plan your visit
-              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              <span className="shrink-0">Plan your visit</span>
+              <ArrowRight
+                aria-hidden="true"
+                className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5"
+              />
             </Button>
           </div>
           <div className="relative overflow-hidden border border-line-dark bg-night p-10 text-white">

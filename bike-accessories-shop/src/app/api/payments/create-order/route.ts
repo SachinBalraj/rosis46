@@ -68,7 +68,11 @@ export async function POST(request: NextRequest) {
   const products = (await listProductsByIds(productIds)).filter(
     (product) => product.active
   );
-  const productById = new Map(products.map((product) => [product.id, product]));
+  const productById = new Map<string, (typeof products)[number]>();
+  for (const product of products) {
+    productById.set(product.id, product);
+    productById.set(product.slug, product);
+  }
 
   for (const line of items) {
     const product = productById.get(line.id);
@@ -153,12 +157,31 @@ export async function POST(request: NextRequest) {
     }
 
     try {
+      const delivery = {
+        addressLine1: customer.address,
+        addressLine2: customer.addressLine2,
+        landmark: customer.landmark,
+        city: customer.city,
+        district: customer.district,
+        state: customer.state,
+        postalCode: customer.postalCode,
+      };
+      const customerAddress = [
+        customer.address,
+        customer.addressLine2,
+        customer.landmark ? `Near ${customer.landmark}` : null,
+        `${customer.city}${customer.district ? `, ${customer.district}` : ""}, ${customer.state} ${customer.postalCode}`,
+      ]
+        .filter((part): part is string => Boolean(part))
+        .join(", ");
+
       orderId = await createOrderAndItems({
         userId,
         customerName: customer.fullName,
         customerEmail: customer.email,
         customerPhone: customer.phone,
-        customerAddress: `${customer.address}, ${customer.city}, ${customer.state} ${customer.postalCode}`,
+        customerAddress,
+        delivery,
         subtotalInPaise,
         shippingInPaise: shippingInPaiseValue,
         totalInPaise,

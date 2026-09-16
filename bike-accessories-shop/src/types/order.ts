@@ -23,6 +23,14 @@ export type DbOrder = {
   customerEmail: string;
   customerPhone: string;
   customerAddress: string;
+  paymentMethod?: string | null;
+  customerAddressLine1?: string | null;
+  customerAddressLine2?: string | null;
+  customerLandmark?: string | null;
+  customerDistrict?: string | null;
+  customerCity?: string | null;
+  customerState?: string | null;
+  customerPostalCode?: string | null;
   subtotalInPaise: number;
   shippingInPaise: number;
   totalInPaise: number;
@@ -33,6 +41,21 @@ export type DbOrder = {
   createdAt: Date;
   updatedAt: Date;
   items?: OrderItemRef[];
+};
+
+export type AdminOrderItemRow = {
+  id: string;
+  productId: string;
+  name: string;
+  imageUrl: string | null;
+  categoryName: string | null;
+  quantity: number;
+  unitPriceInPaise: number;
+};
+
+export type AdminOrderRow = DbOrder & {
+  itemCount: number;
+  items: AdminOrderItemRow[];
 };
 
 export type NewOrderItem = {

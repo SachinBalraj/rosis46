@@ -15,12 +15,27 @@ export const checkoutSchema = z.object({
   email: z.string().trim().email("Enter a valid email address"),
   phone: indianPhoneSchema,
   address: z.string().trim().min(10, "Enter your complete street address"),
+  addressLine2: z
+    .string()
+    .trim()
+    .max(160, "Keep the address line under 160 characters")
+    .optional(),
+  landmark: z
+    .string()
+    .trim()
+    .max(120, "Keep the landmark under 120 characters")
+    .optional(),
   city: z.string().trim().min(2, "Enter your city"),
+  district: z
+    .string()
+    .trim()
+    .max(80, "Keep the district under 80 characters")
+    .optional(),
   state: z.string().trim().min(2, "Enter your state"),
   postalCode: z
     .string()
     .trim()
-    .regex(/^[1-9]\d{5}$/, "Enter a valid 6-digit PIN code"),
+    .regex(/^[1-9]\d{6}$|^[1-9]\d{5}$/, "Enter a valid 6-digit PIN code"),
   orderNotes: z
     .string()
     .trim()

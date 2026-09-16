@@ -22,6 +22,7 @@ import { iconMap } from "@/lib/icons";
 import { checkoutSchema } from "@/lib/validation";
 import { storePhones } from "@/lib/data";
 import { useCart } from "@/store/cart";
+import type { CheckoutDirectItem } from "@/types/checkout";
 import { AnimatedFormWrapper } from "@/components/ui/AnimatedFormWrapper";
 
 type CheckoutFormValues = z.output<typeof checkoutSchema>;
@@ -79,9 +80,51 @@ const inputClass = (hasError: boolean) =>
 const labelClass =
   "mb-2 block text-xs font-semibold tracking-widest text-foreground uppercase";
 
-export function CheckoutForm() {
+type CheckoutFormProps = {
+  directItem?: CheckoutDirectItem | null;
+};
+
+type SummaryLine = {
+  id: string;
+  name: string;
+  quantity: number;
+  unitPriceRupees: number;
+  imageUrl: string | null;
+  icon: string;
+  accent: string;
+  category?: string | null;
+};
+
+export function CheckoutForm({ directItem }: CheckoutFormProps) {
   const router = useRouter();
   const { items, clearCart } = useCart();
+  const direct = directItem ?? null;
+
+  const summaryLines: SummaryLine[] = direct
+    ? [
+        {
+          id: direct.id,
+          name: direct.name,
+          quantity: direct.quantity,
+          unitPriceRupees: Math.round(direct.unitPriceInPaise / 100),
+          imageUrl: direct.imageUrl,
+          icon: direct.icon,
+          accent: direct.accent,
+          category: direct.subCategory
+            ? `${direct.categoryName} · ${direct.subCategory}`
+            : direct.categoryName,
+        },
+      ]
+    : items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        unitPriceRupees: item.price,
+        imageUrl: null,
+        icon: item.icon,
+        accent: item.accent,
+        category: item.category,
+      }));
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("idle");
   const [createdOrder, setCreatedOrder] = useState<{
     order: CreatedOrder;
@@ -100,7 +143,10 @@ export function CheckoutForm() {
       email: "",
       phone: "",
       address: "",
+      addressLine2: "",
+      landmark: "",
       city: "",
+      district: "",
       state: "",
       postalCode: "",
       orderNotes: "",
@@ -111,7 +157,10 @@ export function CheckoutForm() {
   const watchedEmail = useWatch({ control, name: "email" });
   const watchedPhone = useWatch({ control, name: "phone" });
   const watchedAddress = useWatch({ control, name: "address" });
+  const watchedAddressLine2 = useWatch({ control, name: "addressLine2" });
+  const watchedLandmark = useWatch({ control, name: "landmark" });
   const watchedCity = useWatch({ control, name: "city" });
+  const watchedDistrict = useWatch({ control, name: "district" });
   const watchedState = useWatch({ control, name: "state" });
   const watchedPostalCode = useWatch({ control, name: "postalCode" });
   const filledFields = [
@@ -119,15 +168,21 @@ export function CheckoutForm() {
     watchedEmail,
     watchedPhone,
     watchedAddress,
+    watchedAddressLine2,
+    watchedLandmark,
     watchedCity,
+    watchedDistrict,
     watchedState,
     watchedPostalCode,
   ].filter((value) => value && value.trim().length > 0).length;
-  const formProgress = (filledFields / 7) * 100;
+  const formProgress = (filledFields / 10) * 100;
 
-  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotal = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+  const itemCount = summaryLines.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+  const subtotal = summaryLines.reduce(
+    (sum, item) => sum + item.unitPriceRupees * item.quantity,
     0
   );
   const shipping = subtotal >= 999 ? 0 : 79;
@@ -191,7 +246,9 @@ export function CheckoutForm() {
 
       if (verifyResponse.ok && data.verified) {
         toast.success("Payment successful. Your order is confirmed.");
-        clearCart();
+        if (!direct) {
+          clearCart();
+        }
         router.push(
           `/order-success/${data.orderId ?? createdOrder?.order.orderId ?? ""}`
         );
@@ -210,7 +267,7 @@ export function CheckoutForm() {
       return;
     }
 
-    const currentItemsKey = cartItemsKey(items);
+    const currentItemsKey = cartItemsKey(summaryLines);
 
     let created =
       createdOrder?.itemsKey === currentItemsKey ? createdOrder.order : null;
@@ -223,7 +280,7 @@ export function CheckoutForm() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             customer: values,
-            items: items.map((item) => ({
+            items: summaryLines.map((item) => ({
               id: item.id,
               quantity: item.quantity,
             })),
@@ -265,7 +322,7 @@ export function CheckoutForm() {
     openCheckout(created, values);
   };
 
-  if (items.length === 0) {
+  if (!direct && summaryLines.length === 0) {
     return (
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-12 text-center sm:px-6 lg:px-8">
         <span className="flex h-20 w-20 items-center justify-center border border-line bg-white text-brand">
@@ -295,11 +352,11 @@ export function CheckoutForm() {
       className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8"
     >
       <Link
-        href="/cart"
+        href={direct ? `/products/${direct.slug}` : "/cart"}
         className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-deep"
       >
         <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-        Back to cart
+        {direct ? "Back to product" : "Back to cart"}
       </Link>
 
       <p className="eyebrow mt-6">Secure checkout</p>
@@ -399,6 +456,49 @@ export function CheckoutForm() {
               ) : null}
             </div>
 
+            <div className="sm:col-span-2">
+              <label htmlFor="checkout-address-line2" className={labelClass}>
+                Address line 2{" "}
+                <span className="font-normal text-smoke">(optional)</span>
+              </label>
+              <input
+                id="checkout-address-line2"
+                type="text"
+                autoComplete="address-line2"
+                placeholder="Apartment, suite, unit, building"
+                className={inputClass(false)}
+                {...register("addressLine2")}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="checkout-landmark" className={labelClass}>
+                Landmark{" "}
+                <span className="font-normal text-smoke">(optional)</span>
+              </label>
+              <input
+                id="checkout-landmark"
+                type="text"
+                placeholder="Opposite the petrol bunk"
+                className={inputClass(false)}
+                {...register("landmark")}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="checkout-district" className={labelClass}>
+                District{" "}
+                <span className="font-normal text-smoke">(optional)</span>
+              </label>
+              <input
+                id="checkout-district"
+                type="text"
+                placeholder="Salem"
+                className={inputClass(false)}
+                {...register("district")}
+              />
+            </div>
+
             <div>
               <label htmlFor="checkout-city" className={labelClass}>
                 City
@@ -492,28 +592,37 @@ export function CheckoutForm() {
               Order summary
             </h2>
             <ul className="mt-4 flex flex-col gap-3">
-              {items.map((item) => {
+              {summaryLines.map((item) => {
                 const Icon = iconMap[item.icon] ?? ShoppingCart;
                 return (
                   <li key={item.id} className="flex items-center gap-3">
-                    <span
-                      className={cn(
-                        "flex h-12 w-12 shrink-0 items-center justify-center border border-line-dark bg-white/5 bg-gradient-to-br",
-                        item.accent
-                      )}
-                    >
-                      <Icon aria-hidden="true" className="h-5 w-5 text-brand" />
-                    </span>
+                    {item.imageUrl ? (
+                      <img
+                        src={item.imageUrl}
+                        alt={`${item.name} product image`}
+                        decoding="async"
+                        className="h-12 w-12 shrink-0 border border-line-dark bg-white/5 object-contain"
+                      />
+                    ) : (
+                      <span
+                        className={cn(
+                          "flex h-12 w-12 shrink-0 items-center justify-center border border-line-dark bg-white/5 bg-gradient-to-br",
+                          item.accent
+                        )}
+                      >
+                        <Icon aria-hidden="true" className="h-5 w-5 text-brand" />
+                      </span>
+                    )}
                     <div className="flex flex-1 flex-col">
                       <p className="text-sm font-semibold text-white">
                         {item.name}
                       </p>
                       <p className="text-xs text-smoke">
-                        {item.quantity} × {formatPrice(item.price)}
+                        {item.quantity} × {formatPrice(item.unitPriceRupees)}
                       </p>
                     </div>
                     <p className="text-sm font-bold text-white">
-                      {formatPrice(item.price * item.quantity)}
+                      {formatPrice(item.unitPriceRupees * item.quantity)}
                     </p>
                   </li>
                 );

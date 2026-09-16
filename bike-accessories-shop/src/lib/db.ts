@@ -1,7 +1,7 @@
 import "server-only";
 
 import { ObjectId } from "mongodb";
-import clientPromise from "@/lib/mongodb";
+import { getMongoClient } from "@/lib/mongodb";
 import { getCategoryVisual } from "@/lib/category-visuals";
 import type { Product } from "@/lib/data";
 import type { DbCategory } from "@/types/category";
@@ -16,6 +16,7 @@ import type {
   NewOrderItem,
   OrderItemRef,
   OrderStatus,
+  AdminOrderRow,
 } from "@/types/order";
 import type { DbPaymentEvent, PaymentEventStatus } from "@/types/payment";
 import type {
@@ -93,6 +94,14 @@ function mapOrder(doc: Record<string, unknown>): DbOrder {
     customerEmail: doc.customerEmail as string,
     customerPhone: doc.customerPhone as string,
     customerAddress: doc.customerAddress as string,
+    paymentMethod: (doc.paymentMethod as string | null) ?? null,
+    customerAddressLine1: (doc.customerAddressLine1 as string | null) ?? null,
+    customerAddressLine2: (doc.customerAddressLine2 as string | null) ?? null,
+    customerLandmark: (doc.customerLandmark as string | null) ?? null,
+    customerDistrict: (doc.customerDistrict as string | null) ?? null,
+    customerCity: (doc.customerCity as string | null) ?? null,
+    customerState: (doc.customerState as string | null) ?? null,
+    customerPostalCode: (doc.customerPostalCode as string | null) ?? null,
     subtotalInPaise: doc.subtotalInPaise as number,
     shippingInPaise: doc.shippingInPaise as number,
     totalInPaise: doc.totalInPaise as number,
@@ -149,7 +158,7 @@ async function attachCategoryEmbed<T extends { categoryId: string }>(
 }
 
 export async function getDb() {
-  const client = await clientPromise;
+  const client = await getMongoClient();
   const dbName = process.env.MONGODB_DB_NAME;
   if (!dbName) {
     throw new Error("MONGODB_DB_NAME is not configured");
@@ -816,6 +825,127 @@ export async function listOrdersForUser(userId: string) {
   });
 }
 
+export async function listOrdersForAdmin(options: {
+  search?: string;
+  status?: string;
+  limit?: number;
+} = {}) {
+  const db = await getDb();
+  const filter: Record<string, unknown> = {};
+
+  if (options.status && options.status !== "ALL") {
+    filter.status = options.status;
+  }
+
+  const search = options.search?.trim();
+  if (search) {
+    const escaped = escapeRegex(search);
+    filter.$or = [
+      { customerName: { $regex: escaped, $options: "i" } },
+      { customerEmail: { $regex: escaped, $options: "i" } },
+      { customerPhone: { $regex: escaped, $options: "i" } },
+      {
+        $expr: {
+          $regexMatch: {
+            input: { $toString: "$_id" },
+            regex: escaped,
+            options: "i",
+          },
+        },
+      },
+    ];
+  }
+
+  const limit = options.limit ?? 150;
+  const docs = await db
+    .collection(COLLECTIONS.orders)
+    .find(filter)
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .toArray();
+
+  if (docs.length === 0) return [] as AdminOrderRow[];
+
+  const orderIds = docs.map((doc) => doc._id as ObjectId);
+  const orderItems = await db
+    .collection(COLLECTIONS.orderItems)
+    .find({ orderId: { $in: orderIds } })
+    .toArray();
+
+  const productIds = [
+    ...new Set(
+      orderItems
+        .map((item) =>
+          item.productId instanceof ObjectId
+            ? item.productId.toHexString()
+            : null
+        )
+        .filter((id): id is string => id !== null)
+    ),
+  ];
+  const products =
+    productIds.length > 0
+      ? await db
+          .collection(COLLECTIONS.products)
+          .find(
+            { _id: { $in: productIds.map((id) => new ObjectId(id)) } },
+            { projection: { name: 1, imageUrl: 1, categoryId: 1 } }
+          )
+          .toArray()
+      : [];
+  const productById = new Map(products.map((p) => [String(p._id), p]));
+
+  const categoryIds = [
+    ...new Set(
+      products
+        .map((product) =>
+          product.categoryId instanceof ObjectId
+            ? product.categoryId.toHexString()
+            : null
+        )
+        .filter((id): id is string => id !== null)
+    ),
+  ];
+  const categories =
+    categoryIds.length > 0
+      ? await db
+          .collection(COLLECTIONS.categories)
+          .find(
+            { _id: { $in: categoryIds.map((id) => new ObjectId(id)) } },
+            { projection: { name: 1 } }
+          )
+          .toArray()
+      : [];
+  const categoryById = new Map(
+    categories.map((category) => [String(category._id), category.name])
+  );
+
+  return docs.map((doc) => {
+    const order = mapOrder(doc) as unknown as AdminOrderRow;
+    const items = orderItems
+      .filter((item) => String(item.orderId) === order.id)
+      .sort((a, b) => String(a._id).localeCompare(String(b._id)))
+      .map((item) => {
+        const mapped = mapOrderItem(item);
+        const product = productById.get(mapped.productId);
+        return {
+          id: mapped.id,
+          productId: mapped.productId,
+          name: product ? ((product.name as string) ?? "") : "",
+          imageUrl: product ? ((product.imageUrl as string | null) ?? null) : null,
+          categoryName: product
+            ? (categoryById.get(String(product.categoryId)) ?? null)
+            : null,
+          quantity: mapped.quantity,
+          unitPriceInPaise: mapped.unitPriceInPaise,
+        };
+      });
+    order.items = items;
+    order.itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+    return order;
+  });
+}
+
 export async function findRecentDuplicateOrder(
   customerEmail: string,
   since: Date
@@ -855,6 +985,15 @@ export async function createOrderAndItems(data: {
   customerEmail: string;
   customerPhone: string;
   customerAddress: string;
+  delivery?: {
+    addressLine1: string;
+    addressLine2?: string;
+    landmark?: string;
+    city: string;
+    district?: string;
+    state: string;
+    postalCode: string;
+  };
   subtotalInPaise: number;
   shippingInPaise: number;
   totalInPaise: number;
@@ -862,12 +1001,21 @@ export async function createOrderAndItems(data: {
 }) {
   const db = await getDb();
   const timestamp = now();
+  const delivery = data.delivery;
   const orderResult = await db.collection(COLLECTIONS.orders).insertOne({
     userId: data.userId ? toObjectId(data.userId) : null,
     customerName: data.customerName,
     customerEmail: data.customerEmail,
     customerPhone: data.customerPhone,
-    customerAddress: data.customerAddress,
+    customerAddress: delivery?.addressLine1 || data.customerAddress,
+    paymentMethod: "RAZORPAY",
+    customerAddressLine1: delivery?.addressLine1 ?? null,
+    customerAddressLine2: delivery?.addressLine2 ?? null,
+    customerLandmark: delivery?.landmark ?? null,
+    customerDistrict: delivery?.district ?? null,
+    customerCity: delivery?.city ?? null,
+    customerState: delivery?.state ?? null,
+    customerPostalCode: delivery?.postalCode ?? null,
     subtotalInPaise: data.subtotalInPaise,
     shippingInPaise: data.shippingInPaise,
     totalInPaise: data.totalInPaise,
@@ -917,14 +1065,27 @@ export async function setOrderRazorpayOrderId(
 /* ---------- Stock (inventory) ---------- */
 
 export async function listProductsByIds(ids: string[]) {
-  const objectIds = ids
-    .map((id) => toObjectId(id))
-    .filter((id): id is ObjectId => id !== null);
-  if (objectIds.length === 0) return [] as DbProduct[];
+  const objectIds: ObjectId[] = [];
+  const slugs: string[] = [];
+  for (const id of ids) {
+    const objectId = toObjectId(id);
+    if (objectId) {
+      objectIds.push(objectId);
+    } else {
+      slugs.push(id);
+    }
+  }
+  if (objectIds.length === 0 && slugs.length === 0) return [] as DbProduct[];
   const db = await getDb();
+  const filter: Record<string, unknown> =
+    objectIds.length > 0 && slugs.length > 0
+      ? { $or: [{ _id: { $in: objectIds } }, { slug: { $in: slugs } }] }
+      : objectIds.length > 0
+        ? { _id: { $in: objectIds } }
+        : { slug: { $in: slugs } };
   const docs = await db
     .collection(COLLECTIONS.products)
-    .find({ _id: { $in: objectIds } })
+    .find(filter)
     .toArray();
   return docs.map((doc) => mapProduct(doc));
 }

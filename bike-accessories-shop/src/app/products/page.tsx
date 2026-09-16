@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { RefreshCw } from "lucide-react";
 import { ProductCatalog } from "@/components/products/ProductCatalog";
 import { getActiveProducts, toCatalogProduct } from "@/lib/db";
+import type { Product } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Products",
@@ -12,12 +17,42 @@ type ProductsPageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
+function errorInfo(error: unknown) {
+  return {
+    name: error instanceof Error ? error.name : "UnknownError",
+    message:
+      error instanceof Error ? error.message : "Unknown database error",
+  };
+}
+
+async function loadCatalogProducts(): Promise<{
+  products: Product[];
+  failed: boolean;
+}> {
+  const startedAt = Date.now();
+  console.info("[PRODUCTS_FETCH_START]");
+
+  try {
+    const dbProducts = await getActiveProducts();
+    const products = dbProducts.map(toCatalogProduct);
+    console.info(
+      `[PRODUCTS_FETCH_SUCCESS] count=${products.length} duration=${Date.now() - startedAt}ms`
+    );
+    return { products, failed: false };
+  } catch (error) {
+    const { name, message } = errorInfo(error);
+    console.error(`[PRODUCTS_FETCH_ERROR] ${name}: ${message}`);
+    return { products: [], failed: true };
+  }
+}
+
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
   const category = typeof params.category === "string" ? params.category : "";
   const query = typeof params.query === "string" ? params.query : "";
 
-  const catalogProducts = (await getActiveProducts()).map(toCatalogProduct);
+  const { products: catalogProducts, failed: fetchFailed } =
+    await loadCatalogProducts();
 
   return (
     <>
@@ -41,7 +76,36 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </div>
       </section>
 
-      <ProductCatalog products={catalogProducts} initialCategory={category} initialQuery={query} />
+      {fetchFailed ? (
+        <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center border border-dashed border-brand/40 bg-brand/5 px-6 py-16 text-center">
+            <span className="flex h-16 w-16 items-center justify-center border border-brand/30 bg-white text-brand">
+              <RefreshCw aria-hidden="true" className="h-8 w-8" />
+            </span>
+            <h2 className="mt-6 font-display text-xl font-bold tracking-wide text-foreground uppercase sm:text-2xl">
+              Couldn&apos;t load products right now
+            </h2>
+            <p className="mt-2 max-w-md text-sm leading-relaxed text-smoke">
+              There was a temporary problem reaching our catalogue. The store
+              hasn&apos;t disappeared — please try again.
+            </p>
+            <Link
+              href="/products"
+              prefetch={false}
+              className="mt-6 inline-flex h-11 items-center justify-center gap-2 border border-brand px-6 text-sm font-semibold tracking-widest text-brand uppercase transition-colors hover:bg-brand hover:text-white"
+            >
+              <RefreshCw aria-hidden="true" className="h-4 w-4" />
+              Retry
+            </Link>
+          </div>
+        </section>
+      ) : (
+        <ProductCatalog
+          products={catalogProducts}
+          initialCategory={category}
+          initialQuery={query}
+        />
+      )}
     </>
   );
 }
