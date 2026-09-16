@@ -49,6 +49,8 @@ async function loadCatalogProducts(): Promise<{
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
   const category = typeof params.category === "string" ? params.category : "";
+  const subcategory =
+    typeof params.subcategory === "string" ? params.subcategory : "";
   const query = typeof params.query === "string" ? params.query : "";
 
   const { products: catalogProducts, failed: fetchFailed } =
@@ -101,8 +103,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </section>
       ) : (
         <ProductCatalog
+          key={`${category}|${subcategory}|${query}`}
           products={catalogProducts}
           initialCategory={category}
+          initialSubCategory={subcategory}
           initialQuery={query}
         />
       )}

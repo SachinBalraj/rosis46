@@ -25,30 +25,56 @@ const sortOptions: { value: SortOption; label: string }[] = [
 type ProductCatalogProps = {
   products: Product[];
   initialCategory?: string;
+  initialSubCategory?: string;
   initialQuery?: string;
 };
+
+function resolveCategoryLabel(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed || trimmed.toLowerCase() === "all") return "all";
+  const byLabel = parentCategories.find(
+    (item) => item.label.toLowerCase() === trimmed.toLowerCase()
+  );
+  if (byLabel) return byLabel.label;
+  const bySlug = parentCategories.find((item) =>
+    item.filters.some(
+      (slug) => slug.toLowerCase() === trimmed.toLowerCase()
+    )
+  );
+  return bySlug ? bySlug.label : trimmed;
+}
+
+function resolveSubCategory(categoryLabel: string, value: string): string {
+  const options = subCategoryMap[categoryLabel.toUpperCase()];
+  const trimmed = (value ?? "").trim();
+  if (options && trimmed) {
+    const matched = options.find(
+      (option) => option.toLowerCase() === trimmed.toLowerCase()
+    );
+    if (matched) return matched;
+  }
+  return "ALL";
+}
 
 export function ProductCatalog({
   products,
   initialCategory = "all",
+  initialSubCategory = "ALL",
   initialQuery = "",
 }: ProductCatalogProps) {
+  const initialCategoryLabel = resolveCategoryLabel(initialCategory);
   const [query, setQuery] = useState(initialQuery);
-  const [category, setCategory] = useState(() => {
-    if (initialCategory === "all" || initialCategory === "") return "all";
-    const parent = parentCategories.find((item) =>
-      item.filters.includes(initialCategory as Product["category"])
-    );
-    return parent ? parent.label : initialCategory;
-  });
+  const [category, setCategory] = useState(initialCategoryLabel);
   const [sort, setSort] = useState<SortOption>("featured");
   const [isPending, startTransition] = useTransition();
   const deferredQuery = useDeferredValue(query);
-  const [activeSubCategory, setActiveSubCategory] = useState("ALL");
+  const [activeSubCategory, setActiveSubCategory] = useState(() =>
+    resolveSubCategory(initialCategoryLabel, initialSubCategory)
+  );
 
   const selectCategory = (label: string) => {
     update(() => {
-      setCategory(label);
+      setCategory(resolveCategoryLabel(label));
       setActiveSubCategory("ALL");
     });
   };
@@ -60,7 +86,9 @@ export function ProductCatalog({
   const filtered = useMemo(() => {
     const search = deferredQuery.trim().toLowerCase();
     const result = products.filter((product) => {
-      const parent = parentCategories.find((item) => item.label === category);
+      const parent = parentCategories.find(
+        (item) => item.label.toLowerCase() === category.toLowerCase()
+      );
       const matchesCategory =
         category === "all" ||
         (parent

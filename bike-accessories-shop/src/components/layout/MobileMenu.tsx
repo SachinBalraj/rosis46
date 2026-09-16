@@ -13,7 +13,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
       type="button"
       onClick={() => onOpenChange(!open)}
       aria-expanded={open}
-      aria-controls="primary-navigation"
+      aria-controls="mobile-drawer"
       aria-label="Open navigation menu"
       className="flex h-10 w-10 items-center justify-center border border-line text-foreground transition-colors hover:text-brand"
     >
